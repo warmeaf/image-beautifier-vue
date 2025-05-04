@@ -16,6 +16,7 @@
     "@leafer-in/scroll": "^1.6.1",
     "@leafer-in/view": "^1.6.1",
     "ant-design-vue": "4.x",
+    "clsx": "^2.1.1",
     "cropperjs": "^2.0.0",
     "emoji-mart": "^5.6.0",
     "leafer-ui": "^1.6.1",
@@ -24,6 +25,7 @@
     "nanoid": "^5.1.5",
     "pinia": "^3.0.2",
     "resize-detector": "^0.3.0",
+    "tailwind-merge": "^3.2.0",
     "tinykeys": "^3.0.0",
     "vue": "^3.5.13"
   },
