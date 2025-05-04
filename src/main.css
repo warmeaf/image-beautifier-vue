@@ -1,0 +1,32 @@
+@import 'tailwindcss';
+
+@layer base {
+  #shoteasy-container,
+  .shoteasy-components {
+    --c-wb: #c2c2c2;
+    --c-wc: #fcfcfc;
+    --c-bg: #fbfbfb;
+    --c-br: #cecece;
+    --c-se: #1900ff94;
+    --c-scroll: #d9d9d9;
+    --c-scroll-hover: #bbbbbb;
+  }
+  #shoteasy-container[data-mode='dark'],
+  .shoteasy-components.dark-mode,
+  .shoteasy-components [data-mode='dark'] {
+    --c-wb: #444;
+    --c-wc: #222;
+    --c-bg: #2b2b2b;
+    --c-br: #5e5e5e;
+    --c-se: #5947fc;
+    --c-scroll: #464646;
+    --c-scroll-hover: #595858;
+  }
+  #shoteasy-container,
+  .shoteasy-components {
+    @apply [&_::-webkit-scrollbar]:w-1.5 [&_::-webkit-scrollbar]:h-1.5;
+    @apply [&_::-webkit-scrollbar-thumb]:bg-[var(--c-scroll)] [&_::-webkit-scrollbar-thumb]:rounded-md;
+    @apply hover:[&_::-webkit-scrollbar-thumb]:bg-[var(--c-scroll-hover)];
+    @apply [&_::-webkit-scrollbar-track]:bg-[var(--c-bg)];
+  }
+}
