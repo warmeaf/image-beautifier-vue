@@ -10,7 +10,7 @@
         v-for="item in toolList"
         shape="circle"
         type="text"
-        class="text-[#1a79ff] [&_.border]:border-[#1a79ff] bg-sky-100/50 hover:bg-sky-100 hover:text-[#1a79ff] [&_.border]:hover:text-[#1a79ff]"
+        class="icon-btn text-[#1a79ff] [&_.border]:border-[#1a79ff] bg-sky-100/50 hover:bg-sky-100 hover:text-[#1a79ff] [&_.border]:hover:text-[#1a79ff]"
         :key="item"
         :icon="getIcon(item)"
         @click="selectTool(item)"
@@ -23,6 +23,7 @@
         type="text"
         shape="circle"
         :class="[
+          'icon-btn',
           isMove &&
             'text-[#1677ff] bg-sky-100/50 hover:bg-sky-100 hover:text-[#1677ff]',
         ]"
@@ -34,6 +35,7 @@
       <a-button
         type="text"
         shape="circle"
+        class="icon-btn"
         :icon="h(Icon.Sun, { size: 16 })"
         @click="handleSetTheme"
       />

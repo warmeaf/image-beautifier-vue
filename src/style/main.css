@@ -1,6 +1,6 @@
 @import 'tailwindcss';
-
-@layer base {
+@layer antd;
+@layer base-custom {
   #shoteasy-container,
   .shoteasy-components {
     --c-wb: #c2c2c2;
@@ -30,8 +30,7 @@
     @apply [&_::-webkit-scrollbar-track]:bg-[var(--c-bg)];
   }
 }
-
-@layer components {
+@layer components-custom {
   .polka {
     background-image: radial-gradient(var(--c-wb) 0.7px, var(--c-wc) 1px);
     background-size: 14px 14px;
@@ -105,4 +104,8 @@
   .invalid {
     animation: shake 0.2s ease-in-out 0s 2;
   }
+}
+
+.icon-btn {
+  @apply inline-flex items-center justify-center;
 }

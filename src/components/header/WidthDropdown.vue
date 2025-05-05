@@ -10,7 +10,7 @@
     <a-button
       type="text"
       shape="circle"
-      class="px-1.5 py-0 flex items-center justify-center"
+      class="icon-btn px-1.5 py-0 flex items-center justify-center"
     >
       <div class="w-4 h-4 flex items-center cursor-pointer">
         <i
