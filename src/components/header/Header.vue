@@ -17,7 +17,9 @@
       />
     </div>
     <a-divider type="vertical" />
-    <div class="flex gap-1 justify-center items-center"></div>
+    <div class="flex gap-1 justify-center items-center">
+      <width-dropdown />
+    </div>
   </div>
 </template>
 
@@ -27,6 +29,7 @@ import { icons } from 'lucide-vue-next'
 
 import ELogo from '@components/header/Logo'
 import Icon from '@components/Icon'
+import WidthDropdown from '@components/header/WidthDropdown.vue'
 
 defineOptions({
   name: 'EHeader',
