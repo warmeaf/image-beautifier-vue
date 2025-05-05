@@ -19,12 +19,22 @@
     <a-divider type="vertical" />
     <div class="flex gap-1 justify-center items-center">
       <width-dropdown />
+      <a-button
+        type="text"
+        shape="circle"
+        :class="[
+          isMove &&
+            'text-[#1677ff] bg-sky-100/50 hover:bg-sky-100 hover:text-[#1677ff]',
+        ]"
+        :icon="h(Icon.Hand, { size: 16 })"
+        @click="toggleMove"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import { h } from 'vue'
+import { ref, h } from 'vue'
 import { icons } from 'lucide-vue-next'
 
 import ELogo from '@components/header/Logo'
@@ -46,6 +56,8 @@ const toolList = [
   'Step',
   'Smile',
 ]
+const isMove = ref(false)
+
 const getIcon = (item) => {
   let icon = null
   if (item.includes('Fill')) {
@@ -72,5 +84,8 @@ const getIcon = (item) => {
 }
 const selectTool = (item) => {
   console.log(item)
+}
+const toggleMove = () => {
+  isMove.value = !isMove.value
 }
 </script>
