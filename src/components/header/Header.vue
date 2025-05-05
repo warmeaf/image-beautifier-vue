@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center justify-center shrink-0 gap-3 bg-white dark:bg-black py-2 px-5 border-b border-b-gray-50 dark:border-b-gray-700 shadow-sm relative z-[11] select-none"
+    class="flex items-center justify-center shrink-0 gap-3 bg-white dark:bg-black py-2 px-5 border-b border-b-gray-50 dark:border-b-gray-700 shadow-xs relative z-[11] select-none"
   >
     <div class="flex-1">
       <e-logo />
@@ -18,6 +18,7 @@
     </div>
     <a-divider type="vertical" />
     <div class="flex gap-1 justify-center items-center">
+      <color-picker />
       <width-dropdown />
       <a-button
         type="text"
@@ -49,6 +50,7 @@ import { icons } from 'lucide-vue-next'
 
 import ELogo from '@components/header/Logo'
 import Icon from '@components/Icon'
+import ColorPicker from '@components/ColorPicker'
 import WidthDropdown from '@components/header/WidthDropdown.vue'
 import MediaLogo from '@components/header/MediaLogo.vue'
 
