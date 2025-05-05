@@ -30,6 +30,14 @@
         @click="toggleMove"
       />
     </div>
+    <media-logo>
+      <a-button
+        type="text"
+        shape="circle"
+        :icon="h(Icon.Sun, { size: 16 })"
+        @click="handleSetTheme"
+      />
+    </media-logo>
   </div>
 </template>
 
@@ -40,6 +48,7 @@ import { icons } from 'lucide-vue-next'
 import ELogo from '@components/header/Logo'
 import Icon from '@components/Icon'
 import WidthDropdown from '@components/header/WidthDropdown.vue'
+import MediaLogo from '@components/header/MediaLogo.vue'
 
 defineOptions({
   name: 'EHeader',
@@ -88,4 +97,5 @@ const selectTool = (item) => {
 const toggleMove = () => {
   isMove.value = !isMove.value
 }
+const handleSetTheme = () => {}
 </script>
