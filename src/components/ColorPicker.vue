@@ -16,7 +16,7 @@
 </template>
 
 <script setup>
-import { ref, computed, h } from 'vue'
+import { ref, computed, watch, h } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
 import { ColorPicker } from 'vue3-colorpicker'
 import 'vue3-colorpicker/style.css'
@@ -41,4 +41,24 @@ const useDropper = () => {
       console.log(e)
     })
 }
+
+watch(pureColor, (newVal) => {
+  const tinyColor = new TinyColor(newVal)
+  if (tinyColor.getAlpha() === 0) {
+    document
+      .querySelector('.current-color')
+      ?.classList.add('current-color__transparent')
+  } else {
+    document
+      .querySelector('.current-color')
+      ?.classList.remove('current-color__transparent')
+  }
+})
 </script>
+
+<style>
+.current-color__transparent {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAIAAADZF8uwAAAAGUlEQVQYV2M4gwH+YwCGIasIUwhT25BVBADtzYNYrHvv4gAAAABJRU5ErkJggg==) !important;
+  background-repeat: repeat !important;
+}
+</style>
