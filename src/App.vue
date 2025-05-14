@@ -15,7 +15,7 @@ import SideBar from '@components/sidebar/SideBar'
           <e-header />
           <div class="flex flex-col flex-1 h-0 md:flex-row md:items-stretch">
             <e-init />
-            <SideBar />
+            <side-bar />
           </div>
         </div>
       </a-config-provider>
