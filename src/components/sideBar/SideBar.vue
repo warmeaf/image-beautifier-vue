@@ -36,12 +36,12 @@
       </div>
       <div class="[&_label]:font-semibold [&_label]:text-sm">
         <label>Rounded</label>
-        <a-slider :min="0" max="20" />
+        <a-slider :min="0" :max="20" />
       </div>
       <frame-bar />
       <div class="[&_label]:font-semibold [&_label]:text-sm">
         <label>Shadow</label>
-        <a-slider :min="0" max="6" />
+        <a-slider :min="0" :max="6" />
       </div>
       <water-mark />
     </div>

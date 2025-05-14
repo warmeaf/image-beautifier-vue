@@ -65,6 +65,9 @@ importers:
       vue:
         specifier: ^3.5.13
         version: 3.5.13
+      vue-cropper:
+        specifier: ^1.1.4
+        version: 1.1.4
       vue3-colorpicker:
         specifier: ^2.3.0
         version: 2.3.0(@aesoper/normal-utils@0.1.5)(@popperjs/core@2.11.8)(@vueuse/core@10.11.1(vue@3.5.13))(gradient-parser@1.1.1)(lodash-es@4.17.21)(tinycolor2@1.6.0)(vue-types@3.0.2(vue@3.5.13))(vue@3.5.13)
@@ -1218,6 +1221,9 @@ packages:
         optional: true
       yaml:
         optional: true
+
+  vue-cropper@1.1.4:
+    resolution: {integrity: sha512-5m98vBsCEI9rbS4JxELxXidtAui3qNyTHLHg67Qbn7g8cg+E6LcnC+hh3SM/p94x6mFh6KRxT1ttnta+wCYqWA==}
 
   vue-demi@0.14.10:
     resolution: {integrity: sha512-nMZBOwuzabUO0nLgIcc6rycZEebF6eeUfaiQx9+WSk8e29IbLvPU9feI6tqW4kTo3hvoYAJkMh8n8D0fuISphg==}
@@ -2399,6 +2405,8 @@ snapshots:
       fsevents: 2.3.3
       jiti: 2.4.2
       lightningcss: 1.29.2
+
+  vue-cropper@1.1.4: {}
 
   vue-demi@0.14.10(vue@3.5.13):
     dependencies:
