@@ -1,3 +1,66 @@
-<template></template>
+<template>
+  <a-popover
+    trigger="click"
+    :arrow="false"
+    placement="bottomRight"
+    :open="open"
+    :overlay-class-name="
+      cn(
+        'shoteasy-components [&_.ant-popover-inner]:h-full [&_.ant-popover-inner]:overflow-x-hidden [&_.ant-popover-inner]:overflow-y-auto [&_.ant-popover-content]:h-full'
+      )
+    "
+    :overlay-style="{
+      width: '400px',
+      height: `${height}px`,
+    }"
+    @open-change="handleOpenChange"
+  >
+    <div
+      :class="
+        cn(
+          'px-3 py-1.5 border shrink-0 border-gray-200 dark:border-gray-700 gap-3 shadow-xs overflow-hidden max-h-12 rounded-md hover:border-blue-500 [&_svg]:hover:text-blue-500 cursor-pointer flex items-center',
+          open && 'shadow-sm'
+        )
+      "
+      ref="box"
+    >
+      <div
+        class="border border-black/50 bg-black/10 dark:bg-white/20 dark:border-white/40 w-4 rounded-sm"
+        :style="{
+          aspectRatio: 4 / 3,
+        }"
+      />
+      <div class="text-xs">
+        <div class="font-semibold leading-3 mb-0.5">Auto</div>
+        <div v-if="!isShowSize" class="text-gray-500 leading-3">
+          Adaptive screenshot size
+        </div>
+        <div v-else class="text-gray-500 leading-3">1920 x 1080 px</div>
+      </div>
+      <div class="flex-1"></div>
+      <chevron-up v-if="open" :size="16" />
+      <chevron-down v-else :size="16" />
+    </div>
+  </a-popover>
+</template>
 
-<script setup></script>
+<script setup>
+import { ref, computed } from 'vue'
+
+import Icon from '@components/Icon'
+import CustomSize from './CustomSize'
+
+import { cn, getMargin } from '@utils/utils'
+import sizeConfig from '@utils/sizeConfig'
+
+const ChevronUp = Icon.ChevronUp
+const ChevronDown = Icon.ChevronDown
+
+const open = ref(false)
+const handleOpenChange = (val) => {
+  open.value = val
+}
+
+const height = ref(500)
+const isShowSize = ref(false)
+</script>
