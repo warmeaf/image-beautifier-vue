@@ -110,6 +110,9 @@
 .icon-btn {
   @apply inline-flex items-center justify-center;
 }
+.size-bar-btn {
+  @apply inline-flex items-center justify-center h-auto;
+}
 .vc-color-wrap {
   height: 24px !important;
   width: 24px !important;
