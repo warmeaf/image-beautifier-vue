@@ -8,6 +8,9 @@ const resolve = (url) => path.resolve(__dirname, url)
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    port: 5411,
+  },
   resolve: {
     alias: {
       '@components': resolve('./src/components'),
