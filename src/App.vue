@@ -1,13 +1,24 @@
 <script setup>
+import { useEditorStore } from '@stores/editor'
+import { theme } from 'ant-design-vue';
+
 import EHeader from '@components/header/Header'
 import EInit from '@components/init/Init'
 import SideBar from '@components/sidebar/SideBar'
+
+const stores = useEditorStore()
 </script>
 
 <template>
   <div>
     <a-style-provider>
-      <a-config-provider>
+      <a-config-provider
+        :theme="{
+          algorithm: stores.isDark
+            ? theme.darkAlgorithm
+            : theme.defaultAlgorithm,
+        }"
+      >
         <div
           id="shoteasy-container"
           class="polka flex flex-col overflow-hidden antialiased w-full h-[100vh] dark:bg-black"

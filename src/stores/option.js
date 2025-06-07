@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import backgroundConfig from '@utils/backgroundConfig'
 
-export default useOptionStore = defineStore('option', {
+export const useOptionStore = defineStore('option', {
   state: () => ({
     scale: 1,
     scaleX: false,

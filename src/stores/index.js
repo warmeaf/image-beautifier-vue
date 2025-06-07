@@ -1,7 +1,7 @@
-import editor from './editor'
-import option from './option'
+import { useEditorStore } from './editor'
+import { useOptionStore } from './option'
 
 export default {
-  editor,
-  option,
+  useEditorStore,
+  useOptionStore,
 }

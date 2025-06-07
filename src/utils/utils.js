@@ -1,5 +1,13 @@
+import { customAlphabet } from 'nanoid/non-secure';
 import { twMerge } from 'tailwind-merge'
 import { clsx } from 'clsx'
+
+export const isAppleDevice = () => {
+  const PLATFORM = typeof navigator === 'object' ? navigator.platform : '';
+  return /Mac|iPod|iPhone|iPad/.test(PLATFORM);
+};
+
+export const modKey = isAppleDevice() ? '⌘' : 'Ctrl';
 
 export function cn(...inputs) {
   return twMerge(clsx(inputs))
@@ -88,3 +96,20 @@ export const text2Svg = ({ text, color, angleDegrees }) => {
   const url = svgToDataURL(data)
   return url
 }
+
+export const toDownloadFile = (url, name) => {
+  let tmpLink = document.createElement('a');
+  tmpLink.href = url;
+  tmpLink.download = name;
+  tmpLink.style = 'position: absolute; z-index: -111; visibility: none;';
+  document.body.appendChild(tmpLink);
+  tmpLink.click();
+  document.body.removeChild(tmpLink);
+  tmpLink = null;
+};
+
+// 7-character random string
+export const nanoid = customAlphabet(
+  '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+  7
+);
