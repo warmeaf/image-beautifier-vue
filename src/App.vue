@@ -1,12 +1,15 @@
 <script setup>
+import { computed } from 'vue'
 import { useEditorStore } from '@stores/editor'
-import { theme } from 'ant-design-vue';
+import { theme } from 'ant-design-vue'
 
 import EHeader from '@components/header/Header'
+import EEditor from '@components/editor/Editor'
 import EInit from '@components/init/Init'
 import SideBar from '@components/sidebar/SideBar'
 
-const stores = useEditorStore()
+const editorStores = useEditorStore()
+const isShowEditor = computed(() => editorStores.img?.src)
 </script>
 
 <template>
@@ -14,7 +17,7 @@ const stores = useEditorStore()
     <a-style-provider>
       <a-config-provider
         :theme="{
-          algorithm: stores.isDark
+          algorithm: editorStores.isDark
             ? theme.darkAlgorithm
             : theme.defaultAlgorithm,
         }"
@@ -25,7 +28,8 @@ const stores = useEditorStore()
         >
           <e-header />
           <div class="flex flex-col flex-1 h-0 md:flex-row md:items-stretch">
-            <e-init />
+            <e-editor v-if="isShowEditor" />
+            <e-init v-else />
             <side-bar />
           </div>
         </div>
