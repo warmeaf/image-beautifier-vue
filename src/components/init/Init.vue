@@ -60,6 +60,7 @@
       </div>
       <button
         class="w-full mt-1 rounded-md bg-white dark:bg-black border border-dotted dark:border-gray-700 shadow-xs flex justify-between items-center p-1 hover:bg-slate-50 dark:hover:bg-gray-900 hover:px-1.5"
+        @click="handleTry"
       >
         <div class="overflow-hidden rounded-sm w-8">
           <img :src="demoPng" class="w-full" />
@@ -73,9 +74,11 @@
 <script setup>
 import { h } from 'vue'
 import { useEditorStore } from '@stores/editor'
+import { useOptionStore } from '@stores/option'
 import { supportImg, cn } from '@utils/utils'
 import Icon from '@components/Icon'
 import demoPng from '@assets/demo.png'
+import { useSetImg } from '@hooks/useSetImg'
 
 const ImagePlus = Icon.ImagePlus
 
@@ -84,4 +87,13 @@ defineOptions({
 })
 
 const editorStores = useEditorStore()
+const optionOptions = useOptionStore()
+const { getFile } = useSetImg({
+  editor: editorStores,
+  option: optionOptions
+})
+
+const handleTry = () => {
+  getFile(demoPng, 'dataURL')
+}
 </script>
