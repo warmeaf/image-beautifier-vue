@@ -1,7 +1,8 @@
 <script setup>
 import { computed } from 'vue'
 import { useEditorStore } from '@stores/editor'
-import { theme } from 'ant-design-vue'
+import { theme, message } from 'ant-design-vue'
+const [messageApi, contextHolder] = message.useMessage()
 
 import EHeader from '@components/header/Header'
 import EEditor from '@components/editor/Editor'
@@ -9,7 +10,9 @@ import EInit from '@components/init/Init'
 import SideBar from '@components/sidebar/SideBar'
 
 const editorStores = useEditorStore()
-const isShowEditor = computed(() => editorStores.img?.src)
+editorStores.setMessage(messageApi)
+
+const hasImgSrc = computed(() => editorStores.img?.src)
 </script>
 
 <template>
@@ -22,13 +25,15 @@ const isShowEditor = computed(() => editorStores.img?.src)
             : theme.defaultAlgorithm,
         }"
       >
+        <contextHolder />
         <div
           id="shoteasy-container"
           class="polka flex flex-col overflow-hidden antialiased w-full h-[100vh] dark:bg-black"
+          :data-mode="editorStores.isDark ? 'dark' : 'light'"
         >
           <e-header />
           <div class="flex flex-col flex-1 h-0 md:flex-row md:items-stretch">
-            <e-editor v-if="isShowEditor" />
+            <e-editor v-if="hasImgSrc" />
             <e-init v-else />
             <side-bar />
           </div>

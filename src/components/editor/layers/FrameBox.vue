@@ -10,9 +10,6 @@ const props = defineProps({
   cursor: String,
 })
 
-// 使用slots替代React的children
-const slots = defineSlots()
-
 const frame = ref(null)
 
 // 初始化frame对象
