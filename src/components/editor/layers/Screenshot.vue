@@ -16,7 +16,7 @@ import macosIcon from '@utils/macosIcon'
 import { windowDark, windowLight } from '@utils/windowsIcon'
 import { computedSize, getPosition, getMargin } from '@utils/utils'
 
-const editorStores = useEditorStore()
+const editorStore = useEditorStore()
 const optionStores = useOptionStore()
 
 const props = defineProps({
@@ -67,7 +67,7 @@ const info = {
 }
 
 const createSnap = debounce(() => {
-  editorStores.createSnap('update')
+  editorStore.createSnap('update')
 }, 100)
 
 const bar = ref(null)
@@ -119,7 +119,7 @@ const updateImageFill = () => {
 
   image.value.fill = {
     type: 'image',
-    url: editorStores.img.src,
+    url: editorStore.img.src,
     align: optionStores.mode === 'fit' ? 'center' : 'top',
     mode: optionStores.mode,
   }
@@ -181,7 +181,7 @@ const updateScale = () => {
 const updateImageSource = () => {
   if (!image.value) return
 
-  image.value.url = editorStores.img.src
+  image.value.url = editorStore.img.src
 }
 
 // 更新X轴缩放
@@ -205,7 +205,7 @@ const updateFrameSettings = () => {
   if (!container.value || !box.value || !image.value) return
 
   const { align, frame, frameConf, padding } = optionStores
-  const { img } = editorStores
+  const { img } = editorStore
   const margin = getMargin(frameConf.width, frameConf.height)
   const { width, height } = computedSize(
     img.width,
@@ -353,7 +353,7 @@ watch(
 watch(() => optionStores.round, updateRound)
 watch(() => optionStores.shadow, updateShadow)
 watch(() => optionStores.scale, updateScale)
-watch(() => editorStores.img.src, updateImageSource)
+watch(() => editorStore.img.src, updateImageSource)
 watch(() => optionStores.scaleX, updateScaleX)
 watch(() => optionStores.scaleY, updateScaleY)
 watch(

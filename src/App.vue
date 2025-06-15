@@ -9,10 +9,10 @@ import EEditor from '@components/editor/Editor'
 import EInit from '@components/init/Init'
 import SideBar from '@components/sidebar/SideBar'
 
-const editorStores = useEditorStore()
-editorStores.setMessage(messageApi)
+const editorStore = useEditorStore()
+editorStore.setMessage(messageApi)
 
-const hasImgSrc = computed(() => editorStores.img?.src)
+const hasImgSrc = computed(() => editorStore.img?.src)
 </script>
 
 <template>
@@ -20,7 +20,7 @@ const hasImgSrc = computed(() => editorStores.img?.src)
     <a-style-provider>
       <a-config-provider
         :theme="{
-          algorithm: editorStores.isDark
+          algorithm: editorStore.isDark
             ? theme.darkAlgorithm
             : theme.defaultAlgorithm,
         }"
@@ -29,7 +29,7 @@ const hasImgSrc = computed(() => editorStores.img?.src)
         <div
           id="shoteasy-container"
           class="polka flex flex-col overflow-hidden antialiased w-full h-[100vh] dark:bg-black"
-          :data-mode="editorStores.isDark ? 'dark' : 'light'"
+          :data-mode="editorStore.isDark ? 'dark' : 'light'"
         >
           <e-header />
           <div class="flex flex-col flex-1 h-0 md:flex-row md:items-stretch">

@@ -29,7 +29,7 @@
             </a-menu-item>
           </a-menu>
         </template>
-        <a-button type="text">{{ editorStores.scale }}%</a-button>
+        <a-button type="text">{{ editorStore.scale }}%</a-button>
       </a-dropdown>
       <a-button
         type="text"
@@ -67,7 +67,7 @@ defineOptions({
   name: 'EZoom',
 })
 
-const editorStores = useEditorStore()
+const editorStore = useEditorStore()
 
 const items = [
   {
@@ -89,16 +89,16 @@ const items = [
 ]
 
 const handleZoom = (key) => {
-  editorStores.app?.tree.zoom(key)
-  editorStores.setScale(editorStores.app?.tree.scale)
+  editorStore.app?.tree.zoom(key)
+  editorStore.setScale(editorStore.app?.tree.scale)
 }
 const handleMenuClick = (item) => {
   const num = Number(item.key)
   if (num === 4) {
-    editorStores.app?.tree.zoom('fit', 100)
+    editorStore.app?.tree.zoom('fit', 100)
   } else {
-    editorStores.app?.tree.zoom(num)
+    editorStore.app?.tree.zoom(num)
   }
-  editorStores.setScale(editorStores.app?.tree.scale)
+  editorStore.setScale(editorStore.app?.tree.scale)
 }
 </script>

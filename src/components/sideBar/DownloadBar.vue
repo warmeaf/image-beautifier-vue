@@ -4,7 +4,7 @@
       :theme="{
         components: {
           Button: {
-            colorPrimary: editorStores.isDark ? '#2b4acb' : '#000',
+            colorPrimary: editorStore.isDark ? '#2b4acb' : '#000',
             algorithm: true, // 启用算法
           },
         },
@@ -83,7 +83,7 @@
         />
       </a-popover>
       <a-popconfirm
-        v-if="editorStores.img?.src"
+        v-if="editorStore.img?.src"
         title="Delete the screenshot"
         description="Are you sure to delete this screenshot?"
         placement="topRight"
@@ -106,7 +106,7 @@ import Icon from '@components/Icon'
 import { toDownloadFile, nanoid, modKey } from '@utils/utils'
 import { useEditorStore } from '@stores/editor'
 import { useOptionStore } from '@stores/option'
-const editorStores = useEditorStore()
+const editorStore = useEditorStore()
 const optionStores = useOptionStore()
 
 const loading = ref(false)

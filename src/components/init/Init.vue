@@ -2,7 +2,7 @@
   <div
     class="md:w-0 md:flex-1 flex flex-col justify-center items-center overflow-hidden select-none relative"
   >
-    <div :class="cn('max-w-[600px]', editorStores.invalid && 'invalid')">
+    <div :class="cn('max-w-[600px]', editorStore.invalid && 'invalid')">
       <a-upload-dragger
         name="file"
         class="p-4 rounded-md bg-white dark:bg-black dark:text-gray-400 block shadow-xs"
@@ -86,10 +86,10 @@ defineOptions({
   name: 'EInit',
 })
 
-const editorStores = useEditorStore()
+const editorStore = useEditorStore()
 const optionOptions = useOptionStore()
 const { getFile } = useSetImg({
-  editor: editorStores,
+  editor: editorStore,
   option: optionOptions
 })
 
