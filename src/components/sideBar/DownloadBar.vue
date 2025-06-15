@@ -67,7 +67,7 @@
               '2x'},{value: 3, icon: '3x'}]} size="middle" onChange={setRatio}
               />  -->
               <div
-                v-if="optionStores.frameConf.width"
+                v-if="optionStore.frameConf.width"
                 class="text-xs p-3 mt-4 flex justify-between bg-black/5 rounded-md"
               >
                 <span class="text-gray-400">Download Size</span>
@@ -107,7 +107,7 @@ import { toDownloadFile, nanoid, modKey } from '@utils/utils'
 import { useEditorStore } from '@stores/editor'
 import { useOptionStore } from '@stores/option'
 const editorStore = useEditorStore()
-const optionStores = useOptionStore()
+const optionStore = useOptionStore()
 
 const loading = ref(false)
 const ratio = ref(1)
@@ -123,8 +123,8 @@ const ratioText = computed(() => {
   return `${ratio.value}x as ${format.value.toLocaleUpperCase()}`
 })
 const sizeText = computed(() => {
-  return `${optionStores.frameConf.width * ratio.value} x
-  ${optionStores.frameConf.height * ratio.value}`
+  return `${optionStore.frameConf.width * ratio.value} x
+  ${optionStore.frameConf.height * ratio.value}`
 })
 
 const open = ref(false)

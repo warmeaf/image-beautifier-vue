@@ -17,7 +17,7 @@ import { windowDark, windowLight } from '@utils/windowsIcon'
 import { computedSize, getPosition, getMargin } from '@utils/utils'
 
 const editorStore = useEditorStore()
-const optionStores = useOptionStore()
+const optionStore = useOptionStore()
 
 const props = defineProps({
   parent: Object,
@@ -120,8 +120,8 @@ const updateImageFill = () => {
   image.value.fill = {
     type: 'image',
     url: editorStore.img.src,
-    align: optionStores.mode === 'fit' ? 'center' : 'top',
-    mode: optionStores.mode,
+    align: optionStore.mode === 'fit' ? 'center' : 'top',
+    mode: optionStore.mode,
   }
   createSnap()
 }
@@ -130,10 +130,10 @@ const updateImageFill = () => {
 const updatePadding = () => {
   if (!box.value) return
 
-  if (optionStores.padding === 0 && !info[optionStores.frame]) {
+  if (optionStore.padding === 0 && !info[optionStore.frame]) {
     box.value.fill = '#ffffff00'
   } else {
-    box.value.fill = optionStores.paddingBg
+    box.value.fill = optionStore.paddingBg
   }
   createSnap()
 }
@@ -142,9 +142,9 @@ const updatePadding = () => {
 const updateRound = () => {
   if (!container.value || !image.value) return
 
-  const { round } = optionStores
+  const { round } = optionStore
   container.value.cornerRadius = round
-  if (!bar.value || info[optionStores.frame]) {
+  if (!bar.value || info[optionStore.frame]) {
     image.value.cornerRadius = round
   }
   createSnap()
@@ -154,8 +154,8 @@ const updateRound = () => {
 const updateShadow = () => {
   if (!container.value) return
 
-  const { shadow } = optionStores
-  if (shadow === 0 || optionStores.frame === 'macbookpro16') {
+  const { shadow } = optionStore
+  if (shadow === 0 || optionStore.frame === 'macbookpro16') {
     container.value.shadow = null
   } else {
     container.value.shadow = {
@@ -173,7 +173,7 @@ const updateShadow = () => {
 const updateScale = () => {
   if (!container.value) return
 
-  container.value.scale = optionStores.scale
+  container.value.scale = optionStore.scale
   createSnap()
 }
 
@@ -188,7 +188,7 @@ const updateImageSource = () => {
 const updateScaleX = () => {
   if (!image.value) return
 
-  image.value.scaleX = optionStores.scaleX ? -1 : 1
+  image.value.scaleX = optionStore.scaleX ? -1 : 1
   createSnap()
 }
 
@@ -196,7 +196,7 @@ const updateScaleX = () => {
 const updateScaleY = () => {
   if (!image.value) return
 
-  image.value.scaleY = optionStores.scaleY ? -1 : 1
+  image.value.scaleY = optionStore.scaleY ? -1 : 1
   createSnap()
 }
 
@@ -204,7 +204,7 @@ const updateScaleY = () => {
 const updateFrameSettings = () => {
   if (!container.value || !box.value || !image.value) return
 
-  const { align, frame, frameConf, padding } = optionStores
+  const { align, frame, frameConf, padding } = optionStore
   const { img } = editorStore
   const margin = getMargin(frameConf.width, frameConf.height)
   const { width, height } = computedSize(
@@ -345,24 +345,24 @@ const updateFrameSettings = () => {
 }
 
 // 监听属性变化
-watch(() => optionStores.mode, updateImageFill)
+watch(() => optionStore.mode, updateImageFill)
 watch(
-  [() => optionStores.paddingBg, () => optionStores.padding],
+  [() => optionStore.paddingBg, () => optionStore.padding],
   updatePadding
 )
-watch(() => optionStores.round, updateRound)
-watch(() => optionStores.shadow, updateShadow)
-watch(() => optionStores.scale, updateScale)
+watch(() => optionStore.round, updateRound)
+watch(() => optionStore.shadow, updateShadow)
+watch(() => optionStore.scale, updateScale)
 watch(() => editorStore.img.src, updateImageSource)
-watch(() => optionStores.scaleX, updateScaleX)
-watch(() => optionStores.scaleY, updateScaleY)
+watch(() => optionStore.scaleX, updateScaleX)
+watch(() => optionStore.scaleY, updateScaleY)
 watch(
   [
-    () => optionStores.frameConf.width,
-    () => optionStores.frameConf.height,
-    () => optionStores.padding,
-    () => optionStores.align,
-    () => optionStores.frame,
+    () => optionStore.frameConf.width,
+    () => optionStore.frameConf.height,
+    () => optionStore.padding,
+    () => optionStore.align,
+    () => optionStore.frame,
   ],
   updateFrameSettings
 )

@@ -3,7 +3,7 @@
     v-if="hasAppTree"
     :parent="editorStore.app.tree"
     :cursor="editorStore.cursor"
-    v-bind="optionStores.frameConf"
+    v-bind="optionStore.frameConf"
   >
     <template v-if="hasImgSrc" v-slot="{ parent }">
       <!-- 如果需要渲染shapesList，可以在这里添加 -->
@@ -47,7 +47,7 @@ defineOptions({
 })
 
 const editorStore = useEditorStore()
-const optionStores = useOptionStore()
+const optionStore = useOptionStore()
 
 const props = defineProps({
   target: {
@@ -62,8 +62,8 @@ const onResize = debounce(() => {
   const { width, height } = props.target.getBoundingClientRect()
   editorStore.app.tree.zoom('fit', 100)
   if (
-    optionStores.frameConf.width < width &&
-    optionStores.frameConf.height < height
+    optionStore.frameConf.width < width &&
+    optionStore.frameConf.height < height
   ) {
     editorStore.app.tree.zoom(1)
   }
