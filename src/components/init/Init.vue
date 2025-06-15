@@ -73,8 +73,7 @@
 
 <script setup>
 import { h } from 'vue'
-import { useEditorStore } from '@stores/editor'
-import { useOptionStore } from '@stores/option'
+import stores from '@stores/index'
 import { supportImg, cn } from '@utils/utils'
 import Icon from '@components/Icon'
 import demoPng from '@assets/demo.png'
@@ -86,8 +85,8 @@ defineOptions({
   name: 'EInit',
 })
 
-const editorStore = useEditorStore()
-const optionOptions = useOptionStore()
+const editorStore = stores.useEditorStore()
+const optionOptions = stores.useOptionStore()
 const { getFile } = useSetImg({
   editor: editorStore,
   option: optionOptions

@@ -3,8 +3,7 @@ import { ref, onMounted, onUnmounted, watch } from 'vue'
 import { Box, Rect } from 'leafer-ui'
 import { debounce } from 'lodash-es'
 
-import { useEditorStore } from '@stores/editor'
-import { useOptionStore } from '@stores/option'
+import stores from '@stores/index'
 
 import macbookpro16 from '@assets/macbook-pro-16.png'
 import macbookair from '@assets/macbook-air.png'
@@ -16,8 +15,8 @@ import macosIcon from '@utils/macosIcon'
 import { windowDark, windowLight } from '@utils/windowsIcon'
 import { computedSize, getPosition, getMargin } from '@utils/utils'
 
-const editorStore = useEditorStore()
-const optionStore = useOptionStore()
+const editorStore = stores.useEditorStore()
+const optionStore = stores.useOptionStore()
 
 const props = defineProps({
   parent: Object,

@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-import { useEditorStore } from '@stores/editor'
+import stores from '@stores/index'
 import { theme, message } from 'ant-design-vue'
 const [messageApi, contextHolder] = message.useMessage()
 
@@ -9,7 +9,7 @@ import EEditor from '@components/editor/Editor'
 import EInit from '@components/init/Init'
 import SideBar from '@components/sidebar/SideBar'
 
-const editorStore = useEditorStore()
+const editorStore = stores.useEditorStore()
 editorStore.setMessage(messageApi)
 
 const hasImgSrc = computed(() => editorStore.img?.src)

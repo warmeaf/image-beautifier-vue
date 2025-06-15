@@ -61,13 +61,13 @@
 import { h } from 'vue'
 
 import Icon from '@components/Icon'
-import { useEditorStore } from '@stores/editor'
+import stores from '@stores/index'
 
 defineOptions({
   name: 'EZoom',
 })
 
-const editorStore = useEditorStore()
+const editorStore = stores.useEditorStore()
 
 const items = [
   {

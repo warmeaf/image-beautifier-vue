@@ -34,8 +34,7 @@ import Screenshot from './layers/Screenshot'
 import Watermark from './layers/Watermark'
 import ShapeLine from './layers/ShapeLine'
 
-import { useEditorStore } from '@stores/editor'
-import { useOptionStore } from '@stores/option'
+import stores from '@stores/index'
 
 import rotatePng from '@assets/rotate.png'
 import pencilPng from '@assets/pencil.png'
@@ -46,8 +45,8 @@ defineOptions({
   name: 'EView',
 })
 
-const editorStore = useEditorStore()
-const optionStore = useOptionStore()
+const editorStore = stores.useEditorStore()
+const optionStore = stores.useOptionStore()
 
 const props = defineProps({
   target: {

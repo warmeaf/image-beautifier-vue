@@ -104,10 +104,9 @@
 import { h, ref, computed } from 'vue'
 import Icon from '@components/Icon'
 import { toDownloadFile, nanoid, modKey } from '@utils/utils'
-import { useEditorStore } from '@stores/editor'
-import { useOptionStore } from '@stores/option'
-const editorStore = useEditorStore()
-const optionStore = useOptionStore()
+import stores from '@stores/index'
+const editorStore = stores.useEditorStore()
+const optionStore = stores.useOptionStore()
 
 const loading = ref(false)
 const ratio = ref(1)
