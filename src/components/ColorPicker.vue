@@ -1,5 +1,5 @@
 <template>
-  <color-picker v-model:pureColor="pureColor">
+  <color-picker :pure-color="value" @pure-color-change="handleColorChange">
     <template v-if="isShowEyeDropper" #extra>
       <div className="mb-1">
         <a-button
@@ -16,13 +16,20 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, h } from 'vue'
+import { computed, h } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
 import { ColorPicker } from 'vue3-colorpicker'
 import 'vue3-colorpicker/style.css'
 import Icon from '@components/Icon'
 
-const pureColor = ref('#d81b43')
+const props = defineProps({
+  value: {
+    type: String,
+    default: '#ff0000',
+  },
+})
+const emit = defineEmits(['change'])
+
 const isShowEyeDropper = computed(() => {
   return !!window.EyeDropper
 })
@@ -34,16 +41,17 @@ const useDropper = () => {
     .then((result) => {
       const color = result.sRGBHex
       const tinyColor = new TinyColor(color)
-      console.log(tinyColor)
-      pureColor.value = tinyColor.toHexString()
+      emit('change', tinyColor)
     })
     .catch((e) => {
       console.log(e)
     })
 }
 
-watch(pureColor, (newVal) => {
-  const tinyColor = new TinyColor(newVal)
+const handleColorChange = (color) => {
+  const tinyColor = new TinyColor(color)
+  emit('change', tinyColor)
+
   if (tinyColor.getAlpha() === 0) {
     document
       .querySelector('.current-color')
@@ -53,7 +61,7 @@ watch(pureColor, (newVal) => {
       .querySelector('.current-color')
       ?.classList.remove('current-color__transparent')
   }
-})
+}
 </script>
 
 <style>

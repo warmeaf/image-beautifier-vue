@@ -16,7 +16,7 @@
         <i
           class="block w-full origin-center rounded-lg bg-slate-600 -rotate-45"
           :style="{
-            height: defaultValue + 'px',
+            height: value + 'px',
           }"
         ></i>
       </div>
@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref, computed, h } from 'vue'
+import { computed, h } from 'vue'
 
 const items = [
   {
@@ -84,12 +84,19 @@ const items = [
     key: 8,
   },
 ]
-const defaultValue = ref(1)
+
+const props = defineProps({
+  value: {
+    type: Number,
+    default: 1,
+  },
+})
+const emit = defineEmits(['change'])
 const selectedKeys = computed(() => {
-  return [defaultValue.value]
+  return [props.value]
 })
 
 const handleClick = ({ key }) => {
-  defaultValue.value = key
+  emit('change', key)
 }
 </script>

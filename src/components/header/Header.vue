@@ -10,7 +10,8 @@
         v-for="item in toolList"
         shape="circle"
         type="text"
-        class="icon-btn text-[#1a79ff] [&_.border]:border-[#1a79ff] bg-sky-100/50 hover:bg-sky-100 hover:text-[#1a79ff] [&_.border]:hover:text-[#1a79ff]"
+        class="icon-btn"
+        :class="toolBtnClass(item)"
         :key="item"
         :icon="getIcon(item)"
         @click="selectTool(item)"
@@ -18,15 +19,21 @@
     </div>
     <a-divider type="vertical" />
     <div class="flex gap-1 justify-center items-center">
-      <color-picker />
-      <width-dropdown />
+      <color-picker
+        :value="editorStore.annotateColor"
+        @change="handleColorChange"
+      />
+      <width-dropdown
+        :value="editorStore.strokeWidth"
+        @change="handleWidthChange"
+      />
       <a-button
         type="text"
         shape="circle"
         :class="[
           'icon-btn',
           isMove &&
-            'text-[#1677ff] bg-sky-100/50 hover:bg-sky-100 hover:text-[#1677ff]',
+            'text-[#1677ff]! bg-sky-100/50! hover:bg-sky-100! hover:text-[#1677ff]!',
         ]"
         :icon="h(Icon.Hand, { size: 16 })"
         @click="toggleMove"
@@ -37,7 +44,11 @@
         type="text"
         shape="circle"
         class="icon-btn"
-        :icon="h(Icon.Sun, { size: 16 })"
+        :icon="
+          editorStore.isDark
+            ? h(Icon.Moon, { size: 16 })
+            : h(Icon.Sun, { size: 16 })
+        "
         @click="handleSetTheme"
       />
     </media-logo>
@@ -45,14 +56,19 @@
 </template>
 
 <script setup>
-import { ref, h } from 'vue'
+import { ref, h, computed } from 'vue'
 import { icons } from 'lucide-vue-next'
+
+import stores from '@stores/index'
 
 import ELogo from '@components/header/Logo'
 import Icon from '@components/Icon'
 import ColorPicker from '@components/ColorPicker'
 import WidthDropdown from '@components/header/WidthDropdown.vue'
 import MediaLogo from '@components/header/MediaLogo.vue'
+
+const editorStore = stores.useEditorStore()
+const optionStore = stores.useOptionStore()
 
 defineOptions({
   name: 'EHeader',
@@ -70,6 +86,18 @@ const toolList = [
   'Smile',
 ]
 const isMove = ref(false)
+
+const toolBtnClass = computed(() => {
+  return (type) => {
+    if (editorStore.useTool === type) {
+      return [
+        'text-[#1a79ff]! [&_.border]:border-[#1a79ff]! bg-sky-100/50! hover:bg-sky-100! hover:text-[#1a79ff]! [&_.border]:hover:text-[#1a79ff]!',
+      ]
+    } else {
+      return ''
+    }
+  }
+})
 
 const getIcon = (item) => {
   let icon = null
@@ -95,11 +123,28 @@ const getIcon = (item) => {
   }
   return icon
 }
-const selectTool = (item) => {
-  console.log(item)
+const selectTool = (type) => {
+  if (!editorStore.isEditing) return
+  const { useTool } = editorStore
+  editorStore.setUseTool(useTool === type ? null : type)
+  isMove.value = false
+  if (type === 'Magnifier') editorStore.createSnap('init')
 }
 const toggleMove = () => {
-  isMove.value = !isMove.value
+  if (!editorStore.isEditing) return
+  const is = !isMove.value
+  editorStore.setUseTool(null)
+  isMove.value = is
+  editorStore.app.config.move.drag = is
 }
-const handleSetTheme = () => {}
+const handleColorChange = (tinyColor) => {
+  editorStore.setAnnotateColor(tinyColor.toHexString())
+}
+const handleWidthChange = (width) => {
+  editorStore.setStrokeWidth(width)
+}
+const handleSetTheme = () => {
+  editorStore.setTheme()
+  localStorage.setItem('SHOTEASY_BEAUTIFIER_THEME', editorStore.theme)
+}
 </script>
