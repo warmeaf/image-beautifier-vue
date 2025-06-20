@@ -3,12 +3,14 @@
     trigger="click"
     :arrow="false"
     placement="bottomRight"
-    :overlayClassName="cn('shoteasy-components')"
+    :overlayClassName="
+      cn('shoteasy-components', editorStore.isDark && 'dark-mode')
+    "
     :open="open"
     @openChange="handleOpenChange"
   >
     <template #content>
-      <div :class="cn('flex flex-wrap w-24 position-block')">
+      <div :class="cn('flex flex-wrap w-24 position-block', optionStore.align)">
         <div
           v-for="item in cols"
           :key="item"
@@ -30,9 +32,13 @@
 
 <script setup>
 import { ref, h } from 'vue'
+import stores from '@stores/index'
 import Icon from '@components/Icon'
 
 import { cn } from '@utils/utils'
+
+const editorStore = stores.useEditorStore()
+const optionStore = stores.useOptionStore()
 
 const cols = [
   'top-left',
@@ -46,6 +52,10 @@ const cols = [
   'bottom-right',
 ]
 const open = ref(false)
-const handleOpenChange = (val) => {}
-const handleSelect = (val) => {}
+const handleOpenChange = (val) => {
+  open.value = val
+}
+const handleSelect = (val) => {
+  optionStore.setAlign(val)
+}
 </script>

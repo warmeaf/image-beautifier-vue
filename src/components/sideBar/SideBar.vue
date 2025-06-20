@@ -13,34 +13,80 @@
             shape="circle"
             class="icon-btn"
             :icon="h(Icon.FlipHorizontal2, { size: 18 })"
+            @click="
+              () => {
+                optionStore.toggleFlip('x')
+              }
+            "
           ></a-button>
           <a-button
             type="text"
             shape="circle"
             class="icon-btn"
             :icon="h(Icon.FlipVertical2, { size: 18 })"
+            @click="
+              () => {
+                optionStore.toggleFlip('y')
+              }
+            "
           ></a-button>
           <e-position />
         </div>
       </div>
       <div class="[&_label]:font-semibold [&_label]:text-sm">
         <label>Scale</label>
-        <a-slider :min="0.1" :max="3" :step="0.1" />
+        <a-slider
+          :min="0.1"
+          :max="3"
+          :step="0.1"
+          :value="typeof optionStore.scale === 'number' ? optionStore.scale : 1"
+          @change="
+            (val) => {
+              optionStore.setScale(val)
+            }
+          "
+        />
       </div>
       <div class="[&_label]:font-semibold [&_label]:text-sm">
         <div class="flex justify-between">
           <label>Padding</label>
-          <color-picker />
+          <color-picker
+            :value="optionStore.paddingBg"
+            @change="
+              (tinyColor) => {
+                optionStore.setPaddingBg(tinyColor.toRgbString())
+              }
+            "
+          />
         </div>
-        <a-slider :min="0" :max="60" />
+        <a-slider
+          :min="0"
+          :max="60"
+          @change="(val) => optionStore.setPadding(val)"
+          :value="
+            typeof optionStore.padding === 'number' ? optionStore.padding : 0
+          "
+        />
       </div>
       <div class="[&_label]:font-semibold [&_label]:text-sm">
         <label>Rounded</label>
-        <a-slider :min="0" :max="20" />
+        <a-slider
+          :min="0"
+          :max="20"
+          @change="(val) => optionStore.setRound(val)"
+          :value="typeof optionStore.round === 'number' ? optionStore.round : 0"
+        />
       </div>
       <div class="[&_label]:font-semibold [&_label]:text-sm">
         <label>Shadow</label>
-        <a-slider :min="0" :max="6" />
+        <a-slider
+          :min="0"
+          :max="6"
+          @change="(val) => optionStore.setShadow(val)"
+          :value="
+            typeof optionStore.shadow === 'number' ? optionStore.shadow : 0
+          "
+        />
       </div>
       <frame-bar />
       <div class="[&_label]:font-semibold [&_label]:text-sm">
@@ -56,8 +102,9 @@
         </div>
         <div class="py-3">
           <a-radio-group
-            :value="backgroundValue"
+            :value="optionStore.background"
             class="!grid grid-cols-7 [&_span]:ps-0"
+            @change="onBgChange"
           >
             <a-radio
               class="[&_.ant-radio]:hidden! [&_span]:p-0 mr-0"
@@ -96,6 +143,8 @@
 <script setup>
 import { h, ref } from 'vue'
 
+import stores from '@stores/index'
+
 import { cn } from '@utils/utils'
 import backgroundConfig from '@utils/backgroundConfig'
 
@@ -109,6 +158,11 @@ import DownloadBar from './DownloadBar'
 import DrawerBar from './DrawerBar'
 import FrameBar from './FrameBar'
 
+const optionStore = stores.useOptionStore()
+
 const ChevronRight = Icon.ChevronRight
-const backgroundValue = ref('default_1')
+const onBgChange = (e) => {
+  const key = e.target.value
+  optionStore.setBackground(key)
+}
 </script>
