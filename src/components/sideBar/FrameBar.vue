@@ -12,7 +12,11 @@
     <div
       class="py-3 [&_.ant-radio-wrapper_span]:p-0! [&_.ant-radio-wrapper_span]:px-1!"
     >
-      <a-radio-group class="!grid grid-cols-5" :value="value">
+      <a-radio-group
+        class="!grid grid-cols-5"
+        @change="handelChange"
+        :value="optionStore.frame"
+      >
         <a-radio
           class="[&_.ant-radio]:hidden! [&_span]:mr-0 [&_span]:block! [&_span]:w-full"
           value="none"
@@ -82,9 +86,24 @@
 
 <script setup>
 import { ref } from 'vue'
+import stores from '@stores/index'
 import Icon from '@components/Icon'
 import { windowDark, windowLight } from '@utils/windowsIcon'
 
+import macbookpro from '@assets/macbookpro.png'
+import macbookair from '@assets/macbook-air-little.png'
+import imacpro from '@assets/imac.png'
+import ipadpro from '@assets/ipad.png'
+import iphonepro from '@assets/iphone.png'
+
+const optionStore = stores.useOptionStore()
+
 const ChevronRight = Icon.ChevronRight
-const value = ref('none')
+const handelChange = (e) => {
+  const { value } = e.target
+  optionStore.setFrame(value)
+  if (value === 'macbookpro16') {
+    optionStore.setPaddingBg('#000000')
+  }
+}
 </script>
