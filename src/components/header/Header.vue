@@ -6,16 +6,29 @@
       <e-logo />
     </div>
     <div class="flex gap-1 justify-center items-center">
-      <a-button
-        v-for="item in toolList"
-        shape="circle"
-        type="text"
-        class="icon-btn"
-        :class="toolBtnClass(item)"
-        :key="item"
-        :icon="getIcon(item)"
-        @click="selectTool(item)"
-      />
+      <template v-for="(item, index) in toolList">
+        <emoji-select
+          v-if="item === 'Smile'"
+          :key="`${item}${index}`"
+          :disabled="false"
+          :emoji-mart-props="{
+            data: data,
+            locale: 'en',
+            theme: editorStore.isDark ? 'dark' : 'light',
+            onEmojiSelect: handleSelectEmoji,
+          }"
+        />
+        <a-button
+          v-else
+          shape="circle"
+          type="text"
+          class="icon-btn"
+          :class="toolBtnClass(item)"
+          :key="item"
+          :icon="getIcon(item)"
+          @click="selectTool(item)"
+        />
+      </template>
     </div>
     <a-divider type="vertical" />
     <div class="flex gap-1 justify-center items-center">
@@ -58,6 +71,7 @@
 <script setup>
 import { ref, h, computed } from 'vue'
 import { icons } from 'lucide-vue-next'
+import data from '@emoji-mart/data'
 
 import stores from '@stores/index'
 
@@ -66,6 +80,9 @@ import Icon from '@components/Icon'
 import ColorPicker from '@components/ColorPicker'
 import WidthDropdown from '@components/header/WidthDropdown.vue'
 import MediaLogo from '@components/header/MediaLogo.vue'
+import EmojiSelect from '@components/header/EmojiSelect.vue'
+
+import { nanoid } from '@utils/utils'
 
 const editorStore = stores.useEditorStore()
 const optionStore = stores.useOptionStore()
@@ -146,5 +163,21 @@ const handleWidthChange = (width) => {
 const handleSetTheme = () => {
   editorStore.setTheme()
   localStorage.setItem('SHOTEASY_BEAUTIFIER_THEME', editorStore.theme)
+}
+const handleSelectEmoji = ({ native }) => {
+  if (!editorStore.isEditing) return
+  const x = optionStore.frameConf.width / 2 - 24
+  const y = optionStore.frameConf.height / 2 - 24
+  editorStore.setUseTool(null)
+  isMove.value = false
+  editorStore.addShape({
+    id: nanoid(),
+    type: 'emoji',
+    text: native,
+    zIndex: editorStore.shapes.size + 1,
+    x,
+    y,
+    editable: true,
+  })
 }
 </script>
