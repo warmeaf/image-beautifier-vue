@@ -66,5 +66,5 @@ onUnmounted(() => {
 
 <template>
   <!-- 将parent属性传递给子组件 -->
-  <slot v-if="frame" :parent="frame"></slot>
+  <slot v-if="frame" :frame="frame"></slot>
 </template>

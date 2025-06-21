@@ -5,11 +5,11 @@
     :cursor="editorStore.cursor"
     v-bind="optionStore.frameConf"
   >
-    <template v-if="hasImgSrc" v-slot="{ parent }">
+    <template v-if="hasImgSrc" v-slot="{ frame }">
       <ShapeLine
         v-for="item in editorStore.shapesList"
         :key="item.id"
-        :parent="parent"
+        :parent="frame"
         v-bind="
           Object.assign(
             {},
@@ -18,14 +18,14 @@
           )
         "
       />
-      <Screenshot :parent="parent" />
-      <Watermark v-if="optionStore.waterImg" :parent="parent" />
+      <Screenshot :parent="frame" />
+      <Watermark v-if="optionStore.waterImg" :parent="frame" />
     </template>
   </FrameBox>
 </template>
 
 <script setup>
-import { watch, onUnmounted, computed } from 'vue'
+import { watch, onUnmounted, computed, nextTick } from 'vue'
 import { debounce } from 'lodash-es'
 import { addListener, removeListener } from 'resize-detector'
 import {
@@ -61,6 +61,7 @@ defineOptions({
 const editorStore = stores.useEditorStore()
 const optionStore = stores.useOptionStore()
 useHotKeys(stores)
+let timer = null
 
 const props = defineProps({
   target: {
@@ -71,7 +72,7 @@ const props = defineProps({
 
 Cursor.set('pencil', { url: pencilPng })
 // 监听容器变化
-const onResize = debounce(() => {
+const setZoom = () => {
   const { width, height } = props.target.getBoundingClientRect()
   editorStore.app.tree.zoom('fit', 100)
   if (
@@ -80,6 +81,9 @@ const onResize = debounce(() => {
   ) {
     editorStore.app.tree.zoom(1)
   }
+}
+const onResize = debounce(() => {
+  setZoom()
 }, 50)
 
 watch(
@@ -217,6 +221,19 @@ watch(
     }
 
     addListener(target, onResize)
+  },
+  {
+    immediate: true,
+  }
+)
+
+watch(
+  [() => optionStore.frameConf.width, () => optionStore.frameConf.height],
+  () => {
+    nextTick(() => {
+      setZoom()
+      editorStore.setScale(editorStore.app.tree.scale)
+    })
   },
   {
     immediate: true,
