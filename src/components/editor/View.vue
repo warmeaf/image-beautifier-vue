@@ -6,7 +6,6 @@
     v-bind="optionStore.frameConf"
   >
     <template v-if="hasImgSrc" v-slot="{ parent }">
-      <!-- 如果需要渲染shapesList，可以在这里添加 -->
       <ShapeLine
         v-for="item in editorStore.shapesList"
         :key="item.id"
@@ -20,7 +19,7 @@
         "
       />
       <Screenshot :parent="parent" />
-      <!-- 如果需要渲染waterImg，可以在这里添加 -->
+      <Watermark v-if="optionStore.waterImg" :parent="parent" />
     </template>
   </FrameBox>
   <HotKeys />
