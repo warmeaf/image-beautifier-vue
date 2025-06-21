@@ -40,6 +40,7 @@
             :icon="h(Icon.Copy, { size: 18 })"
             :loading="loading"
             class="icon-btn rounded-ss-none! rounded-es-none! border-l-white/30!"
+            @click="toCopy"
           />
         </a-tooltip>
       </div>
@@ -89,6 +90,7 @@
         placement="topRight"
         ok-text="Yes"
         cancel-text="No"
+        @confirm="confirm"
       >
         <a-button
           size="large"
@@ -125,6 +127,50 @@ const sizeText = computed(() => {
   return `${optionStore.frameConf.width * ratio.value} x
   ${optionStore.frameConf.height * ratio.value}`
 })
+const toCopy = async () => {
+  if (!editorStore.isEditing) return
+  if (loading.value) return
+  const key = nanoid()
+  loading.value = true
+  editorStore.message.open({
+    key,
+    type: 'loading',
+    content: 'Copying...',
+  })
+
+  try {
+    const result = await editorStore.app.export('test.png', {
+      blob: true,
+      pixelRatio: ratio,
+    })
+    console.log(result)
+    const { data } = result
+    await navigator.clipboard.write([
+      new ClipboardItem({
+        [data.type]: data,
+      }),
+    ])
+    editorStore.message.open({
+      key,
+      type: 'success',
+      content: 'Copy Success!',
+    })
+  } catch (_) {
+    console.log(_)
+    editorStore.message.open({
+      key,
+      type: 'error',
+      content: 'Copy failed!',
+    })
+  } finally {
+    loading.value = false
+  }
+}
+const confirm = () => {
+  editorStore.destroy()
+  editorStore.clearImg()
+  editorStore.clearFun && editorStore.clearFun()
+}
 
 const open = ref(false)
 </script>

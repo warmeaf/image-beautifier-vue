@@ -176,3 +176,15 @@ export const getPosition = (type, xw, xh) => {
     }
   return { x: xw / 2, y: xh / 2 }
 }
+
+export const numSvg = (num) => {
+  const data = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+                <foreignObject width="100%" height="100%">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="text-align:center;white-space:nowrap;line-height:32px;">
+                        <span style="color:#ffffff;font-size:18px;">${num}</span>
+                    </div>
+                </foreignObject>
+            </svg>`
+  const url = svgToDataURL(data)
+  return url
+}

@@ -20,6 +20,9 @@ importers:
       '@leafer-in/editor':
         specifier: ^1.6.1
         version: 1.6.1(@leafer-in/interface@1.6.1(@leafer-ui/interface@1.6.1)(@leafer/interface@1.6.1))(@leafer-in/resize@1.6.1(@leafer-in/interface@1.6.1(@leafer-ui/interface@1.6.1)(@leafer/interface@1.6.1))(@leafer-ui/draw@1.6.1)(@leafer-ui/interface@1.6.1))(@leafer-ui/core@1.6.1)(@leafer-ui/interface@1.6.1)
+      '@leafer-in/export':
+        specifier: ^1.7.0
+        version: 1.7.0(@leafer-in/interface@1.6.1(@leafer-ui/interface@1.6.1)(@leafer/interface@1.6.1))(@leafer-ui/draw@1.6.1)(@leafer-ui/interface@1.6.1)
       '@leafer-in/scroll':
         specifier: ^1.6.1
         version: 1.6.1(@leafer-in/interface@1.6.1(@leafer-ui/interface@1.6.1)(@leafer/interface@1.6.1))(@leafer-ui/core@1.6.1)(@leafer-ui/interface@1.6.1)
@@ -349,6 +352,13 @@ packages:
       '@leafer-in/resize': ^1.6.1
       '@leafer-ui/core': ^1.6.1
       '@leafer-ui/interface': ^1.6.1
+
+  '@leafer-in/export@1.7.0':
+    resolution: {integrity: sha512-sZIxXVDy3gyhHzbqVBns7n+Zc+AEImeSbAT6yHldBxKkMDKo5aFUEfQCjgDUm/TgNC+2CyzD5FHVcIPponH2HA==}
+    peerDependencies:
+      '@leafer-in/interface': ^1.7.0
+      '@leafer-ui/draw': ^1.7.0
+      '@leafer-ui/interface': ^1.7.0
 
   '@leafer-in/interface@1.6.1':
     resolution: {integrity: sha512-Bj50xM9arc6ijc0Gk8oAt7qKIQkCG+a9nURj92hT17DuBNQrCJbdRz2kePBKG5CXOeNe2COxmrDTNW5rF12c0w==}
@@ -1470,6 +1480,12 @@ snapshots:
       '@leafer-in/interface': 1.6.1(@leafer-ui/interface@1.6.1)(@leafer/interface@1.6.1)
       '@leafer-in/resize': 1.6.1(@leafer-in/interface@1.6.1(@leafer-ui/interface@1.6.1)(@leafer/interface@1.6.1))(@leafer-ui/draw@1.6.1)(@leafer-ui/interface@1.6.1)
       '@leafer-ui/core': 1.6.1
+      '@leafer-ui/interface': 1.6.1
+
+  '@leafer-in/export@1.7.0(@leafer-in/interface@1.6.1(@leafer-ui/interface@1.6.1)(@leafer/interface@1.6.1))(@leafer-ui/draw@1.6.1)(@leafer-ui/interface@1.6.1)':
+    dependencies:
+      '@leafer-in/interface': 1.6.1(@leafer-ui/interface@1.6.1)(@leafer/interface@1.6.1)
+      '@leafer-ui/draw': 1.6.1
       '@leafer-ui/interface': 1.6.1
 
   '@leafer-in/interface@1.6.1(@leafer-ui/interface@1.6.1)(@leafer/interface@1.6.1)':

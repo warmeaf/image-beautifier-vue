@@ -7,10 +7,23 @@
   >
     <template v-if="hasImgSrc" v-slot="{ parent }">
       <!-- 如果需要渲染shapesList，可以在这里添加 -->
+      <ShapeLine
+        v-for="item in editorStore.shapesList"
+        :key="item.id"
+        :parent="parent"
+        v-bind="
+          Object.assign(
+            {},
+            item,
+            item.type === 'Magnifier' ? { snap: editorStore.snap } : {}
+          )
+        "
+      />
       <Screenshot :parent="parent" />
       <!-- 如果需要渲染waterImg，可以在这里添加 -->
     </template>
   </FrameBox>
+  <HotKeys />
 </template>
 
 <script setup>
@@ -28,11 +41,13 @@ import {
 import { EditorMoveEvent } from '@leafer-in/editor'
 import { ScrollBar } from '@leafer-in/scroll'
 import '@leafer-in/view'
+import '@leafer-in/export'
 
 import FrameBox from './layers/FrameBox'
 import Screenshot from './layers/Screenshot'
 import Watermark from './layers/Watermark'
 import ShapeLine from './layers/ShapeLine'
+import HotKeys from './HotKeys'
 
 import stores from '@stores/index'
 

@@ -5,9 +5,10 @@
     <div :class="cn('max-w-[600px]', editorStore.invalid && 'invalid')">
       <a-upload-dragger
         name="file"
-        class="p-4 rounded-md bg-white dark:bg-black dark:text-gray-400 block shadow-xs"
+        class="p-4! rounded-md! bg-white! dark:bg-black! dark:text-gray-400! block shadow-xs!"
         :show-upload-list="false"
         :accept="supportImg.join(',')"
+        :before-upload="beforeUpload"
       >
         <div class="text-center p-10">
           <p class="text-2xl my-2 opacity-60">
@@ -31,6 +32,7 @@
             type="default"
             size="large"
             :icon="h(Icon.Camera, { size: 20 })"
+            @click="onCapture"
           />
         </a-tooltip>
         <a-tooltip placement="top" :arrow="false" title="Beautify text">
@@ -39,6 +41,7 @@
             type="default"
             size="large"
             :icon="h(Icon.Type, { size: 20 })"
+            @click="comingSoon"
           />
         </a-tooltip>
         <a-tooltip placement="top" :arrow="false" title="Beautify Code">
@@ -47,6 +50,7 @@
             type="default"
             size="large"
             :icon="h(Icon.CodeXml, { size: 20 })"
+            @click="comingSoon"
           />
         </a-tooltip>
         <a-tooltip placement="top" :arrow="false" title="Create gif animate">
@@ -55,6 +59,7 @@
             type="default"
             size="large"
             :icon="h(Icon.ImagePlay, { size: 20 })"
+            @click="comingSoon"
           />
         </a-tooltip>
       </div>
@@ -76,6 +81,7 @@ import { h } from 'vue'
 import stores from '@stores/index'
 import { supportImg, cn } from '@utils/utils'
 import Icon from '@components/Icon'
+import { captureScreen } from '@utils/captureScreen'
 import demoPng from '@assets/demo.png'
 import { useSetImg } from '@hooks/useSetImg'
 
@@ -89,9 +95,20 @@ const editorStore = stores.useEditorStore()
 const optionOptions = stores.useOptionStore()
 const { getFile } = useSetImg({
   editor: editorStore,
-  option: optionOptions
+  option: optionOptions,
 })
-
+const beforeUpload = async (file) => {
+  await getFile(file)
+  return Promise.reject()
+}
+const onCapture = async () => {
+  const dataURL = await captureScreen()
+  if (!dataURL) return
+  getFile(dataURL, 'dataURL')
+}
+const comingSoon = () => {
+  editorStore.message.info('Developing, Coming soon!')
+}
 const handleTry = () => {
   getFile(demoPng, 'dataURL')
 }
