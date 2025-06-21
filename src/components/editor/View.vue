@@ -22,7 +22,6 @@
       <Watermark v-if="optionStore.waterImg" :parent="parent" />
     </template>
   </FrameBox>
-  <HotKeys />
 </template>
 
 <script setup>
@@ -43,12 +42,12 @@ import '@leafer-in/view'
 import '@leafer-in/export'
 
 import FrameBox from './layers/FrameBox'
-import Screenshot from './layers/Screenshot'
-import Watermark from './layers/Watermark'
-import ShapeLine from './layers/ShapeLine'
-import HotKeys from './HotKeys'
+import Screenshot from './layers/Screenshot.js'
+import Watermark from './layers/Watermark.js'
+import ShapeLine from './layers/ShapeLine.js'
 
 import stores from '@stores/index'
+import { useHotKeys } from '@hooks/useHotKeys'
 
 import rotatePng from '@assets/rotate.png'
 import pencilPng from '@assets/pencil.png'
@@ -61,6 +60,7 @@ defineOptions({
 
 const editorStore = stores.useEditorStore()
 const optionStore = stores.useOptionStore()
+useHotKeys(stores)
 
 const props = defineProps({
   target: {
