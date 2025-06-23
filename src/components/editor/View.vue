@@ -9,7 +9,7 @@
       <template v-if="hasImgSrc" v-slot="{ frame }">
         <ShapeLine
           v-for="item in editorStore.shapesList"
-          :key="item.id"
+          :key="nanoid()"
           :parent="frame"
           v-bind="
             Object.assign(
@@ -115,6 +115,7 @@ onMounted(() => {
   if (target) {
     addListener(target, onResize)
 
+    let shapeId = null
     const app = new App({
       view: target,
       editor: {
@@ -142,12 +143,14 @@ onMounted(() => {
     })
     new ScrollBar(app)
     editorStore.setApp(app)
+
     app.tree.on(ZoomEvent.ZOOM, () => {
       editorStore.setScale(editorStore.app.tree.scale)
     })
     app.tree.on(ResizeEvent.RESIZE, () => {
       editorStore.setScale(editorStore.app.tree.scale)
     })
+
     app.editor.on(EditorMoveEvent.SELECT, (event) => {
       const { list } = event
       if (list.length < 2) return
@@ -160,7 +163,6 @@ onMounted(() => {
       }
     })
 
-    let shapeId = null
     const onStart = (arg) => {
       if (!editorStore.useTool) return
       const { target } = arg
