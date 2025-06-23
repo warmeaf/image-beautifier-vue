@@ -1,6 +1,5 @@
 import {
   defineComponent,
-  computed,
   onMounted,
   onUnmounted,
   watch,
@@ -33,7 +32,7 @@ export default defineComponent({
   setup(props) {
     // 处理snap相关逻辑
     let cleanupFunction = null
-    const shape = computed(() => {
+    const getShape = () => {
       const defaultOption = {
         id: props.id,
         x: props.x,
@@ -161,40 +160,43 @@ export default defineComponent({
         height: props.height,
         ...defaultOption,
       })
-    })
+    }
+    const shape = getShape()
 
     watch(
       [() => props.x, () => props.y, () => props.width, () => props.height],
       () => {
         if (['Slash', 'MoveDownLeft', 'Pencil'].includes(props.type)) {
-          shape.value.points = props.points
+          shape.points = props.points
         } else if (props.type === 'Step') {
           // 空操作
         } else {
-          shape.value.x = props.x
-          shape.value.y = props.y
-          shape.value.width = props.width
-          shape.value.height = props.height
+          shape.x = props.x
+          shape.y = props.y
+          shape.width = props.width
+          shape.height = props.height
         }
-      }
+      },
+      { immediate: true }
     )
 
     watch(
       () => props.fill,
       () => {
-        if (props.type === 'SquareFill') shape.value.fill = props.fill
+        if (props.type === 'SquareFill') shape.fill = props.fill
         if (
           ['Circle', 'Slash', 'MoveDownLeft', 'Pencil', 'Square'].includes(
             props.type
           )
         )
-          shape.value.stroke = props.fill
+          shape.stroke = props.fill
         if (props.type === 'Step') {
-          const oldFill = [].concat(shape.value.fill)
+          const oldFill = [].concat(shape.fill)
           oldFill[0].color = props.fill
-          shape.value.fill = oldFill
+          shape.fill = oldFill
         }
-      }
+      },
+      { immediate: true }
     )
 
     watch(
@@ -211,16 +213,18 @@ export default defineComponent({
             'Square',
           ].includes(props.type)
         ) {
-          shape.value.strokeWidth = props.strokeWidth
+          shape.strokeWidth = props.strokeWidth
         }
-      }
+      },
+      { immediate: true }
     )
 
     watch(
       () => props.editable,
       () => {
-        shape.value.editable = !!props.editable
-      }
+        shape.editable = !!props.editable
+      },
+      { immediate: true }
     )
 
     watch(
@@ -232,23 +236,23 @@ export default defineComponent({
           cleanupFunction = null
         }
 
-        if (props.type === 'Magnifier' && shape.value.fill && snap) {
-          const oldFill = [].concat(shape.value.fill)
+        if (props.type === 'Magnifier' && shape.fill && snap) {
+          const oldFill = [].concat(shape.fill)
           oldFill[1] = Object.assign({}, oldFill[1], {
             url: snap.data,
             size: { width: snap.width, height: snap.height },
           })
-          shape.value.fill = oldFill
+          shape.fill = oldFill
         }
 
         const offset = { x: 0, y: 0 }
         const fillBg = debounce(() => {
-          const x = -shape.value.x * 2 - shape.value.width / 2
-          const y = -shape.value.y * 2 - shape.value.height / 2
+          const x = -shape.x * 2 - shape.width / 2
+          const y = -shape.y * 2 - shape.height / 2
           if (offset.x === x && offset.y === y) return
           offset.x = x
           offset.y = y
-          shape.value.fill = [
+          shape.fill = [
             { type: 'solid', color: '#ffffff' },
             {
               type: 'image',
@@ -272,14 +276,14 @@ export default defineComponent({
           ]
         }, 5)
 
-        shape.value.on(PropertyEvent.CHANGE, (arg) => {
+        shape.on(PropertyEvent.CHANGE, (arg) => {
           if (!snap?.data) return
           if (!['x', 'y', 'width', 'height'].includes(arg.attrName)) return
           fillBg()
         })
 
         cleanupFunction = () => {
-          shape.value.off(PropertyEvent.CHANGE)
+          shape.off(PropertyEvent.CHANGE)
         }
       },
       { immediate: true }
@@ -287,14 +291,14 @@ export default defineComponent({
 
     // 组件挂载和卸载时的处理
     onMounted(() => {
-      props.parent.add(shape.value)
+      props.parent.add(shape)
     })
 
     onUnmounted(() => {
       if (cleanupFunction) {
         cleanupFunction()
       }
-      shape.value.remove()
+      shape.remove()
     })
   },
   // 设置 render 仅仅是为了不弹出 Vue 警告

@@ -70,7 +70,10 @@ defineOptions({
 
 const editorStore = stores.useEditorStore()
 const optionStore = stores.useOptionStore()
-useHotKeys(stores)
+useHotKeys({
+  editorStore,
+  optionStore,
+})
 
 const targetRef = ref(null)
 
