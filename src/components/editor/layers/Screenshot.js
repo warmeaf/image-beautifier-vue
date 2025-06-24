@@ -138,6 +138,7 @@ export default defineComponent({
       if (!image.value) return
 
       image.value.url = editorStore.img.src
+      updateImageFill()
     }
     // 更新X轴缩放
     const updateScaleX = () => {
