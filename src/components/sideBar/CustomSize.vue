@@ -3,7 +3,8 @@
     <a-input-number
       :min="1"
       :value="width"
-      :placeholder="frameWidth"
+      :placeholder="String(frameWidth)"
+      @change="setWith"
       class="flex-1"
     >
       <template #prefix>
@@ -14,7 +15,8 @@
     <a-input-number
       :min="1"
       :value="height"
-      :placeholder="frameHeight"
+      :placeholder="String(frameHeight)"
+      @change="setHeight"
       class="flex-1"
     >
       <template #prefix>
@@ -27,6 +29,7 @@
       class="icon-btn"
       :icon="h(Icon.Check, { size: 18 })"
       :disabled="!width || !height"
+      @click="setCustom"
     ></a-button>
     <a-tooltip title="Auto size">
       <a-button
@@ -35,18 +38,68 @@
         class="icon-btn"
         :icon="h(Icon.Maximize, { size: 18 })"
         :disabled="type === 'auto'"
+        @click="setAuto"
       ></a-button>
     </a-tooltip>
   </div>
 </template>
 
 <script setup>
-import { ref, h } from 'vue'
+import { ref, h, watch } from 'vue'
 
 import Icon from '@components/Icon'
 
 const height = ref('')
 const width = ref('')
-const frameWidth = ref(1920)
-const frameHeight = ref(1080)
+
+const props = defineProps({
+  frameWidth: {
+    type: [String, Number],
+    default: '1920',
+  },
+  frameHeight: {
+    type: [String, Number],
+    default: '1080',
+  },
+  type: {
+    type: String,
+    default: 'auto',
+  },
+})
+
+const emits = defineEmits(['set'])
+
+const setWith = (val) => {
+  width.value = val
+}
+const setHeight = (val) => {
+  height.value = val
+}
+const setAuto = () => {
+  emits('set', { type: 'auto', title: 'Auto' })
+}
+const setCustom = () => {
+  emits('set', {
+    type: 'custom',
+    title: 'Custom',
+    width: Number(width.value),
+    height: Number(height.value),
+  })
+}
+
+watch(
+  () => props.type,
+  (type) => {
+    if (type === 'custom') {
+      setWith(props.frameWidth)
+      setHeight(props.frameHeight)
+    } else {
+      setWith('')
+      setHeight('')
+    }
+  },
+  {
+    immediate: true,
+  }
+)
 </script>
