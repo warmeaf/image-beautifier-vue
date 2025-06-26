@@ -96,6 +96,11 @@
             type="text"
             size="small"
             class="icon-btn text-xs flex items-center opacity-80 m-0"
+            @click="
+              () => {
+                setShowMore(true)
+              }
+            "
             ><span>More</span>
             <chevron-right class="relative top-[1px]" :size="16"
           /></a-button>
@@ -136,7 +141,7 @@
       <water-mark />
     </div>
     <download-bar />
-    <drawer-bar />
+    <drawer-bar :show-more="showMore" @change="setShowMore" />
   </div>
 </template>
 
@@ -159,6 +164,10 @@ import DrawerBar from './DrawerBar'
 import FrameBar from './FrameBar'
 
 const optionStore = stores.useOptionStore()
+const showMore = ref(false)
+const setShowMore = (val) => {
+  showMore.value = val
+}
 
 const ChevronRight = Icon.ChevronRight
 const onBgChange = (e) => {
