@@ -231,6 +231,7 @@ export default defineComponent({
               barUrl[frame] || barUrl.mac,
             ],
           })
+          container.value.strokeWidth = 0
           container.value.addAfter(bar.value, box.value)
           box.value.cornerRadius = null
           image.value.cornerRadius = null
