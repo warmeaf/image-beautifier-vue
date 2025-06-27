@@ -20,7 +20,8 @@
             size="large"
             :loading="loading"
             :icon="h(Icon.ImageDown, { size: 18 })"
-            class="icon-btn rounded-se-none! flex-1 rounded-ee-none! me-[-1px] hover:z-[1] border-r-white/30!"
+            @click="toDownload"
+            class="icon-btn rounded-se-none! flex-1! rounded-ee-none! me-[-1px]! hover:z-[1]! border-r-white/30!"
           >
             <div class="leading-4 px-2">
               <div class="text-sm leading-4 font-semibold">Download</div>
@@ -54,6 +55,7 @@
         :overlay-style="{
           width: '320px',
         }"
+        @open-change="handleOpenChange"
       >
         <template #content>
           <div>
@@ -61,12 +63,17 @@
               class="p-2 [&_.ant-segmented]:w-full [&_.ant-segmented-item]:w-[33%]"
             >
               <div class="text-xs text-gray-400 mb-2">Format</div>
-              <!-- <Segmented options={['png', 'jpg' , 'webp']} size="middle"
-              onChange={setFormat} /> -->
+              <a-radio-group :value="format" @change="setFormat">
+                <a-radio-button value="png">png</a-radio-button>
+                <a-radio-button value="jpg">jpg</a-radio-button>
+                <a-radio-button value="webp">webp</a-radio-button>
+              </a-radio-group>
               <div class="text-xs text-gray-400 mt-2 mb-2">Pixel Ratio</div>
-              <!-- <Segmented options={[{value: 1, icon: '1x'},{value: 2, icon:
-              '2x'},{value: 3, icon: '3x'}]} size="middle" onChange={setRatio}
-              />  -->
+              <a-radio-group :value="ratio" @change="setRatio">
+                <a-radio-button :value="1">1x</a-radio-button>
+                <a-radio-button :value="2">2x</a-radio-button>
+                <a-radio-button :value="3">3x</a-radio-button>
+              </a-radio-group>
               <div
                 v-if="optionStore.frameConf.width"
                 class="text-xs p-3 mt-4 flex justify-between bg-black/5 rounded-md"
@@ -127,6 +134,45 @@ const sizeText = computed(() => {
   return `${optionStore.frameConf.width * ratio.value} x
   ${optionStore.frameConf.height * ratio.value}`
 })
+
+const toDownload = async () => {
+  if (!editorStore.isEditing) return
+  if (loading.value) return
+  const option = {
+    pixelRatio: ratio.value,
+  }
+  if (['jpg', 'webp'].includes(format.value)) {
+    option.quality = 0.9
+    option.fill = '#ffffff'
+  }
+  const key = nanoid()
+  loading.value = true
+  editorStore.message.open({
+    key,
+    type: 'loading',
+    content: 'Downloading...',
+  })
+  await editorStore.app.tree
+    .export(format.value, option)
+    .then((result) => {
+      let name = `ShotEasy`
+      if (ratio.value > 1) name += `@${ratio.value}`
+      toDownloadFile(result.data, `${name}.${format.value}`)
+      editorStore.message.open({
+        key,
+        type: 'success',
+        content: 'Download Success!',
+      })
+    })
+    .catch(() => {
+      editorStore.message.open({
+        key,
+        type: 'error',
+        content: 'Download failed!',
+      })
+    })
+  loading.value = false
+}
 const toCopy = async () => {
   if (!editorStore.isEditing) return
   if (loading.value) return
@@ -139,11 +185,10 @@ const toCopy = async () => {
   })
 
   try {
-    const result = await editorStore.app.export('test.png', {
+    const result = await editorStore.app.export('png', {
       blob: true,
-      pixelRatio: ratio,
+      pixelRatio: ratio.value,
     })
-    console.log(result)
     const { data } = result
     await navigator.clipboard.write([
       new ClipboardItem({
@@ -166,6 +211,7 @@ const toCopy = async () => {
     loading.value = false
   }
 }
+
 const confirm = () => {
   editorStore.destroy()
   editorStore.clearImg()
@@ -173,4 +219,13 @@ const confirm = () => {
 }
 
 const open = ref(false)
+const handleOpenChange = (val) => {
+  open.value = val
+}
+const setFormat = (e) => {
+  format.value = e.target.value
+}
+const setRatio = (e) => {
+  ratio.value = e.target.value
+}
 </script>
