@@ -133,7 +133,7 @@ const getIcon = (item) => {
         class:
           'border text-xs border-black dark:border-white w-4 h-4 rounded-full text-center leading-4',
       },
-      1
+      editorStore.nextStep
     )
   } else {
     const Icons = icons[item]
