@@ -53,7 +53,8 @@
       />
     </div>
     <media-logo>
-      <a-button
+      <!-- 关闭主题切换 -->
+      <!-- <a-button
         type="text"
         shape="circle"
         class="icon-btn"
@@ -63,7 +64,7 @@
             : h(Icon.Sun, { size: 16 })
         "
         @click="handleSetTheme"
-      />
+      /> -->
     </media-logo>
   </div>
 </template>
