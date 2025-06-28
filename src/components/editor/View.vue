@@ -29,11 +29,11 @@
 <script setup>
 import {
   watch,
-  onUnmounted,
   computed,
   nextTick,
   ref,
   onMounted,
+  onBeforeUnmount,
   unref,
 } from 'vue'
 import { debounce } from 'lodash-es'
@@ -252,7 +252,7 @@ onMounted(() => {
   }
 })
 
-onUnmounted(() => {
+onBeforeUnmount(() => {
   removeListener(targetRef.value, onResize)
   editorStore.destroy()
 })

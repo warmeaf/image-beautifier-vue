@@ -253,7 +253,6 @@ export default defineComponent({
     shape.on(PropertyEvent.CHANGE, (arg) => {
       if (!props.snap?.data) return
       if (!['x', 'y', 'width', 'height'].includes(arg.attrName)) return
-      console.log(arg, 'arg')
       fillBg()
     })
     cleanupFunction = () => {
