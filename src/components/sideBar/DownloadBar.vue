@@ -192,7 +192,7 @@ const toCopy = async () => {
   })
 
   try {
-    const result = await editorStore.app.export('png', {
+    const result = await editorStore.app.tree.export('png', {
       blob: true,
       pixelRatio: ratio.value,
     })
