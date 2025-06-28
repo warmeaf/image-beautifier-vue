@@ -1,8 +1,6 @@
 <template>
   <h1>
     <a
-      href="https://shoteasy.fun"
-      target="_blank"
       aria-label="ShotEasy"
       class="flex gap-1 text-gray-700 dark:text-gray-300 items-center text-xs font-semibold"
     >
