@@ -47,8 +47,13 @@ import {
   Cursor,
 } from 'leafer-ui'
 import { EditorMoveEvent } from '@leafer-in/editor'
+// 实现自适应滚动条
 import { ScrollBar } from '@leafer-in/scroll'
+// 实现平移缩放
+import '@leafer-in/viewport'
+// 实现 fit
 import '@leafer-in/view'
+// 实现导出
 import '@leafer-in/export'
 
 import FrameBox from './layers/FrameBox'
@@ -137,10 +142,7 @@ onMounted(() => {
         },
       },
       tree: {
-        usePartRender: true,
-      },
-      sky: {
-        type: 'draw',
+        type: 'viewport',
         usePartRender: true,
       },
     })

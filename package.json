@@ -16,6 +16,7 @@
     "@leafer-in/export": "^1.7.0",
     "@leafer-in/scroll": "^1.7.0",
     "@leafer-in/view": "^1.7.0",
+    "@leafer-in/viewport": "^1.7.0",
     "ant-design-vue": "4.x",
     "clsx": "^2.1.1",
     "cropperjs": "^2.0.0",

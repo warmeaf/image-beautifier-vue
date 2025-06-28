@@ -29,6 +29,9 @@ importers:
       '@leafer-in/view':
         specifier: ^1.7.0
         version: 1.7.0(@leafer-in/interface@1.7.0(@leafer-ui/interface@1.7.0)(@leafer/interface@1.7.0))(@leafer-ui/draw@1.7.0)(@leafer-ui/interface@1.7.0)
+      '@leafer-in/viewport':
+        specifier: ^1.7.0
+        version: 1.7.0(@leafer-in/interface@1.7.0(@leafer-ui/interface@1.7.0)(@leafer/interface@1.7.0))(@leafer-ui/core@1.7.0)(@leafer-ui/interface@1.7.0)
       ant-design-vue:
         specifier: 4.x
         version: 4.2.6(vue@3.5.13(typescript@5.4.2))
@@ -386,6 +389,13 @@ packages:
     peerDependencies:
       '@leafer-in/interface': ^1.7.0
       '@leafer-ui/draw': ^1.7.0
+      '@leafer-ui/interface': ^1.7.0
+
+  '@leafer-in/viewport@1.7.0':
+    resolution: {integrity: sha512-xVt6gVyGSOkmyxE3755GjYPQVpqrcMDeHL84eFW8YdfCftSKXD5CkwPNmMGqgFTZI/l6exbtNvsyvP1bpfhU7Q==}
+    peerDependencies:
+      '@leafer-in/interface': ^1.7.0
+      '@leafer-ui/core': ^1.7.0
       '@leafer-ui/interface': ^1.7.0
 
   '@leafer-ui/app@1.7.0':
@@ -1511,6 +1521,12 @@ snapshots:
     dependencies:
       '@leafer-in/interface': 1.7.0(@leafer-ui/interface@1.7.0)(@leafer/interface@1.7.0)
       '@leafer-ui/draw': 1.7.0
+      '@leafer-ui/interface': 1.7.0
+
+  '@leafer-in/viewport@1.7.0(@leafer-in/interface@1.7.0(@leafer-ui/interface@1.7.0)(@leafer/interface@1.7.0))(@leafer-ui/core@1.7.0)(@leafer-ui/interface@1.7.0)':
+    dependencies:
+      '@leafer-in/interface': 1.7.0(@leafer-ui/interface@1.7.0)(@leafer/interface@1.7.0)
+      '@leafer-ui/core': 1.7.0
       '@leafer-ui/interface': 1.7.0
 
   '@leafer-ui/app@1.7.0':
