@@ -244,7 +244,7 @@ export default defineComponent({
           ],
         },
       ]
-      const shapeObj = editorStore.getShape(props.id)
+      let shapeObj = editorStore.getShape(props.id)
       shapeObj = {
         ...shapeObj,
         ...shape,
