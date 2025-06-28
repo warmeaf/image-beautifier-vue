@@ -73,18 +73,16 @@
 import { ref, h, computed } from 'vue'
 import { icons } from 'lucide-vue-next'
 import data from '@emoji-mart/data'
-
-import stores from '@stores/index'
+import { nanoid } from '@utils/utils'
 
 import ELogo from '@components/header/Logo'
 import Icon from '@components/Icon'
 import ColorPicker from '@components/ColorPicker'
-import WidthDropdown from '@components/header/WidthDropdown.vue'
-import MediaLogo from '@components/header/MediaLogo.vue'
-import EmojiSelect from '@components/header/EmojiSelect.vue'
+import WidthDropdown from '@components/header/WidthDropdown'
+import MediaLogo from '@components/header/MediaLogo'
+import EmojiSelect from '@components/header/EmojiSelect'
 
-import { nanoid } from '@utils/utils'
-
+import stores from '@stores/index'
 const editorStore = stores.useEditorStore()
 const optionStore = stores.useOptionStore()
 

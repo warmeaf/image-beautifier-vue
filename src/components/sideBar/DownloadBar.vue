@@ -120,6 +120,7 @@
 import { h, ref, computed } from 'vue'
 import Icon from '@components/Icon'
 import { toDownloadFile, nanoid, modKey } from '@utils/utils'
+import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts'
 import stores from '@stores/index'
 const editorStore = stores.useEditorStore()
 const optionStore = stores.useOptionStore()
@@ -218,6 +219,7 @@ const toCopy = async () => {
     loading.value = false
   }
 }
+useKeyboardShortcuts(toDownload, toCopy)
 
 const confirm = () => {
   editorStore.destroy()

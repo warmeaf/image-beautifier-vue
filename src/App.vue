@@ -1,6 +1,5 @@
 <script setup>
 import { computed } from 'vue'
-import stores from '@stores/index'
 import { theme, message } from 'ant-design-vue'
 const [messageApi, contextHolder] = message.useMessage()
 
@@ -9,10 +8,15 @@ import EEditor from '@components/editor/Editor'
 import EInit from '@components/init/Init'
 import SideBar from '@components/sidebar/SideBar'
 
+import stores from '@stores/index'
 const editorStore = stores.useEditorStore()
-editorStore.setMessage(messageApi)
 
+editorStore.setMessage(messageApi)
 const hasImgSrc = computed(() => editorStore.img?.src)
+const algorithm = computed(() =>
+  editorStore.isDark ? theme.darkAlgorithm : theme.defaultAlgorithm
+)
+const dataMode = computed(() => (editorStore.isDark ? 'dark' : 'light'))
 </script>
 
 <template>
@@ -20,16 +24,14 @@ const hasImgSrc = computed(() => editorStore.img?.src)
     <a-style-provider>
       <a-config-provider
         :theme="{
-          algorithm: editorStore.isDark
-            ? theme.darkAlgorithm
-            : theme.defaultAlgorithm,
+          algorithm: algorithm,
         }"
       >
         <contextHolder />
         <div
           id="shoteasy-container"
           class="polka flex flex-col overflow-hidden antialiased w-full h-[100vh] dark:bg-black"
-          :data-mode="editorStore.isDark ? 'dark' : 'light'"
+          :data-mode="dataMode"
         >
           <e-header />
           <div class="flex flex-col flex-1 h-0 md:flex-row md:items-stretch">
