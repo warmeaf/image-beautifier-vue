@@ -2,15 +2,13 @@
   <div class="w-full h-full relative z-0" ref="targetRef">
     <FrameBox
       v-if="hasAppTree"
-      :parent="editorStore.app.tree"
       :cursor="editorStore.cursor"
       v-bind="optionStore.frameConf"
     >
-      <template v-if="hasImgSrc" v-slot="{ frame }">
+      <template v-if="hasImgSrc">
         <ShapeLine
           v-for="item in editorStore.shapesList"
           :key="nanoid()"
-          :parent="frame"
           v-bind="
             Object.assign(
               {},
@@ -19,8 +17,8 @@
             )
           "
         />
-        <Screenshot :parent="frame" />
-        <Watermark v-if="optionStore.waterImg" :parent="frame" />
+        <Screenshot />
+        <Watermark v-if="optionStore.waterImg" />
       </template>
     </FrameBox>
   </div>

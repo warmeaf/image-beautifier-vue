@@ -50,13 +50,16 @@ export const useEditorStore = defineStore('editor', {
         return state.shapes.get(id)
       }
     },
+    getFrame(state) {
+      return state.app?.tree?.children[0]
+    },
   },
   actions: {
     createSnap(type) {
       if (type === 'init' && this.snap?.data) return
       if (type !== 'init' && this.snap === null) return
       const ex = async () => {
-        const frame = this.app?.tree?.children[0]
+        const frame = this.getFrame
         if (!frame) return
         frame.children.map((child) => {
           if (child.id !== 'screenshot-box') {
@@ -65,7 +68,7 @@ export const useEditorStore = defineStore('editor', {
         })
         const image = await frame
           .export('png', { pixelRatio: 2 })
-          .catch(() => null)
+          .catch((e) => console.log(e))
         frame.children.map((child) => (child.visible = true))
         this.snap = image
       }
@@ -103,6 +106,10 @@ export const useEditorStore = defineStore('editor', {
     },
     setApp(app) {
       this.app = app
+    },
+    setFrame(frame) {
+      if (!this.app?.tree) return
+      this.app.tree.add(frame)
     },
     setScale(value) {
       this.scale = parseInt(value * 100)

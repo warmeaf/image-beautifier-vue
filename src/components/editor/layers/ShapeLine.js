@@ -10,7 +10,6 @@ import Magnifier from '@utils/shape/Magnifier'
 
 export default defineComponent({
   props: {
-    parent: Object,
     type: String,
     id: [String, Number],
     width: Number,
@@ -259,7 +258,7 @@ export default defineComponent({
       shape.off(PropertyEvent.CHANGE)
     }
 
-    props.parent.add(shape)
+    editorStore.getFrame?.add(shape)
 
     onUnmounted(() => {
       if (cleanupFunction) {

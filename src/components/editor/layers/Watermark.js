@@ -3,17 +3,14 @@ import { Rect } from 'leafer-ui'
 import stores from '@stores/index'
 
 export default defineComponent({
-  props: {
-    parent: Object,
-  },
-  setup(props) {
-    const { parent } = props
+  setup() {
     const optionStore = stores.useOptionStore()
+    const editorStore = stores.useEditorStore()
     const rect = new Rect({
       x: 0,
       y: 0,
     })
-    parent.add(rect)
+    editorStore.getFrame?.add(rect)
 
     watch(
       [() => optionStore.frameConf.width, () => optionStore.frameConf.height],

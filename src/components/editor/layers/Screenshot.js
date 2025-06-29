@@ -1,4 +1,4 @@
-import { defineComponent, ref, onMounted, onUnmounted, watch, h } from 'vue'
+import { defineComponent, onMounted, onUnmounted, watch, h } from 'vue'
 import { Box, Rect } from 'leafer-ui'
 import { debounce } from 'lodash-es'
 
@@ -58,17 +58,14 @@ const info = {
 }
 
 export default defineComponent({
-  props: {
-    parent: Object,
-  },
-  setup(props) {
-    const { parent } = props
+  setup() {
     const editorStore = stores.useEditorStore()
     const optionStore = stores.useOptionStore()
-    const bar = ref(null)
-    const image = ref(null)
-    const box = ref(null)
-    const container = ref(null)
+    let timer = null
+    let bar = null
+    let image = null
+    let box = null
+    let container = null
 
     const createSnap = debounce(() => {
       editorStore.createSnap('update')
@@ -76,9 +73,9 @@ export default defineComponent({
 
     // 更新图像填充
     const updateImageFill = () => {
-      if (!image.value) return
+      if (!image) return
 
-      image.value.fill = {
+      image.fill = {
         type: 'image',
         url: editorStore.img.src,
         align: optionStore.mode === 'fit' ? 'center' : 'top',
@@ -88,35 +85,35 @@ export default defineComponent({
     }
     // 更新内边距
     const updatePadding = () => {
-      if (!box.value) return
+      if (!box) return
 
       if (optionStore.padding === 0 && !info[optionStore.frame]) {
-        box.value.fill = '#ffffff00'
+        box.fill = '#ffffff00'
       } else {
-        box.value.fill = optionStore.paddingBg
+        box.fill = optionStore.paddingBg
       }
       createSnap()
     }
     // 更新圆角
     const updateRound = () => {
-      if (!container.value || !image.value) return
+      if (!container || !image) return
 
       const { round } = optionStore
-      container.value.cornerRadius = round
-      if (!bar.value || info[optionStore.frame]) {
-        image.value.cornerRadius = round
+      container.cornerRadius = round
+      if (!bar || info[optionStore.frame]) {
+        image.cornerRadius = round
       }
       createSnap()
     }
     // 更新阴影
     const updateShadow = () => {
-      if (!container.value) return
+      if (!container) return
 
       const { shadow } = optionStore
       if (shadow === 0 || optionStore.frame === 'macbookpro16') {
-        container.value.shadow = null
+        container.shadow = null
       } else {
-        container.value.shadow = {
+        container.shadow = {
           x: shadow * 4,
           y: shadow * 4,
           blur: shadow * 3,
@@ -128,35 +125,35 @@ export default defineComponent({
     }
     // 更新缩放
     const updateScale = () => {
-      if (!container.value) return
+      if (!container) return
 
-      container.value.scale = optionStore.scale
+      container.scale = optionStore.scale
       createSnap()
     }
     // 更新图像源
     const updateImageSource = () => {
-      if (!image.value) return
+      if (!image) return
 
-      image.value.url = editorStore.img.src
+      image.url = editorStore.img.src
       updateImageFill()
     }
     // 更新X轴缩放
     const updateScaleX = () => {
-      if (!image.value) return
+      if (!image) return
 
-      image.value.scaleX = optionStore.scaleX ? -1 : 1
+      image.scaleX = optionStore.scaleX ? -1 : 1
       createSnap()
     }
     // 更新Y轴缩放
     const updateScaleY = () => {
-      if (!image.value) return
+      if (!image) return
 
-      image.value.scaleY = optionStore.scaleY ? -1 : 1
+      image.scaleY = optionStore.scaleY ? -1 : 1
       createSnap()
     }
     // 更新框架设置
     const updateFrameSettings = () => {
-      if (!container.value || !box.value || !image.value) return
+      if (!container || !box || !image) return
 
       const { align, frame, frameConf, padding } = optionStore
       const { img } = editorStore
@@ -174,20 +171,20 @@ export default defineComponent({
       let boxHeight = height
 
       // 清理之前的bar
-      if (bar.value) {
-        bar.value.remove()
-        bar.value = null
+      if (bar) {
+        bar.remove()
+        bar = null
       }
 
       // 根据frame类型设置不同的样式
       switch (frame) {
         case 'light':
-          container.value.strokeWidth = 8
-          container.value.stroke = '#ffffff80'
+          container.strokeWidth = 8
+          container.stroke = '#ffffff80'
           break
         case 'dark':
-          container.value.strokeWidth = 8
-          container.value.stroke = '#00000050'
+          container.strokeWidth = 8
+          container.stroke = '#00000050'
           break
         case 'macosBarLight':
         case 'macosBarDark':
@@ -218,7 +215,7 @@ export default defineComponent({
               offset: { x: width - 105, y: 0 },
             },
           }
-          bar.value = new Rect({
+          bar = new Rect({
             x: 0,
             y: 0,
             height: 32,
@@ -231,10 +228,10 @@ export default defineComponent({
               barUrl[frame] || barUrl.mac,
             ],
           })
-          container.value.strokeWidth = 0
-          container.value.addAfter(bar.value, box.value)
-          box.value.cornerRadius = null
-          image.value.cornerRadius = null
+          container.strokeWidth = 0
+          container.addAfter(bar, box)
+          box.cornerRadius = null
+          image.cornerRadius = null
           break
         case 'macbookpro16':
         case 'macbookair':
@@ -248,7 +245,7 @@ export default defineComponent({
             width,
             height
           )
-          bar.value = new Rect({
+          bar = new Rect({
             x: 0,
             y: 0,
             height,
@@ -270,14 +267,14 @@ export default defineComponent({
           boxHeight = bgSize.height * device.vertical
           boxX = (width - boxWidth) / 2
           boxY = bgSize.height * device.top + (height - bgSize.height) / 2
-          container.value.shadow = null
-          box.value.cornerRadius =
+          container.shadow = null
+          box.cornerRadius =
             frame === 'iphonepro' ? (bgSize.width * 1) / 10 : null
-          container.value.addAfter(bar.value, box.value)
+          container.addAfter(bar, box)
           break
         default:
-          container.value.strokeWidth = null
-          container.value.stroke = null
+          container.strokeWidth = null
+          container.stroke = null
       }
 
       // 设置位置和尺寸
@@ -286,24 +283,23 @@ export default defineComponent({
         frameConf.width - width,
         frameConf.height - totalHeight
       )
-      container.value.width = width
-      container.value.height = totalHeight
-      container.value.origin = align
-      container.value.x = x
-      container.value.y = y
-      box.value.width = boxWidth
-      box.value.height = boxHeight
-      box.value.x = boxX
-      box.value.y = boxY
+      container.width = width
+      container.height = totalHeight
+      container.origin = align
+      container.x = x
+      container.y = y
+      box.width = boxWidth
+      box.height = boxHeight
+      box.x = boxX
+      box.y = boxY
       const imageWidth = boxWidth - padding
       const imageheight = Math.round((imageWidth * boxHeight) / boxWidth)
-      image.value.width = imageWidth + 2 // 解决有缝隙的问题
-      image.value.height = imageheight + 2
-      image.value.x = padding / 2 - 1
-      image.value.y = (boxHeight - imageheight) / 2 - 1
+      image.width = imageWidth + 2 // 解决有缝隙的问题
+      image.height = imageheight + 2
+      image.x = padding / 2 - 1
+      image.y = (boxHeight - imageheight) / 2 - 1
       createSnap()
     }
-
     // 监听属性变化
     watch(() => optionStore.mode, updateImageFill)
     watch(
@@ -313,7 +309,6 @@ export default defineComponent({
     watch(() => optionStore.round, updateRound)
     watch(() => optionStore.shadow, updateShadow)
     watch(() => optionStore.scale, updateScale)
-    watch(() => editorStore.img.src, updateImageSource)
     watch(() => optionStore.scaleX, updateScaleX)
     watch(() => optionStore.scaleY, updateScaleY)
     watch(
@@ -327,50 +322,45 @@ export default defineComponent({
       updateFrameSettings
     )
 
-    onMounted(() => {
-      // 创建图像元素
-      image.value = new Rect({
-        origin: 'center',
-      })
-
-      // 创建容器盒子
-      box.value = new Box({
-        overflow: 'hide',
-        children: [image.value],
-      })
-
-      // 创建外层容器
-      container.value = new Box({
-        id: 'screenshot-box',
-        overflow: 'hide',
-        strokeAlign: 'outside',
-        scale: 1,
-        fill: '#ffffff00',
-        children: [box.value],
-      })
-
-      // 添加到父元素
-      parent.add(container.value)
-
-      // 设置图像填充
-      updateImageFill()
-      updatePadding()
-      updateRound()
-      updateShadow()
-      updateScale()
-      updateImageSource()
+    image = new Rect({
+      origin: 'center',
+    })
+    // 创建容器盒子
+    box = new Box({
+      overflow: 'hide',
+      children: [image],
+    })
+    // 创建外层容器
+    container = new Box({
+      id: 'screenshot-box',
+      overflow: 'hide',
+      strokeAlign: 'outside',
+      scale: 1,
+      fill: '#ffffff00',
+      children: [box],
+    })
+    // 添加到父元素
+    editorStore.getFrame?.add(container)
+    // 设置图像填充
+    updateImageSource()
+    updatePadding()
+    updateRound()
+    updateShadow()
+    updateScale()
+    updateFrameSettings()
+    timer = setTimeout(() => {
       updateScaleX()
       updateScaleY()
-      updateFrameSettings()
-    })
+    }, 0)
 
     // 组件卸载时清理
     onUnmounted(() => {
-      if (container.value) {
-        container.value.remove()
+      clearTimeout(timer)
+      if (container) {
+        container.remove()
       }
-      if (bar.value) {
-        bar.value.remove()
+      if (bar) {
+        bar.remove()
       }
     })
   },
