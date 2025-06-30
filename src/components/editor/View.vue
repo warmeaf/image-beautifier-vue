@@ -8,14 +8,11 @@
       <template v-if="hasImgSrc">
         <ShapeLine
           v-for="item in editorStore.shapesList"
-          :key="nanoid()"
-          v-bind="
-            Object.assign(
-              {},
-              item,
-              item.type === 'Magnifier' ? { snap: editorStore.snap } : {}
-            )
-          "
+          :key="item.id"
+          v-bind="{
+            ...item,
+            ...(item.type === 'Magnifier' ? { snap: editorStore.snap } : {}),
+          }"
         />
         <Screenshot />
         <Watermark v-if="optionStore.waterImg" />

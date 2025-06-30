@@ -1,4 +1,4 @@
-import { defineComponent, onUnmounted, h } from 'vue'
+import { defineComponent, onUnmounted, h, watchEffect, watch } from 'vue'
 import { Rect, Ellipse, Line, Text, PropertyEvent } from 'leafer-ui'
 import { Arrow } from '@leafer-in/arrow'
 import { debounce } from 'lodash-es'
@@ -158,112 +158,115 @@ export default defineComponent({
     }
     const shape = getShape()
 
-    if (['Slash', 'MoveDownLeft', 'Pencil'].includes(props.type)) {
-      shape.points = props.points
-    } else if (props.type === 'Step') {
-      // 空操作
-    } else {
-      shape.x = props.x
-      shape.y = props.y
-      shape.width = props.width
-      shape.height = props.height
-    }
+    watchEffect(() => {
+      if (['Slash', 'MoveDownLeft', 'Pencil'].includes(props.type)) {
+        shape.points = props.points
+      } else if (props.type === 'Step') {
+        // 空操作
+      } else {
+        shape.x = props.x
+        shape.y = props.y
+        shape.width = props.width
+        shape.height = props.height
+      }
+    })
 
-    if (props.type === 'SquareFill') {
-      shape.fill = props.fill
-    }
-    if (
-      ['Circle', 'Slash', 'MoveDownLeft', 'Pencil', 'Square'].includes(
-        props.type
-      )
-    ) {
-      shape.stroke = props.fill
-    }
-    if (props.type === 'Step') {
-      const oldFill = [].concat(shape.fill)
-      oldFill[0].color = props.fill
-      shape.fill = oldFill
-    }
+    watchEffect(() => {
+      if (props.type === 'SquareFill') {
+        shape.fill = props.fill
+      }
+      if (
+        ['Circle', 'Slash', 'MoveDownLeft', 'Pencil', 'Square'].includes(
+          props.type
+        )
+      ) {
+        shape.stroke = props.fill
+      }
+      if (props.type === 'Step') {
+        const oldFill = [].concat(shape.fill)
+        oldFill[0].color = props.fill
+        shape.fill = oldFill
+      }
+    })
 
-    if (
-      [
-        'Circle',
-        'Magnifier',
-        'Slash',
-        'MoveDownLeft',
-        'Pencil',
-        'Step',
-        'Square',
-      ].includes(props.type)
-    ) {
-      shape.strokeWidth = props.strokeWidth
-    }
+    watchEffect(() => {
+      if (
+        [
+          'Circle',
+          'Magnifier',
+          'Slash',
+          'MoveDownLeft',
+          'Pencil',
+          'Step',
+          'Square',
+        ].includes(props.type)
+      ) {
+        shape.strokeWidth = props.strokeWidth
+      }
+    })
 
-    shape.editable = !!props.editable
+    watchEffect(() => {
+      shape.editable = !!props.editable
+    })
 
     // 清理之前的事件监听
-    if (cleanupFunction) {
-      cleanupFunction()
-      cleanupFunction = null
-    }
-    if (props.type === 'Magnifier' && shape.fill && props.snap) {
-      const oldFill = [].concat(shape.fill)
-      oldFill[1] = Object.assign({}, oldFill[1], {
-        url: props.snap.data,
-        size: { width: props.snap.width, height: props.snap.height },
-      })
-      shape.fill = oldFill
-    }
-    const offset = { x: 0, y: 0 }
-    const fillBg = debounce(() => {
-      const x = -shape.x * 2 - shape.width / 2
-      const y = -shape.y * 2 - shape.height / 2
-      if (offset.x === x && offset.y === y) return
-      offset.x = x
-      offset.y = y
-      shape.fill = [
-        { type: 'solid', color: '#ffffff' },
-        {
-          type: 'image',
+    watchEffect(() => {
+      if (props.type === 'Magnifier' && shape.fill && props.snap) {
+        const oldFill = [].concat(shape.fill)
+        oldFill[1] = Object.assign({}, oldFill[1], {
           url: props.snap.data,
-          mode: 'clip',
-          size: {
-            width: props.snap.width,
-            height: props.snap.height,
-          },
-          offset,
-        },
-        {
-          type: 'linear',
-          from: 'top',
-          to: 'bottom',
-          stops: [
-            { offset: 0, color: '#ffffffaa' },
-            { offset: 0.48, color: '#ffffff00' },
-          ],
-        },
-      ]
-      let shapeObj = editorStore.getShape(props.id)
-      shapeObj = {
-        ...shapeObj,
-        ...shape,
+          size: { width: props.snap.width, height: props.snap.height },
+        })
+        shape.fill = oldFill
       }
-    }, 5)
-    shape.on(PropertyEvent.CHANGE, (arg) => {
-      if (!props.snap?.data) return
-      if (!['x', 'y', 'width', 'height'].includes(arg.attrName)) return
-      fillBg()
+      const offset = { x: 0, y: 0 }
+      const fillBg = debounce(() => {
+        const x = -shape.x * 2 - shape.width / 2
+        const y = -shape.y * 2 - shape.height / 2
+        if (offset.x === x && offset.y === y) return
+        offset.x = x
+        offset.y = y
+        shape.fill = [
+          { type: 'solid', color: '#ffffff' },
+          {
+            type: 'image',
+            url: props.snap.data,
+            mode: 'clip',
+            size: {
+              width: props.snap.width,
+              height: props.snap.height,
+            },
+            offset,
+          },
+          {
+            type: 'linear',
+            from: 'top',
+            to: 'bottom',
+            stops: [
+              { offset: 0, color: '#ffffffaa' },
+              { offset: 0.48, color: '#ffffff00' },
+            ],
+          },
+        ]
+      }, 5)
+      shape.on(PropertyEvent.CHANGE, (arg) => {
+        if (!props.snap?.data) return
+        if (!['x', 'y', 'width', 'height'].includes(arg.attrName)) return
+        fillBg()
+      })
     })
-    cleanupFunction = () => {
-      shape.off(PropertyEvent.CHANGE)
-    }
 
     editorStore.getFrame?.add(shape)
 
+    // cleanupFunction = () => {
+    //   shape.off(PropertyEvent.CHANGE)
+    // }
+    // if (cleanupFunction) {
+    //   cleanupFunction()
+    //   cleanupFunction = null
+    // }
     onUnmounted(() => {
-      if (cleanupFunction) {
-        cleanupFunction()
-      }
+      shape.off(PropertyEvent.CHANGE)
       shape.remove()
     })
   },
