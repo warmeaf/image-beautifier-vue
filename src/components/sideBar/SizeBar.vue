@@ -128,7 +128,7 @@ const handleOpenChange = (val) => {
 }
 
 const isShowSize = computed(() => {
-  return editorStore.img?.src || optionStore.size.type !== 'auto'
+  return optionStore.img?.src || optionStore.size.type !== 'auto'
 })
 const hide = () => {
   open.value = false
@@ -136,12 +136,12 @@ const hide = () => {
 
 const onSet = (value) => {
   hide()
-  if (value.type === 'auto' && editorStore.img.width) {
-    const margin = getMargin(editorStore.img.width, editorStore.img.height)
+  if (value.type === 'auto' && optionStore.img.width) {
+    const margin = getMargin(optionStore.img.width, optionStore.img.height)
     optionStore.setSize({
       ...value,
-      width: editorStore.img.width + margin,
-      height: editorStore.img.height + margin,
+      width: optionStore.img.width + margin,
+      height: optionStore.img.height + margin,
     })
     return
   }

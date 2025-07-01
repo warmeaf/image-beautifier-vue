@@ -98,7 +98,7 @@
         />
       </a-popover>
       <a-popconfirm
-        v-if="editorStore.img?.src"
+        v-if="optionStore.img?.src"
         title="Delete the screenshot"
         description="Are you sure to delete this screenshot?"
         placement="topRight"
@@ -223,7 +223,7 @@ useKeyboardShortcuts(toDownload, toCopy)
 
 const confirm = () => {
   editorStore.destroy()
-  editorStore.clearImg()
+  optionStore.clearImg()
   editorStore.clearFun && editorStore.clearFun()
 }
 

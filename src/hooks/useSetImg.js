@@ -7,7 +7,7 @@ export function useSetImg(stores) {
     const image = await getImage(imgUrl)
     const width = Math.round(image.width)
     const height = Math.round(image.height)
-    stores.editor.setImg({
+    stores.option.setImg({
       src: imgUrl,
       width,
       height,

@@ -3,6 +3,7 @@ import backgroundConfig from '@utils/backgroundConfig'
 
 export const useOptionStore = defineStore('option', {
   state: () => ({
+    img: {},
     scale: 1,
     scaleX: false,
     scaleY: false,
@@ -42,6 +43,13 @@ export const useOptionStore = defineStore('option', {
     },
   },
   actions: {
+    setImg(value) {
+      this.img = value
+    },
+    clearImg() {
+      this.img = {}
+    },
+
     setScale(value) {
       this.scale = value
     },

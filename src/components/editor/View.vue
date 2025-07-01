@@ -110,7 +110,7 @@ const hasAppTree = computed(() => {
   return !!editorStore.app?.tree
 })
 const hasImgSrc = computed(() => {
-  return !!editorStore.img?.src
+  return !!optionStore.img?.src
 })
 
 onMounted(() => {

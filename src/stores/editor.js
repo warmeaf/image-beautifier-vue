@@ -4,7 +4,6 @@ import { maxBy } from 'lodash-es'
 let timer = null
 export const useEditorStore = defineStore('editor', {
   state: () => ({
-    img: {},
     invalid: false,
     app: null,
     scale: 100,
@@ -89,9 +88,6 @@ export const useEditorStore = defineStore('editor', {
         this.invalid = false
       }, 200)
     },
-    setImg(value) {
-      this.img = value
-    },
     setMessage(value) {
       this.message = value
     },
@@ -149,9 +145,6 @@ export const useEditorStore = defineStore('editor', {
     },
     setClearFun(value) {
       this.clearFun = value
-    },
-    clearImg() {
-      this.img = {}
     },
     destroy() {
       this.app?.destroy(true)

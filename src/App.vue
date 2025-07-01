@@ -10,9 +10,10 @@ import SideBar from '@components/sidebar/SideBar'
 
 import stores from '@stores/index'
 const editorStore = stores.useEditorStore()
+const optionStore = stores.useOptionStore()
 
 editorStore.setMessage(messageApi)
-const hasImgSrc = computed(() => editorStore.img?.src)
+const hasImgSrc = computed(() => optionStore.img?.src)
 const algorithm = computed(() =>
   editorStore.isDark ? theme.darkAlgorithm : theme.defaultAlgorithm
 )

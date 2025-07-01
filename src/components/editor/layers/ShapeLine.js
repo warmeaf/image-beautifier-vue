@@ -258,13 +258,6 @@ export default defineComponent({
 
     editorStore.getFrame?.add(shape)
 
-    // cleanupFunction = () => {
-    //   shape.off(PropertyEvent.CHANGE)
-    // }
-    // if (cleanupFunction) {
-    //   cleanupFunction()
-    //   cleanupFunction = null
-    // }
     onUnmounted(() => {
       shape.off(PropertyEvent.CHANGE)
       shape.remove()

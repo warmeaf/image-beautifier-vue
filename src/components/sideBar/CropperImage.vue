@@ -18,7 +18,7 @@
     <vue-cropper
       ref="cropperRef"
       :style="{ height: '400px', width: '100%' }"
-      :img="editorStore.img.src"
+      :img="optionStore.img.src"
       v-bind="option"
     />
   </a-modal>
@@ -61,8 +61,8 @@ const handleOk = () => {
     const width = cropperRef.value.cropW
     const height = cropperRef.value.cropH
     cropperRef.value.getCropData((imgUrl) => {
-      editorStore.setImg(
-        Object.assign({}, editorStore.img, {
+      optionStore.setImg(
+        Object.assign({}, optionStore.img, {
           src: imgUrl,
           width,
           height,

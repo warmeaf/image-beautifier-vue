@@ -77,7 +77,7 @@ export default defineComponent({
 
       image.fill = {
         type: 'image',
-        url: editorStore.img.src,
+        url: optionStore.img.src,
         align: optionStore.mode === 'fit' ? 'center' : 'top',
         mode: optionStore.mode,
       }
@@ -134,7 +134,7 @@ export default defineComponent({
     const updateImageSource = () => {
       if (!image) return
 
-      image.url = editorStore.img.src
+      image.url = optionStore.img.src
       updateImageFill()
     }
     // 更新X轴缩放
@@ -156,7 +156,7 @@ export default defineComponent({
       if (!container || !box || !image) return
 
       const { align, frame, frameConf, padding } = optionStore
-      const { img } = editorStore
+      const { img } = optionStore
       const margin = getMargin(frameConf.width, frameConf.height)
       const { width, height } = computedSize(
         img.width,
