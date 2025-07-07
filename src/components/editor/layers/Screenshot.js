@@ -1,4 +1,4 @@
-import { defineComponent, onMounted, onUnmounted, watch, h } from 'vue'
+import { defineComponent, onUnmounted, watch, h } from 'vue'
 import { Box, Rect } from 'leafer-ui'
 import { debounce } from 'lodash-es'
 

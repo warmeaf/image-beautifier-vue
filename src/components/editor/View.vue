@@ -6,6 +6,7 @@
       v-bind="optionStore.frameConf"
     >
       <template v-if="hasImgSrc">
+        <Screenshot />
         <ShapeLine
           v-for="item in editorStore.shapesList"
           :key="item.id"
@@ -14,7 +15,6 @@
             ...(item.type === 'Magnifier' ? { snap: editorStore.snap } : {}),
           }"
         />
-        <Screenshot />
         <Watermark v-if="optionStore.waterImg" />
       </template>
     </FrameBox>

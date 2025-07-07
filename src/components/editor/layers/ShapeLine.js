@@ -26,7 +26,6 @@ export default defineComponent({
   },
   setup(props) {
     const editorStore = stores.useEditorStore()
-    let cleanupFunction = null
     const getShape = () => {
       const defaultOption = {
         id: props.id,

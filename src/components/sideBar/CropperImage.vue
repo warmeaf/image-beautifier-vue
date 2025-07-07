@@ -35,7 +35,6 @@ import 'vue-cropper/dist/index.css'
 import stores from '@stores/index'
 import { getMargin } from '@utils/utils'
 
-const editorStore = stores.useEditorStore()
 const optionStore = stores.useOptionStore()
 
 const option = ref({
