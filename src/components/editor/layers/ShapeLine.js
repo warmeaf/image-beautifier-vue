@@ -1,4 +1,4 @@
-import { defineComponent, onUnmounted, h, watchEffect, watch } from 'vue'
+import { defineComponent, onUnmounted, h, watchEffect } from 'vue'
 import { Rect, Ellipse, Line, Text, PropertyEvent } from 'leafer-ui'
 import { Arrow } from '@leafer-in/arrow'
 import { debounce } from 'lodash-es'

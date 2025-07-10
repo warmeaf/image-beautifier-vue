@@ -23,43 +23,18 @@
         class="flex justify-between mt-2 py-4 px-6 rounded-md bg-white dark:bg-black shadow-xs"
       >
         <a-tooltip
+          v-for="(item, index) in toolButtons"
+          :key="index"
           placement="top"
           :arrow="false"
-          title="Take a screenshot of desktop windows"
+          :title="item.title"
         >
           <a-button
             shape="round"
             type="default"
             size="large"
-            :icon="h(Icon.Camera, { size: 20 })"
-            @click="onCapture"
-          />
-        </a-tooltip>
-        <a-tooltip placement="top" :arrow="false" title="Beautify text">
-          <a-button
-            shape="round"
-            type="default"
-            size="large"
-            :icon="h(Icon.Type, { size: 20 })"
-            @click="comingSoon"
-          />
-        </a-tooltip>
-        <a-tooltip placement="top" :arrow="false" title="Beautify Code">
-          <a-button
-            shape="round"
-            type="default"
-            size="large"
-            :icon="h(Icon.CodeXml, { size: 20 })"
-            @click="comingSoon"
-          />
-        </a-tooltip>
-        <a-tooltip placement="top" :arrow="false" title="Create gif animate">
-          <a-button
-            shape="round"
-            type="default"
-            size="large"
-            :icon="h(Icon.ImagePlay, { size: 20 })"
-            @click="comingSoon"
+            :icon="h(Icon[item.icon], { size: 20 })"
+            @click="item.action"
           />
         </a-tooltip>
       </div>
@@ -77,7 +52,7 @@
 </template>
 
 <script setup>
-import { h } from 'vue'
+import { h, ref } from 'vue'
 import stores from '@stores/index'
 import { supportImg, cn } from '@utils/utils'
 import Icon from '@components/Icon'
@@ -112,4 +87,27 @@ const comingSoon = () => {
 const handleTry = () => {
   getFile(demoPng, 'dataURL')
 }
+
+const toolButtons = ref([
+  {
+    title: 'Take a screenshot of desktop windows',
+    icon: 'Camera',
+    action: onCapture
+  },
+  {
+    title: 'Beautify text',
+    icon: 'Type',
+    action: comingSoon
+  },
+  {
+    title: 'Beautify Code',
+    icon: 'CodeXml',
+    action: comingSoon
+  },
+  {
+    title: 'Create gif animate',
+    icon: 'ImagePlay',
+    action: comingSoon
+  }
+])
 </script>
