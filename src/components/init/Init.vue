@@ -5,7 +5,7 @@
     <div :class="cn('max-w-[600px]', editorStore.invalid && 'invalid')">
       <a-upload-dragger
         name="file"
-        class="p-4! rounded-md! bg-white! dark:bg-black! dark:text-gray-400! block shadow-xs!"
+        class="p-4! rounded-md! bg-white dark:bg-black! dark:text-gray-400! block! shadow-xs!"
         :show-upload-list="false"
         :accept="supportImg.join(',')"
         :before-upload="beforeUpload"
