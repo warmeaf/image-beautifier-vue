@@ -104,7 +104,7 @@ import { ref, computed } from 'vue'
 
 import stores from '@stores/index'
 import Icon from '@components/Icon'
-import CustomSize from './CustomSize'
+import { CustomSize } from '../controls'
 
 import { cn, getMargin } from '@utils/utils'
 import sizeConfig from '@utils/sizeConfig'

@@ -13,15 +13,10 @@
 </template>
 
 <script setup>
-import SizeBar from './SizeBar'
-import QuickActionsBar from './QuickActionsBar'
-import ScaleControl from './ScaleControl'
-import PaddingControl from './PaddingControl'
-import RoundedControl from './RoundedControl'
-import ShadowControl from './ShadowControl'
-import FrameBar from './FrameBar'
-import BackgroundSelector from './BackgroundSelector'
-import WaterMark from './WaterMark.vue'
+import { SizeBar, FrameBar, QuickActionsBar } from './bars'
+import { ScaleControl, PaddingControl, RoundedControl, ShadowControl } from './controls'
+import { BackgroundSelector } from './background'
+import { WaterMark } from './features'
 
 defineEmits(['showMore'])
 </script>

@@ -70,7 +70,7 @@ import { h } from 'vue'
 import Icon from '@components/Icon'
 import ColorPicker from '@components/ColorPicker'
 import colorSvg from '@assets/color.svg'
-import BackgroundSelect from './BackgroundSelect'
+import { BackgroundSelect } from './'
 import stores from '@stores/index'
 const optionStore = stores.useOptionStore()
 const ChevronRight = Icon.ChevronRight

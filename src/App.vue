@@ -6,7 +6,7 @@ const [messageApi, contextHolder] = message.useMessage()
 import EHeader from '@components/header/Header'
 import EEditor from '@components/editor/Editor'
 import EInit from '@components/init/Init'
-import SideBar from '@components/sidebar/SideBar'
+import SideBar from '@components/sideBar'
 
 import stores from '@stores/index'
 const editorStore = stores.useEditorStore()

@@ -34,8 +34,7 @@
 import { h } from 'vue'
 import stores from '@stores/index'
 import Icon from '@components/Icon'
-import CropperImage from './CropperImage'
-import EPosition from './EPosition'
+import { CropperImage, EPosition } from '../features'
 
 const optionStore = stores.useOptionStore()
 </script>
