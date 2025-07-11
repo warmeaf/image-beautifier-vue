@@ -66,10 +66,29 @@ export default defineComponent({
     let image = null
     let box = null
     let container = null
-
     const createSnap = debounce(() => {
       editorStore.createSnap('update')
     }, 100)
+
+    image = new Rect({
+      origin: 'center',
+    })
+    // 创建容器盒子
+    box = new Box({
+      overflow: 'hide',
+      children: [image],
+    })
+    // 创建外层容器
+    container = new Box({
+      id: 'screenshot-box',
+      overflow: 'hide',
+      strokeAlign: 'outside',
+      scale: 1,
+      fill: '#ffffff00',
+      children: [box],
+    })
+    // 添加到父元素
+    editorStore.getFrame?.add(container)
 
     // 更新图像填充
     const updateImageFill = () => {
@@ -151,11 +170,29 @@ export default defineComponent({
       image.scaleY = optionStore.scaleY ? -1 : 1
       createSnap()
     }
+
+    const handleClear = (round, shadow) => {
+      container.strokeWidth = null
+      container.stroke = null
+      bar?.remove()
+      bar = null
+      box.cornerRadius = null
+      image.cornerRadius = round
+      container.cornerRadius = round
+      container.shadow = {
+        x: shadow * 4,
+        y: shadow * 4,
+        blur: shadow * 3,
+        color: '#00000045',
+        box: true,
+      }
+    }
     // 更新框架设置
     const updateFrameSettings = () => {
       if (!container || !box || !image) return
 
-      const { align, frame, frameConf, padding } = optionStore
+      const { align, frame, frameConf, shadow, round, padding } = optionStore
+
       const { img } = optionStore
       const margin = getMargin(frameConf.width, frameConf.height)
       const { width, height } = computedSize(
@@ -170,11 +207,7 @@ export default defineComponent({
       let boxWidth = width
       let boxHeight = height
 
-      // 清理之前的bar
-      if (bar) {
-        bar.remove()
-        bar = null
-      }
+      handleClear(round, shadow)
 
       // 根据frame类型设置不同的样式
       switch (frame) {
@@ -228,7 +261,6 @@ export default defineComponent({
               barUrl[frame] || barUrl.mac,
             ],
           })
-          container.strokeWidth = 0
           container.addAfter(bar, box)
           box.cornerRadius = null
           image.cornerRadius = null
@@ -309,6 +341,7 @@ export default defineComponent({
     watch(() => optionStore.round, updateRound)
     watch(() => optionStore.shadow, updateShadow)
     watch(() => optionStore.scale, updateScale)
+    watch(() => optionStore.img.src, updateImageSource)
     watch(() => optionStore.scaleX, updateScaleX)
     watch(() => optionStore.scaleY, updateScaleY)
     watch(
@@ -322,25 +355,6 @@ export default defineComponent({
       updateFrameSettings
     )
 
-    image = new Rect({
-      origin: 'center',
-    })
-    // 创建容器盒子
-    box = new Box({
-      overflow: 'hide',
-      children: [image],
-    })
-    // 创建外层容器
-    container = new Box({
-      id: 'screenshot-box',
-      overflow: 'hide',
-      strokeAlign: 'outside',
-      scale: 1,
-      fill: '#ffffff00',
-      children: [box],
-    })
-    // 添加到父元素
-    editorStore.getFrame?.add(container)
     // 设置图像填充
     updateImageSource()
     updatePadding()
