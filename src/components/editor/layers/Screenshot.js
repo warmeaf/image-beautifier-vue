@@ -1,312 +1,192 @@
-import { defineComponent, onUnmounted, watch, h } from 'vue'
+import { defineComponent, onUnmounted, reactive, computed, h } from 'vue'
 import { Box, Rect } from 'leafer-ui'
 import { debounce } from 'lodash-es'
 
 import stores from '@stores/index'
-
-import macbookpro16 from '@assets/macbook-pro-16.png'
-import macbookair from '@assets/macbook-air.png'
-import imacpro from '@assets/imac-pro.png'
-import ipadpro from '@assets/ipadpro.png'
-import iphonepro from '@assets/iphonepro.png'
-
-import macosIcon from '@utils/macosIcon'
-import { windowDark, windowLight } from '@utils/windowsIcon'
 import { computedSize, getPosition, getMargin } from '@utils/utils'
-
-const info = {
-  macbookpro16: {
-    image: macbookpro16,
-    width: 1920,
-    height: 1266,
-    horizontal: 4 / 5,
-    vertical: 26 / 33,
-    top: 7 / 66,
-  },
-  macbookair: {
-    image: macbookair,
-    width: 1920,
-    height: 1147,
-    horizontal: 396 / 500,
-    vertical: 258 / 299,
-    top: 9 / 299,
-  },
-  imacpro: {
-    image: imacpro,
-    width: 1920,
-    height: 1599,
-    horizontal: 112 / 125,
-    vertical: 252 / 417,
-    top: 29 / 417,
-  },
-  ipadpro: {
-    image: ipadpro,
-    width: 1920,
-    height: 1425,
-    horizontal: 430 / 500,
-    vertical: 302 / 372,
-    top: 35 / 372,
-  },
-  iphonepro: {
-    image: iphonepro,
-    width: 968,
-    height: 1920,
-    horizontal: 214 / 253,
-    vertical: 462 / 500,
-    top: 19 / 500,
-  },
-}
+import { isDeviceFrame, isBarFrame } from '@utils/deviceConfig'
+import { DIMENSIONS, COLORS, TIMING, createShadowConfig } from '@utils/screenshotConstants'
+import { handleFrameStyle } from '@utils/frameHandlers'
+import {
+  createSafeUpdater,
+  setupWatchers,
+  createWatcherConfig,
+  executeInitialUpdates,
+  delayedExecution
+} from '@utils/updateManager'
 
 export default defineComponent({
   setup() {
     const editorStore = stores.useEditorStore()
     const optionStore = stores.useOptionStore()
-    let timer = null
-    let bar = null
-    let image = null
-    let box = null
-    let container = null
+    
+    // 使用响应式对象管理组件状态
+    const state = reactive({
+      timer: null,
+      bar: null,
+      image: null,
+      box: null,
+      container: null
+    })
+    
     const createSnap = debounce(() => {
       editorStore.createSnap('update')
-    }, 100)
-
-    image = new Rect({
-      origin: 'center',
-    })
-    // 创建容器盒子
-    box = new Box({
-      overflow: 'hide',
-      children: [image],
-    })
-    // 创建外层容器
-    container = new Box({
-      id: 'screenshot-box',
-      overflow: 'hide',
-      strokeAlign: 'outside',
-      scale: 1,
-      fill: '#ffffff00',
-      children: [box],
-    })
-    // 添加到父元素
-    editorStore.getFrame?.add(container)
-
-    // 更新图像填充
-    const updateImageFill = () => {
-      if (!image) return
-
-      image.fill = {
-        type: 'image',
-        url: optionStore.img.src,
-        align: optionStore.mode === 'fit' ? 'center' : 'top',
-        mode: optionStore.mode,
-      }
-      createSnap()
-    }
-    // 更新内边距
-    const updatePadding = () => {
-      if (!box) return
-
-      if (optionStore.padding === 0 && !info[optionStore.frame]) {
-        box.fill = '#ffffff00'
-      } else {
-        box.fill = optionStore.paddingBg
-      }
-      createSnap()
-    }
-    // 更新圆角
-    const updateRound = () => {
-      if (!container || !image) return
-
-      const { round } = optionStore
-      container.cornerRadius = round
-      if (!bar || info[optionStore.frame]) {
-        image.cornerRadius = round
-      }
-      createSnap()
-    }
-    // 更新阴影
-    const updateShadow = () => {
-      if (!container) return
-
-      const { shadow } = optionStore
-      if (shadow === 0 || optionStore.frame === 'macbookpro16') {
-        container.shadow = null
-      } else {
-        container.shadow = {
-          x: shadow * 4,
-          y: shadow * 4,
-          blur: shadow * 3,
-          color: '#00000045',
-          box: true,
-        }
-      }
-      createSnap()
-    }
-    // 更新缩放
-    const updateScale = () => {
-      if (!container) return
-
-      container.scale = optionStore.scale
-      createSnap()
-    }
-    // 更新图像源
-    const updateImageSource = () => {
-      if (!image) return
-
-      image.url = optionStore.img.src
-      updateImageFill()
-    }
-    // 更新X轴缩放
-    const updateScaleX = () => {
-      if (!image) return
-
-      image.scaleX = optionStore.scaleX ? -1 : 1
-      createSnap()
-    }
-    // 更新Y轴缩放
-    const updateScaleY = () => {
-      if (!image) return
-
-      image.scaleY = optionStore.scaleY ? -1 : 1
-      createSnap()
-    }
-
-    const handleClear = (round, shadow) => {
-      container.strokeWidth = null
-      container.stroke = null
-      bar?.remove()
-      bar = null
-      box.cornerRadius = null
-      image.cornerRadius = round
-      container.cornerRadius = round
-      container.shadow = {
-        x: shadow * 4,
-        y: shadow * 4,
-        blur: shadow * 3,
-        color: '#00000045',
-        box: true,
-      }
-    }
-    // 更新框架设置
-    const updateFrameSettings = () => {
-      if (!container || !box || !image) return
-
-      const { align, frame, frameConf, shadow, round, padding } = optionStore
-
-      const { img } = optionStore
+    }, TIMING.DEBOUNCE_DELAY)
+    
+    // 计算属性：尺寸配置
+    const computedDimensions = computed(() => {
+      const { img, frameConf } = optionStore
       const margin = getMargin(frameConf.width, frameConf.height)
-      const { width, height } = computedSize(
+      return computedSize(
         img.width,
         img.height,
         frameConf.width - margin,
         frameConf.height - margin
       )
+    })
+    
+    // 计算属性：阴影配置
+    const shadowConfig = computed(() => {
+      const { shadow } = optionStore
+      return optionStore.frame === 'macbookpro16' ? null : createShadowConfig(shadow)
+    })
+
+    // 初始化元素
+    const initializeElements = () => {
+      state.image = new Rect({
+        origin: 'center'
+      })
+      
+      state.box = new Box({
+        overflow: 'hide',
+        children: [state.image]
+      })
+      
+      state.container = new Box({
+        id: 'screenshot-box',
+        overflow: 'hide',
+        strokeAlign: 'outside',
+        scale: 1,
+        fill: COLORS.TRANSPARENT,
+        children: [state.box]
+      })
+      
+      editorStore.getFrame?.add(state.container)
+    }
+    
+    initializeElements()
+
+    // 更新函数：图像填充
+    const updateImageFill = createSafeUpdater(() => {
+      state.image.fill = {
+        type: 'image',
+        url: optionStore.img.src,
+        align: optionStore.mode === 'fit' ? 'center' : 'top',
+        mode: optionStore.mode
+      }
+    }, [state.image], createSnap)
+    
+    // 更新函数：内边距
+    const updatePadding = createSafeUpdater(() => {
+      if (optionStore.padding === 0 && !isDeviceFrame(optionStore.frame)) {
+        state.box.fill = COLORS.TRANSPARENT
+      } else {
+        state.box.fill = optionStore.paddingBg
+      }
+    }, [state.box], createSnap)
+    
+    // 更新函数：圆角
+    const updateRound = createSafeUpdater(() => {
+      const { round } = optionStore
+      state.container.cornerRadius = round
+      if (!state.bar || isDeviceFrame(optionStore.frame)) {
+        state.image.cornerRadius = round
+      }
+    }, [state.container, state.image], createSnap)
+    
+    // 更新函数：阴影
+    const updateShadow = createSafeUpdater(() => {
+      state.container.shadow = shadowConfig.value
+    }, [state.container], createSnap)
+    
+    // 更新函数：缩放
+    const updateScale = createSafeUpdater(() => {
+      state.container.scale = optionStore.scale
+    }, [state.container], createSnap)
+    
+    // 更新函数：图像源
+    const updateImageSource = () => {
+      if (!state.image) return
+      state.image.url = optionStore.img.src
+      updateImageFill()
+    }
+    
+    // 更新函数：X轴翻转
+    const applyHorizontalFlip = createSafeUpdater(() => {
+      state.image.scaleX = optionStore.scaleX ? -1 : 1
+    }, [state.image], createSnap)
+    
+    // 更新函数：Y轴翻转
+    const applyVerticalFlip = createSafeUpdater(() => {
+      state.image.scaleY = optionStore.scaleY ? -1 : 1
+    }, [state.image], createSnap)
+
+    // 清理框架样式
+    const clearFrameStyles = (round, shadow) => {
+      state.container.strokeWidth = null
+      state.container.stroke = null
+      state.bar?.remove()
+      state.bar = null
+      state.box.cornerRadius = null
+      state.image.cornerRadius = round
+      state.container.cornerRadius = round
+      state.container.shadow = createShadowConfig(shadow)
+    }
+    // 更新框架设置
+    const updateFrameSettings = createSafeUpdater(() => {
+      const { align, frame, frameConf, shadow, round, padding } = optionStore
+      const { width, height } = computedDimensions.value
+      
       let totalHeight = height
       let boxX = 0
       let boxY = 0
       let boxWidth = width
       let boxHeight = height
 
-      handleClear(round, shadow)
+      clearFrameStyles(round, shadow)
 
-      // 根据frame类型设置不同的样式
-      switch (frame) {
-        case 'light':
-          container.strokeWidth = 8
-          container.stroke = '#ffffff80'
-          break
-        case 'dark':
-          container.strokeWidth = 8
-          container.stroke = '#00000050'
-          break
-        case 'macosBarLight':
-        case 'macosBarDark':
-        case 'windowsBarLight':
-        case 'windowsBarDark':
-          totalHeight += 32
-          boxY = 32
-          const barUrl = {
-            mac: {
-              type: 'image',
-              url: macosIcon,
-              format: 'svg',
-              mode: 'clip',
-              offset: { x: 10, y: 0 },
-            },
-            windowsBarLight: {
-              type: 'image',
-              url: windowDark,
-              format: 'svg',
-              mode: 'clip',
-              offset: { x: width - 105, y: 0 },
-            },
-            windowsBarDark: {
-              type: 'image',
-              url: windowLight,
-              format: 'svg',
-              mode: 'clip',
-              offset: { x: width - 105, y: 0 },
-            },
+      // 使用框架处理器处理不同类型的框架
+      const frameResult = handleFrameStyle(frame, {
+        container: state.container,
+        width,
+        height
+      })
+
+      if (frameResult) {
+        state.bar = frameResult.bar
+        
+        if (isBarFrame(frame)) {
+          totalHeight += frameResult.totalHeight
+          boxY = frameResult.boxY
+          state.container.addAfter(state.bar, state.box)
+          if (frameResult.clearCornerRadius) {
+            state.box.cornerRadius = null
+            state.image.cornerRadius = null
           }
-          bar = new Rect({
-            x: 0,
-            y: 0,
-            height: 32,
-            width: width,
-            fill: [
-              {
-                type: 'solid',
-                color: frame.includes('Dark') ? '#3a3a3b' : '#ffffff',
-              },
-              barUrl[frame] || barUrl.mac,
-            ],
-          })
-          container.addAfter(bar, box)
-          box.cornerRadius = null
-          image.cornerRadius = null
-          break
-        case 'macbookpro16':
-        case 'macbookair':
-        case 'imacpro':
-        case 'ipadpro':
-        case 'iphonepro':
-          const device = info[frame]
-          const bgSize = computedSize(
-            device.width,
-            device.height,
-            width,
-            height
-          )
-          bar = new Rect({
-            x: 0,
-            y: 0,
-            height,
-            width,
-            fill: [
-              {
-                type: 'image',
-                url: device.image,
-                align: 'center',
-                mode: 'clip',
-                size: {
-                  width: bgSize.width,
-                  height: bgSize.height,
-                },
-              },
-            ],
-          })
-          boxWidth = bgSize.width * device.horizontal
-          boxHeight = bgSize.height * device.vertical
-          boxX = (width - boxWidth) / 2
-          boxY = bgSize.height * device.top + (height - bgSize.height) / 2
-          container.shadow = null
-          box.cornerRadius =
-            frame === 'iphonepro' ? (bgSize.width * 1) / 10 : null
-          container.addAfter(bar, box)
-          break
-        default:
-          container.strokeWidth = null
-          container.stroke = null
+        } else if (isDeviceFrame(frame)) {
+          boxWidth = frameResult.boxWidth
+          boxHeight = frameResult.boxHeight
+          boxX = frameResult.boxX
+          boxY = frameResult.boxY
+          state.container.addAfter(state.bar, state.box)
+          
+          if (frameResult.clearShadow) {
+            state.container.shadow = null
+          }
+          if (frameResult.cornerRadius !== undefined) {
+            state.box.cornerRadius = frameResult.cornerRadius
+          }
+        }
       }
 
       // 设置位置和尺寸
@@ -315,67 +195,86 @@ export default defineComponent({
         frameConf.width - width,
         frameConf.height - totalHeight
       )
-      container.width = width
-      container.height = totalHeight
-      container.origin = align
-      container.x = x
-      container.y = y
-      box.width = boxWidth
-      box.height = boxHeight
-      box.x = boxX
-      box.y = boxY
+      
+      // 应用容器配置
+      Object.assign(state.container, {
+        width,
+        height: totalHeight,
+        origin: align,
+        x,
+        y
+      })
+      
+      // 应用盒子配置
+      Object.assign(state.box, {
+        width: boxWidth,
+        height: boxHeight,
+        x: boxX,
+        y: boxY
+      })
+      
+      // 计算并应用图像配置
       const imageWidth = boxWidth - padding
-      const imageheight = Math.round((imageWidth * boxHeight) / boxWidth)
-      image.width = imageWidth + 2 // 解决有缝隙的问题
-      image.height = imageheight + 2
-      image.x = padding / 2 - 1
-      image.y = (boxHeight - imageheight) / 2 - 1
-      createSnap()
-    }
-    // 监听属性变化
-    watch(() => optionStore.mode, updateImageFill)
-    watch(
-      [() => optionStore.paddingBg, () => optionStore.padding],
-      updatePadding
-    )
-    watch(() => optionStore.round, updateRound)
-    watch(() => optionStore.shadow, updateShadow)
-    watch(() => optionStore.scale, updateScale)
-    watch(() => optionStore.img.src, updateImageSource)
-    watch(() => optionStore.scaleX, updateScaleX)
-    watch(() => optionStore.scaleY, updateScaleY)
-    watch(
-      [
-        () => optionStore.frameConf.width,
-        () => optionStore.frameConf.height,
-        () => optionStore.padding,
-        () => optionStore.align,
-        () => optionStore.frame,
-      ],
-      updateFrameSettings
-    )
+      const imageHeight = Math.round((imageWidth * boxHeight) / boxWidth)
+      
+      Object.assign(state.image, {
+        width: imageWidth + DIMENSIONS.IMAGE_OFFSET,
+        height: imageHeight + DIMENSIONS.IMAGE_OFFSET,
+        x: padding / 2 - 1,
+        y: (boxHeight - imageHeight) / 2 - 1
+      })
+    }, [state.container, state.box, state.image], createSnap)
+    // 配置监听器
+    const watcherConfigs = [
+      createWatcherConfig(() => optionStore.mode, updateImageFill),
+      createWatcherConfig(
+        [() => optionStore.paddingBg, () => optionStore.padding],
+        updatePadding
+      ),
+      createWatcherConfig(() => optionStore.round, updateRound),
+      createWatcherConfig(() => optionStore.shadow, updateShadow),
+      createWatcherConfig(() => optionStore.scale, updateScale),
+      createWatcherConfig(() => optionStore.img.src, updateImageSource),
+      createWatcherConfig(() => optionStore.scaleX, applyHorizontalFlip),
+      createWatcherConfig(() => optionStore.scaleY, applyVerticalFlip),
+      createWatcherConfig(
+        [
+          () => optionStore.frameConf.width,
+          () => optionStore.frameConf.height,
+          () => optionStore.padding,
+          () => optionStore.align,
+          () => optionStore.frame
+        ],
+        updateFrameSettings
+      )
+    ]
+    
+    // 批量注册监听器
+    setupWatchers(watcherConfigs)
 
-    // 设置图像填充
-    updateImageSource()
-    updatePadding()
-    updateRound()
-    updateShadow()
-    updateScale()
-    updateFrameSettings()
-    timer = setTimeout(() => {
-      updateScaleX()
-      updateScaleY()
-    }, 0)
+    // 执行初始化更新
+    const initialUpdates = [
+      updateImageSource,
+      updatePadding,
+      updateRound,
+      updateShadow,
+      updateScale,
+      updateFrameSettings
+    ]
+    
+    executeInitialUpdates(initialUpdates)
+    
+    // 延迟执行翻转更新
+    state.timer = delayedExecution(
+      [applyHorizontalFlip, applyVerticalFlip],
+      TIMING.SCALE_UPDATE_DELAY
+    )
 
     // 组件卸载时清理
     onUnmounted(() => {
-      clearTimeout(timer)
-      if (container) {
-        container.remove()
-      }
-      if (bar) {
-        bar.remove()
-      }
+      clearTimeout(state.timer)
+      state.container?.remove()
+      state.bar?.remove()
     })
   },
   // 设置 render 仅仅是为了不弹出 Vue 警告
