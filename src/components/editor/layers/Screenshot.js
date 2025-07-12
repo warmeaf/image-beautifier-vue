@@ -20,7 +20,6 @@ export default defineComponent({
     const editorStore = stores.useEditorStore()
     const optionStore = stores.useOptionStore()
     
-    // 使用响应式对象管理组件状态
     const state = reactive({
       timer: null,
       bar: null,
