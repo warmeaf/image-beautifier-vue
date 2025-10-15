@@ -8,6 +8,7 @@ const resolve = (url) => path.resolve(__dirname, url)
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: './', // 使用相对路径，确保打包后可以在任何路径下正常访问
   server: {
     port: 5411,
   },
