@@ -22,14 +22,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Setup Node.js 24.4.1
+      - name: Setup Node.js and pnpm
         uses: actions/setup-node@v4
         with:
           node-version: '24.4.1'
           cache: 'pnpm'
-
-      - name: Install pnpm
-        run: npm install -g pnpm@latest
+          cache-dependency-path: 'pnpm-lock.yaml'
 
       - name: Install dependencies
         run: pnpm install
