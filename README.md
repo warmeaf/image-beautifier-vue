@@ -1,3 +1,7 @@
+# image-beautifier-vue
+
+预览地址: https://warmeaf.github.io/image-beautifier-vue/
+
 ## 一、说明
 
 image-beautifier 是一款开源的截图美化工具，地址：[https://github.com/CH563/image-beautifier](https://github.com/CH563/image-beautifier)。基于`react`和`mobx`构建，这是基于`vue3`和`pinia`的版本
