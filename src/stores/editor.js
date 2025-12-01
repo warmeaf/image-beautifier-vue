@@ -12,7 +12,6 @@ export const useEditorStore = defineStore('editor', {
     strokeWidth: 4,
     shapes: new Map(),
     message: null,
-    theme: 'light',
     clearFun: null,
     snap: null,
   }),
@@ -40,9 +39,6 @@ export const useEditorStore = defineStore('editor', {
       const maxItem = maxBy(steps, (item) => Number(item.text))
       if (maxItem?.text) return Number(maxItem.text) + 1
       return 1
-    },
-    isDark(state) {
-      return state.theme === 'dark'
     },
     getShape(state) {
       return (id) => {
@@ -72,14 +68,6 @@ export const useEditorStore = defineStore('editor', {
         this.snap = image
       }
       ex()
-    },
-    setTheme(value) {
-      if (value === this.theme) return
-      if (value) {
-        this.theme = value
-      } else {
-        this.theme = this.isDark ? 'light' : 'dark'
-      }
     },
     setInvalid() {
       clearTimeout(timer)

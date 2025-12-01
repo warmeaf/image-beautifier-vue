@@ -5,10 +5,7 @@
     placement="bottomRight"
     :open="open"
     :overlay-class-name="
-      cn(
-        'shoteasy-components [&_.ant-popover-inner]:h-full [&_.ant-popover-inner]:overflow-x-hidden [&_.ant-popover-inner]:overflow-y-auto [&_.ant-popover-content]:h-full',
-        editorStore.isDark && 'dark-mode'
-      )
+      'shoteasy-components [&_.ant-popover-inner]:h-full [&_.ant-popover-inner]:overflow-x-hidden [&_.ant-popover-inner]:overflow-y-auto [&_.ant-popover-content]:h-full'
     "
     :overlay-style="{
       width: '400px',
@@ -19,14 +16,14 @@
     <div
       :class="
         cn(
-          'px-3 py-1.5 border shrink-0 border-gray-200 dark:border-gray-700 gap-3 shadow-xs overflow-hidden max-h-12 rounded-md hover:border-blue-500 [&_svg]:hover:text-blue-500 cursor-pointer flex items-center',
+          'px-3 py-1.5 border shrink-0 border-gray-200 gap-3 shadow-xs overflow-hidden max-h-12 rounded-md hover:border-blue-500 [&_svg]:hover:text-blue-500 cursor-pointer flex items-center',
           open && 'shadow-sm'
         )
       "
       ref="boxRef"
     >
       <div
-        class="border border-black/50 bg-black/10 dark:bg-white/20 dark:border-white/40 w-4 rounded-sm"
+        class="border border-black/50 bg-black/10 w-4 rounded-sm"
         :style="{
           aspectRatio:
             optionStore.frameConf.width / optionStore.frameConf.height,
@@ -59,8 +56,7 @@
     </template>
     <template #content>
       <div
-        class="border-t border-gray-200 dark:border-gray-800 py-2 divide-y divide-gray-200 dark:divide-gray-700"
-        :data-mode="editorStore.isDark ? 'dark' : 'light'"
+        class="border-t border-gray-200 py-2 divide-y divide-gray-200"
       >
         <div v-for="item in sizeConfig" :key="item.key">
           <div v-if="item.key !== 'default'" class="font-semibold pt-2">
@@ -81,7 +77,7 @@
             >
               <div class="py-2 px-3 w-full">
                 <div
-                  class="border border-black/50 bg-black/10 dark:bg-white/20 dark:border-white/40 w-full flex items-center justify-center rounded-md opacity-75"
+                  class="border border-black/50 bg-black/10 w-full flex items-center justify-center rounded-md opacity-75"
                   :style="{ aspectRatio: child.w / child.h }"
                 >
                   <span>{{ child.w }} : {{ child.h }}</span>

@@ -1,11 +1,11 @@
 <template>
-  <div class="flex-1 flex justify-end items-end gap-2 dark:text-gray-300">
+  <div class="flex-1 flex justify-end items-end gap-2">
     <slot />
     <a
       href="https://github.com/warmeaf/image-beautifier-vue"
       target="_blank"
       aria-label="GitHub"
-      class="block rounded-full p-2 hover:bg-slate-100 dark:hover:bg-slate-700"
+      class="block rounded-full p-2 hover:bg-slate-100"
     >
       <svg
         viewBox="64 64 896 896"

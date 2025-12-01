@@ -3,7 +3,7 @@ import { DEVICE_INFO } from './deviceConfig'
 import { DIMENSIONS, COLORS, ICON_OFFSETS, getBorderConfig } from './screenshotConstants'
 import { computedSize } from './utils'
 import macosIcon from '@utils/macosIcon'
-import { windowDark, windowLight } from '@utils/windowsIcon'
+import { windowLight } from '@utils/windowsIcon'
 
 /**
  * 处理简单边框框架
@@ -31,21 +31,7 @@ export const createBarFrame = (frameType, width) => {
       mode: 'clip',
       offset: ICON_OFFSETS.MACOS
     },
-    macosBarDark: {
-      type: 'image',
-      url: macosIcon,
-      format: 'svg',
-      mode: 'clip',
-      offset: ICON_OFFSETS.MACOS
-    },
     windowsBarLight: {
-      type: 'image',
-      url: windowDark,
-      format: 'svg',
-      mode: 'clip',
-      offset: { x: width - DIMENSIONS.WINDOWS_ICON_OFFSET, y: 0 }
-    },
-    windowsBarDark: {
       type: 'image',
       url: windowLight,
       format: 'svg',
@@ -55,7 +41,6 @@ export const createBarFrame = (frameType, width) => {
   }
 
   const barConfig = barUrlConfigs[frameType] || barUrlConfigs.macosBarLight
-  const isDark = frameType.includes('Dark')
 
   const bar = new Rect({
     x: 0,
@@ -65,7 +50,7 @@ export const createBarFrame = (frameType, width) => {
     fill: [
       {
         type: 'solid',
-        color: isDark ? COLORS.BAR_DARK : COLORS.BAR_LIGHT
+        color: COLORS.BAR_LIGHT
       },
       barConfig
     ]
@@ -137,11 +122,8 @@ export const createDeviceFrame = (frameType, width, height) => {
  */
 export const frameHandlers = {
   light: handleBorderFrame,
-  dark: handleBorderFrame,
   macosBarLight: createBarFrame,
-  macosBarDark: createBarFrame,
   windowsBarLight: createBarFrame,
-  windowsBarDark: createBarFrame,
   macbookpro16: createDeviceFrame,
   macbookair: createDeviceFrame,
   imacpro: createDeviceFrame,
@@ -161,7 +143,7 @@ export const handleFrameStyle = (frameType, params) => {
     return null
   }
 
-  if (frameType === 'light' || frameType === 'dark') {
+  if (frameType === 'light') {
     handler(params.container, frameType)
     return null
   }

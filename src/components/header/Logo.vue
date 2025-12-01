@@ -2,7 +2,7 @@
   <h1>
     <a
       aria-label="ShotEasy"
-      class="flex gap-1 text-gray-700 dark:text-gray-300 items-center text-xs font-semibold"
+      class="flex gap-1 text-gray-700 items-center text-xs font-semibold"
     >
       <svg
         width="20"

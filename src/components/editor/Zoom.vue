@@ -1,7 +1,7 @@
 <template>
   <div class="absolute z-10 bottom-4 gap-2 right-4 flex items-center">
     <div
-      class="flex bg-white dark:bg-black overflow-hidden rounded-full shadow-md"
+      class="flex bg-white overflow-hidden rounded-full shadow-md"
     >
       <a-button
         type="text"
@@ -42,7 +42,7 @@
         "
       />
     </div>
-    <div class="rounded-full bg-white dark:bg-black shadow-md overflow-hidden">
+    <div class="rounded-full bg-white shadow-md overflow-hidden">
       <a-button
         type="text"
         class="icon-btn"

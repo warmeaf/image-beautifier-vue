@@ -51,7 +51,7 @@ export const isDeviceFrame = (frameType) => {
  * @returns {boolean}
  */
 export const isBarFrame = (frameType) => {
-  return ['macosBarLight', 'macosBarDark', 'windowsBarLight', 'windowsBarDark'].includes(frameType)
+  return ['macosBarLight', 'windowsBarLight'].includes(frameType)
 }
 
 /**
@@ -60,5 +60,5 @@ export const isBarFrame = (frameType) => {
  * @returns {boolean}
  */
 export const isBorderFrame = (frameType) => {
-  return ['light', 'dark'].includes(frameType)
+  return ['light'].includes(frameType)
 }

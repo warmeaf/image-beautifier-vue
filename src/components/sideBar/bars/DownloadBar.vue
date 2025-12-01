@@ -4,7 +4,7 @@
       :theme="{
         components: {
           Button: {
-            colorPrimary: editorStore.isDark ? '#2b4acb' : '#000',
+            colorPrimary: '#000',
           },
         },
       }"
@@ -20,11 +20,7 @@
             :loading="loading"
             :icon="h(Icon.ImageDown, { size: 18 })"
             @click="toDownload"
-            class="icon-btn rounded-se-none! flex-1! rounded-ee-none! me-[-1px]! hover:z-[1]! border-r-white/30!"
-            :class="{
-              'hover:bg-[#4a67c5]!': editorStore.isDark,
-              'hover:bg-[#0d0d0d]!': !editorStore.isDark,
-            }"
+            class="icon-btn rounded-se-none! flex-1! rounded-ee-none! me-[-1px]! hover:z-[1]! border-r-white/30! hover:bg-[#0d0d0d]!"
           >
             <div class="leading-4 px-2">
               <div class="text-sm leading-4 font-semibold">Download</div>
@@ -44,10 +40,6 @@
             :icon="h(Icon.Copy, { size: 18 })"
             :loading="loading"
             class="icon-btn rounded-ss-none! rounded-es-none! border-l-white/30! hover:bg-[#0d0d0d]!"
-            :class="{
-              'hover:bg-[#4a67c5]!': editorStore.isDark,
-              'hover:bg-[#0d0d0d]!': !editorStore.isDark,
-            }"
             @click="toCopy"
           />
         </a-tooltip>

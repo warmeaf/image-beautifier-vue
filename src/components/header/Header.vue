@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex items-center justify-center shrink-0 gap-3 bg-white dark:bg-black py-2 px-5 border-b border-b-gray-50 dark:border-b-gray-700 shadow-xs relative z-[11] select-none"
+    class="flex items-center justify-center shrink-0 gap-3 bg-white py-2 px-5 border-b border-b-gray-50 shadow-xs relative z-[11] select-none"
   >
     <div class="flex-1">
       <e-logo />
@@ -14,7 +14,7 @@
           :emoji-mart-props="{
             data: data,
             locale: 'en',
-            theme: editorStore.isDark ? 'dark' : 'light',
+            theme: 'light',
             onEmojiSelect: handleSelectEmoji,
           }"
         />
@@ -53,18 +53,6 @@
       />
     </div>
     <media-logo>
-      <!-- 关闭主题切换 -->
-      <!-- <a-button
-        type="text"
-        shape="circle"
-        class="icon-btn"
-        :icon="
-          editorStore.isDark
-            ? h(Icon.Moon, { size: 16 })
-            : h(Icon.Sun, { size: 16 })
-        "
-        @click="handleSetTheme"
-      /> -->
     </media-logo>
   </div>
 </template>
@@ -129,7 +117,7 @@ const getIcon = (item) => {
       {
         key: item,
         class:
-          'border text-xs border-black dark:border-white w-4 h-4 rounded-full text-center leading-4',
+          'border text-xs border-black w-4 h-4 rounded-full text-center leading-4',
       },
       editorStore.nextStep
     )
@@ -158,10 +146,6 @@ const handleColorChange = (tinyColor) => {
 }
 const handleWidthChange = (width) => {
   editorStore.setStrokeWidth(width)
-}
-const handleSetTheme = () => {
-  editorStore.setTheme()
-  localStorage.setItem('SHOTEASY_BEAUTIFIER_THEME', editorStore.theme)
 }
 const handleSelectEmoji = ({ native }) => {
   if (!editorStore.isEditing) return

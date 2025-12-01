@@ -5,7 +5,7 @@
     <div :class="cn('max-w-[600px]', editorStore.invalid && 'invalid')">
       <a-upload-dragger
         name="file"
-        class="p-4! rounded-md! bg-white dark:bg-black! dark:text-gray-400! block! shadow-xs!"
+        class="p-4! rounded-md! bg-white block! shadow-xs!"
         :show-upload-list="false"
         :accept="supportImg.join(',')"
         :before-upload="beforeUpload"
@@ -20,7 +20,7 @@
         </div>
       </a-upload-dragger>
       <div
-        class="flex justify-between mt-2 py-4 px-6 rounded-md bg-white dark:bg-black shadow-xs"
+        class="flex justify-between mt-2 py-4 px-6 rounded-md bg-white shadow-xs"
       >
         <a-tooltip
           v-for="(item, index) in toolButtons"
@@ -39,7 +39,7 @@
         </a-tooltip>
       </div>
       <button
-        class="w-full mt-1 rounded-md bg-white dark:bg-black border border-dotted dark:border-gray-700 shadow-xs flex justify-between items-center p-1 hover:bg-slate-50 dark:hover:bg-gray-900 hover:px-1.5"
+        class="w-full mt-1 rounded-md bg-white border border-dotted shadow-xs flex justify-between items-center p-1 hover:bg-slate-50 hover:px-1.5"
         @click="handleTry"
       >
         <div class="overflow-hidden rounded-sm w-8">

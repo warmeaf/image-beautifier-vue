@@ -3,9 +3,7 @@
     trigger="click"
     :arrow="false"
     placement="bottomRight"
-    :overlayClassName="
-      cn('shoteasy-components', editorStore.isDark && 'dark-mode')
-    "
+    :overlayClassName="cn('shoteasy-components')"
     :open="open"
     @openChange="handleOpenChange"
   >

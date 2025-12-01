@@ -21,9 +21,7 @@ export const SHADOW_CONFIG = {
 export const COLORS = {
   TRANSPARENT: '#ffffff00',
   LIGHT_STROKE: '#ffffff80',
-  DARK_STROKE: '#00000050',
-  BAR_LIGHT: '#ffffff',
-  BAR_DARK: '#3a3a3b'
+  BAR_LIGHT: '#ffffff'
 }
 
 // 时间配置
@@ -64,10 +62,6 @@ export const getBorderConfig = (frameType) => {
     light: {
       strokeWidth: DIMENSIONS.STROKE_WIDTH,
       stroke: COLORS.LIGHT_STROKE
-    },
-    dark: {
-      strokeWidth: DIMENSIONS.STROKE_WIDTH,
-      stroke: COLORS.DARK_STROKE
     }
   }
   

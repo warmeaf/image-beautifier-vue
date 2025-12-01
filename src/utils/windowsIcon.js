@@ -5,4 +5,3 @@ const svg = (color = '#ffffff') => `
 `;
 
 export const windowLight = svgToDataURL(svg());
-export const windowDark = svgToDataURL(svg('#000000'));
