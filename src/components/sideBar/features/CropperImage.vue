@@ -25,9 +25,8 @@
 </template>
 
 <script setup>
-import { h, ref } from 'vue'
-
 import Icon from '@components/Icon'
+import { h, ref } from 'vue'
 
 import { VueCropper } from 'vue-cropper'
 import 'vue-cropper/dist/index.css'

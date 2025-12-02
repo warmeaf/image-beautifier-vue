@@ -57,11 +57,12 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue'
-import Icon from '@components/Icon'
 import ColorPicker from '@components/ColorPicker'
-import { text2Svg } from '@utils/utils'
+import Icon from '@components/Icon'
 import stores from '@stores/index'
+import { text2Svg } from '@utils/utils'
+import { ref, watch } from 'vue'
+
 const ArrowUpRight = Icon.ArrowUpRight
 const ArrowDownRight = Icon.ArrowDownRight
 

@@ -1,6 +1,6 @@
-import { ref } from 'vue'
-import { toDownloadFile } from '@utils/utils'
 import { EXPORT_CONFIG } from '@constants/export'
+import { toDownloadFile } from '@utils/utils'
+import { ref } from 'vue'
 
 /**
  * 导出功能 composable
@@ -96,13 +96,10 @@ export function useExport(editorStore, messageHandlers) {
     loading.value = true
 
     try {
-      const result = await editorStore.app.tree.export(
-        EXPORT_CONFIG.FORMATS.PNG,
-        {
-          blob: true,
-          pixelRatio: pixelRatio.value,
-        }
-      )
+      const result = await editorStore.app.tree.export(EXPORT_CONFIG.FORMATS.PNG, {
+        blob: true,
+        pixelRatio: pixelRatio.value,
+      })
       const { data } = result
       await navigator.clipboard.write([
         new ClipboardItem({
@@ -144,4 +141,3 @@ export function useExport(editorStore, messageHandlers) {
     setPixelRatio,
   }
 }
-

@@ -13,9 +13,9 @@
 </template>
 
 <script setup>
-import { SizeBar, FrameBar, QuickActionsBar } from './bars'
-import { ScaleControl, PaddingControl, RoundedControl, ShadowControl } from './controls'
 import { BackgroundSelector } from './background'
+import { FrameBar, QuickActionsBar, SizeBar } from './bars'
+import { PaddingControl, RoundedControl, ScaleControl, ShadowControl } from './controls'
 import { WaterMark } from './features'
 
 defineEmits(['showMore'])

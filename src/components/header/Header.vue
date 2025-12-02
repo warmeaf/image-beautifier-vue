@@ -58,19 +58,18 @@
 </template>
 
 <script setup>
-import { ref, h, computed } from 'vue'
-import { icons } from 'lucide-vue-next'
-import data from '@emoji-mart/data'
-import { nanoid } from '@utils/utils'
-
-import ELogo from '@components/header/Logo'
-import Icon from '@components/Icon'
 import ColorPicker from '@components/ColorPicker'
-import WidthDropdown from '@components/header/WidthDropdown'
-import MediaLogo from '@components/header/MediaLogo'
 import EmojiSelect from '@components/header/EmojiSelect'
-
+import ELogo from '@components/header/Logo'
+import MediaLogo from '@components/header/MediaLogo'
+import WidthDropdown from '@components/header/WidthDropdown'
+import Icon from '@components/Icon'
+import data from '@emoji-mart/data'
 import stores from '@stores/index'
+import { nanoid } from '@utils/utils'
+import { icons } from 'lucide-vue-next'
+import { computed, h, ref } from 'vue'
+
 const editorStore = stores.useEditorStore()
 const optionStore = stores.useOptionStore()
 
@@ -116,8 +115,7 @@ const getIcon = (item) => {
       'div',
       {
         key: item,
-        class:
-          'border text-xs border-black w-4 h-4 rounded-full text-center leading-4',
+        class: 'border text-xs border-black w-4 h-4 rounded-full text-center leading-4',
       },
       editorStore.nextStep
     )

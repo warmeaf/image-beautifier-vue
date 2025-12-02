@@ -21,4 +21,3 @@ export const EDITOR_CONFIG = {
     AUTO: 'auto',
   },
 }
-

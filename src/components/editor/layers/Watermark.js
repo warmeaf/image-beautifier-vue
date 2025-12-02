@@ -1,6 +1,6 @@
-import { defineComponent, watch, onUnmounted, h } from 'vue'
-import { Rect } from 'leafer-ui'
 import stores from '@stores/index'
+import { Rect } from 'leafer-ui'
+import { defineComponent, h, onUnmounted, watch } from 'vue'
 
 export default defineComponent({
   setup() {

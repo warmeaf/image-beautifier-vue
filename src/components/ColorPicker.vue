@@ -16,8 +16,8 @@
 </template>
 
 <script setup>
-import { computed, h } from 'vue'
 import { TinyColor } from '@ctrl/tinycolor'
+import { computed, h } from 'vue'
 import { ColorPicker } from 'vue3-colorpicker'
 import 'vue3-colorpicker/style.css'
 import Icon from '@components/Icon'
@@ -54,13 +54,9 @@ const handleColorChange = (color) => {
   emit('change', tinyColor)
 
   if (tinyColor.getAlpha() === 0) {
-    document
-      .querySelector('.current-color')
-      ?.classList.add('current-color__transparent')
+    document.querySelector('.current-color')?.classList.add('current-color__transparent')
   } else {
-    document
-      .querySelector('.current-color')
-      ?.classList.remove('current-color__transparent')
+    document.querySelector('.current-color')?.classList.remove('current-color__transparent')
   }
 }
 </script>

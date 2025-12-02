@@ -6,7 +6,9 @@ export const captureScreen = async () => {
     video.play()
 
     // 等待视频帧稳定
-    await new Promise((resolve) => (video.onplaying = resolve))
+    await new Promise((resolve) => {
+      video.onplaying = resolve
+    })
 
     // 创建canvas并绘制当前视频帧
     const canvas = document.createElement('canvas')
@@ -19,7 +21,9 @@ export const captureScreen = async () => {
     const screenshot = canvas.toDataURL('image/png')
 
     // 停止媒体流
-    video.srcObject.getTracks().forEach((track) => track.stop())
+    video.srcObject.getTracks().forEach((track) => {
+      track.stop()
+    })
 
     return screenshot
   } catch (error) {

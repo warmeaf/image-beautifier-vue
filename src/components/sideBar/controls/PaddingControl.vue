@@ -23,8 +23,8 @@
 </template>
 
 <script setup>
-import stores from '@stores/index'
 import ColorPicker from '@components/ColorPicker'
+import stores from '@stores/index'
 
 const optionStore = stores.useOptionStore()
 </script>

@@ -6,12 +6,10 @@ class Magnifier extends Ellipse {
   }
 }
 Magnifier.registerUI()
-Magnifier.setEditConfig(function () {
-  return {
-    middlePoint: null,
-    rotateable: false,
-    lockRatio: true,
-  }
-})
+Magnifier.setEditConfig(() => ({
+  middlePoint: null,
+  rotateable: false,
+  lockRatio: true,
+}))
 
 export default Magnifier

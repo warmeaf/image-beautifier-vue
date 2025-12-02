@@ -8,31 +8,31 @@ export const DIMENSIONS = {
   STROKE_WIDTH: 8,
   IMAGE_OFFSET: 2, // 解决缝隙问题的偏移量
   WINDOWS_ICON_OFFSET: 105,
-  IPHONE_CORNER_RATIO: 0.1
+  IPHONE_CORNER_RATIO: 0.1,
 }
 
 // 阴影配置
 export const SHADOW_CONFIG = {
   MULTIPLIER: { x: 4, y: 4, blur: 3 },
-  COLOR: '#00000045'
+  COLOR: '#00000045',
 }
 
 // 颜色配置
 export const COLORS = {
   TRANSPARENT: '#ffffff00',
   LIGHT_STROKE: '#ffffff80',
-  BAR_LIGHT: '#ffffff'
+  BAR_LIGHT: '#ffffff',
 }
 
 // 时间配置
 export const TIMING = {
   DEBOUNCE_DELAY: 100,
-  SCALE_UPDATE_DELAY: 0
+  SCALE_UPDATE_DELAY: 0,
 }
 
 // 图标偏移配置
 export const ICON_OFFSETS = {
-  MACOS: { x: 10, y: 0 }
+  MACOS: { x: 10, y: 0 },
 }
 
 /**
@@ -42,13 +42,13 @@ export const ICON_OFFSETS = {
  */
 export const createShadowConfig = (shadow) => {
   if (shadow === 0) return null
-  
+
   return {
     x: shadow * SHADOW_CONFIG.MULTIPLIER.x,
     y: shadow * SHADOW_CONFIG.MULTIPLIER.y,
     blur: shadow * SHADOW_CONFIG.MULTIPLIER.blur,
     color: SHADOW_CONFIG.COLOR,
-    box: true
+    box: true,
   }
 }
 
@@ -61,9 +61,9 @@ export const getBorderConfig = (frameType) => {
   const configs = {
     light: {
       strokeWidth: DIMENSIONS.STROKE_WIDTH,
-      stroke: COLORS.LIGHT_STROKE
-    }
+      stroke: COLORS.LIGHT_STROKE,
+    },
   }
-  
+
   return configs[frameType] || { strokeWidth: null, stroke: null }
 }

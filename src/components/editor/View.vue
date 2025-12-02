@@ -22,28 +22,13 @@
 </template>
 
 <script setup>
-import {
-  watch,
-  computed,
-  nextTick,
-  ref,
-  onMounted,
-  onBeforeUnmount,
-  unref,
-} from 'vue'
-import { debounce } from 'lodash-es'
-import { addListener, removeListener } from 'resize-detector'
-import {
-  App,
-  ResizeEvent,
-  ZoomEvent,
-  DragEvent,
-  PointerEvent,
-  Cursor,
-} from 'leafer-ui'
 import { EditorMoveEvent } from '@leafer-in/editor'
 // 实现自适应滚动条
 import { ScrollBar } from '@leafer-in/scroll'
+import { App, Cursor, DragEvent, PointerEvent, ResizeEvent, ZoomEvent } from 'leafer-ui'
+import { debounce } from 'lodash-es'
+import { addListener, removeListener } from 'resize-detector'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, unref, watch } from 'vue'
 // 实现平移缩放
 import '@leafer-in/viewport'
 // 实现 fit
@@ -51,18 +36,15 @@ import '@leafer-in/view'
 // 实现导出
 import '@leafer-in/export'
 
+import pencilPng from '@assets/pencil.png'
+import rotatePng from '@assets/rotate.png'
+import { useHotKeys } from '@hooks/useHotKeys'
+import stores from '@stores/index'
+import { nanoid } from '@utils/utils'
 import FrameBox from './layers/FrameBox'
 import Screenshot from './layers/Screenshot.js'
-import Watermark from './layers/Watermark.js'
 import ShapeLine from './layers/ShapeLine.js'
-
-import stores from '@stores/index'
-import { useHotKeys } from '@hooks/useHotKeys'
-
-import rotatePng from '@assets/rotate.png'
-import pencilPng from '@assets/pencil.png'
-
-import { nanoid } from '@utils/utils'
+import Watermark from './layers/Watermark.js'
 
 defineOptions({
   name: 'EView',
@@ -82,10 +64,7 @@ Cursor.set('pencil', { url: pencilPng })
 const setZoom = () => {
   const { width, height } = targetRef.value.getBoundingClientRect()
   editorStore.app.tree.zoom('fit', 100)
-  if (
-    optionStore.frameConf.width < width &&
-    optionStore.frameConf.height < height
-  ) {
+  if (optionStore.frameConf.width < width && optionStore.frameConf.height < height) {
     editorStore.app.tree.zoom(1)
   }
 }
@@ -215,7 +194,7 @@ onMounted(() => {
       }
       const newShape = Object.assign({}, shape, size)
       const { points, type } = newShape
-      if (points && points.length) {
+      if (points?.length) {
         const { x, y } = arg.getInnerTotal()
         const newX = x > 0 ? size.x + x : size.x
         const newY = y > 0 ? size.y + y : size.y

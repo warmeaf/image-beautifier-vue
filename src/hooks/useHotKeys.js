@@ -1,12 +1,14 @@
-import { onMounted, onUnmounted } from 'vue'
 import { tinykeys } from 'tinykeys'
+import { onMounted, onUnmounted } from 'vue'
 
 export function useHotKeys(stores) {
   onMounted(() => {
     const deleteItem = () => {
-      const { list } = stores.editorStore.app?.editor
+      const editor = stores.editorStore.app?.editor
+      if (!editor) return
+      const { list } = editor
       if (list?.length) {
-        for (let item of list) {
+        for (const item of list) {
           item.remove()
           stores.editorStore.removeShape(item)
         }

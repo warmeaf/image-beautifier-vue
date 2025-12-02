@@ -1,12 +1,10 @@
-import { defineComponent, onUnmounted, h, watchEffect } from 'vue'
-import { Rect, Ellipse, Line, Text, PropertyEvent } from 'leafer-ui'
 import { Arrow } from '@leafer-in/arrow'
-import { debounce } from 'lodash-es'
-
 import stores from '@stores/index'
-
-import { numSvg } from '@utils/utils'
 import Magnifier from '@utils/shape/Magnifier'
+import { numSvg } from '@utils/utils'
+import { Ellipse, Line, PropertyEvent, Rect, Text } from 'leafer-ui'
+import { debounce } from 'lodash-es'
+import { defineComponent, h, onUnmounted, watchEffect } from 'vue'
 
 export default defineComponent({
   props: {
@@ -174,11 +172,7 @@ export default defineComponent({
       if (props.type === 'SquareFill') {
         shape.fill = props.fill
       }
-      if (
-        ['Circle', 'Slash', 'MoveDownLeft', 'Pencil', 'Square'].includes(
-          props.type
-        )
-      ) {
+      if (['Circle', 'Slash', 'MoveDownLeft', 'Pencil', 'Square'].includes(props.type)) {
         shape.stroke = props.fill
       }
       if (props.type === 'Step') {
@@ -190,15 +184,9 @@ export default defineComponent({
 
     watchEffect(() => {
       if (
-        [
-          'Circle',
-          'Magnifier',
-          'Slash',
-          'MoveDownLeft',
-          'Pencil',
-          'Step',
-          'Square',
-        ].includes(props.type)
+        ['Circle', 'Magnifier', 'Slash', 'MoveDownLeft', 'Pencil', 'Step', 'Square'].includes(
+          props.type
+        )
       ) {
         shape.strokeWidth = props.strokeWidth
       }

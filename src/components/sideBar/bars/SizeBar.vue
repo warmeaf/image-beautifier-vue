@@ -96,14 +96,13 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import Icon from '@components/Icon'
 
 import stores from '@stores/index'
-import Icon from '@components/Icon'
-import { CustomSize } from '../controls'
-
-import { cn, getMargin } from '@utils/utils'
 import sizeConfig from '@utils/sizeConfig'
+import { cn, getMargin } from '@utils/utils'
+import { computed, ref } from 'vue'
+import { CustomSize } from '../controls'
 
 const editorStore = stores.useEditorStore()
 const optionStore = stores.useOptionStore()
@@ -157,9 +156,7 @@ const toSelected = (key, title, item) => {
   hide()
   optionStore.setSize({
     type: key,
-    title: `${title}${item.title ? ` ${item.title} ` : ' '}${item.w} : ${
-      item.h
-    }`,
+    title: `${title}${item.title ? ` ${item.title} ` : ' '}${item.w} : ${item.h}`,
     width: item.width,
     height: item.height,
   })

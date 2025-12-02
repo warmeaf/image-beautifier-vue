@@ -19,4 +19,3 @@ export const EXPORT_CONFIG = {
   SNAPSHOT_PIXEL_RATIO: 2,
   COMPRESSED_FORMATS: ['jpg', 'webp'],
 }
-

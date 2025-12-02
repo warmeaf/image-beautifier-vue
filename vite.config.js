@@ -1,8 +1,8 @@
-import { defineConfig } from 'vite'
-import path from 'path'
+import path from 'node:path'
 import vue from '@vitejs/plugin-vue'
-import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+import Components from 'unplugin-vue-components/vite'
+import { defineConfig } from 'vite'
 
 const resolve = (url) => path.resolve(__dirname, url)
 

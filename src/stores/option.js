@@ -1,5 +1,5 @@
-import { defineStore } from 'pinia'
 import backgroundConfig from '@utils/backgroundConfig'
+import { defineStore } from 'pinia'
 
 export const useOptionStore = defineStore('option', {
   state: () => ({
@@ -37,9 +37,7 @@ export const useOptionStore = defineStore('option', {
       return state.waterImg
     },
     mode(state) {
-      return state.frame === 'none' || state.frame.includes('Bar')
-        ? 'cover'
-        : state.frameMode
+      return state.frame === 'none' || state.frame.includes('Bar') ? 'cover' : state.frameMode
     },
   },
   actions: {

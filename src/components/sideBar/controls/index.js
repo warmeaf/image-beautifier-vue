@@ -1,5 +1,5 @@
-export { default as ScaleControl } from './ScaleControl.vue'
+export { default as CustomSize } from './CustomSize.vue'
 export { default as PaddingControl } from './PaddingControl.vue'
 export { default as RoundedControl } from './RoundedControl.vue'
+export { default as ScaleControl } from './ScaleControl.vue'
 export { default as ShadowControl } from './ShadowControl.vue'
-export { default as CustomSize } from './CustomSize.vue'

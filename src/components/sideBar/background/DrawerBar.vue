@@ -66,12 +66,13 @@
 </template>
 
 <script setup>
-import { h } from 'vue'
-import Icon from '@components/Icon'
-import ColorPicker from '@components/ColorPicker'
 import colorSvg from '@assets/color.svg'
-import { BackgroundSelect } from './'
+import ColorPicker from '@components/ColorPicker'
+import Icon from '@components/Icon'
 import stores from '@stores/index'
+import { h } from 'vue'
+import { BackgroundSelect } from './'
+
 const optionStore = stores.useOptionStore()
 const ChevronRight = Icon.ChevronRight
 
@@ -83,7 +84,7 @@ defineProps({
 })
 const emits = defineEmits(['change'])
 
-const setShowMore = (val) => {
+const setShowMore = (_val) => {
   emits('change', false)
 }
 const handleCustom = (e) => {

@@ -22,4 +22,3 @@ export const MESSAGES = {
     CANCEL: 'No',
   },
 }
-

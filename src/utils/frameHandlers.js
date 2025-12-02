@@ -1,9 +1,9 @@
-import { Rect } from 'leafer-ui'
-import { DEVICE_INFO } from './deviceConfig'
-import { DIMENSIONS, COLORS, ICON_OFFSETS, getBorderConfig } from './screenshotConstants'
-import { computedSize } from './utils'
 import macosIcon from '@utils/macosIcon'
 import { windowLight } from '@utils/windowsIcon'
+import { Rect } from 'leafer-ui'
+import { DEVICE_INFO } from './deviceConfig'
+import { COLORS, DIMENSIONS, getBorderConfig, ICON_OFFSETS } from './screenshotConstants'
+import { computedSize } from './utils'
 
 /**
  * 处理简单边框框架
@@ -29,15 +29,15 @@ export const createBarFrame = (frameType, width) => {
       url: macosIcon,
       format: 'svg',
       mode: 'clip',
-      offset: ICON_OFFSETS.MACOS
+      offset: ICON_OFFSETS.MACOS,
     },
     windowsBarLight: {
       type: 'image',
       url: windowLight,
       format: 'svg',
       mode: 'clip',
-      offset: { x: width - DIMENSIONS.WINDOWS_ICON_OFFSET, y: 0 }
-    }
+      offset: { x: width - DIMENSIONS.WINDOWS_ICON_OFFSET, y: 0 },
+    },
   }
 
   const barConfig = barUrlConfigs[frameType] || barUrlConfigs.macosBarLight
@@ -50,17 +50,17 @@ export const createBarFrame = (frameType, width) => {
     fill: [
       {
         type: 'solid',
-        color: COLORS.BAR_LIGHT
+        color: COLORS.BAR_LIGHT,
       },
-      barConfig
-    ]
+      barConfig,
+    ],
   })
 
   return {
     bar,
     totalHeight: DIMENSIONS.BAR_HEIGHT,
     boxY: DIMENSIONS.BAR_HEIGHT,
-    clearCornerRadius: true
+    clearCornerRadius: true,
   }
 }
 
@@ -77,28 +77,25 @@ export const createDeviceFrame = (frameType, width, height) => {
     throw new Error(`Unknown device frame type: ${frameType}`)
   }
 
-  const bgSize = computedSize(
-    device.dimensions.width,
-    device.dimensions.height,
-    width,
-    height
-  )
+  const bgSize = computedSize(device.dimensions.width, device.dimensions.height, width, height)
 
   const bar = new Rect({
     x: 0,
     y: 0,
     height,
     width,
-    fill: [{
-      type: 'image',
-      url: device.image,
-      align: 'center',
-      mode: 'clip',
-      size: {
-        width: bgSize.width,
-        height: bgSize.height
-      }
-    }]
+    fill: [
+      {
+        type: 'image',
+        url: device.image,
+        align: 'center',
+        mode: 'clip',
+        size: {
+          width: bgSize.width,
+          height: bgSize.height,
+        },
+      },
+    ],
   })
 
   const boxWidth = bgSize.width * device.ratios.horizontal
@@ -113,7 +110,7 @@ export const createDeviceFrame = (frameType, width, height) => {
     boxX,
     boxY,
     clearShadow: true,
-    cornerRadius: frameType === 'iphonepro' ? (bgSize.width * DIMENSIONS.IPHONE_CORNER_RATIO) : null
+    cornerRadius: frameType === 'iphonepro' ? bgSize.width * DIMENSIONS.IPHONE_CORNER_RATIO : null,
   }
 }
 
@@ -128,7 +125,7 @@ export const frameHandlers = {
   macbookair: createDeviceFrame,
   imacpro: createDeviceFrame,
   ipadpro: createDeviceFrame,
-  iphonepro: createDeviceFrame
+  iphonepro: createDeviceFrame,
 }
 
 /**

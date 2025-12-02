@@ -52,13 +52,13 @@
 </template>
 
 <script setup>
-import { h, ref } from 'vue'
-import stores from '@stores/index'
-import { supportImg, cn } from '@utils/utils'
-import Icon from '@components/Icon'
-import { captureScreen } from '@utils/captureScreen'
 import demoPng from '@assets/demo.png'
+import Icon from '@components/Icon'
 import { useSetImg } from '@hooks/useSetImg'
+import stores from '@stores/index'
+import { captureScreen } from '@utils/captureScreen'
+import { cn, supportImg } from '@utils/utils'
+import { h, ref } from 'vue'
 
 const ImagePlus = Icon.ImagePlus
 
@@ -92,22 +92,22 @@ const toolButtons = ref([
   {
     title: 'Take a screenshot of desktop windows',
     icon: 'Camera',
-    action: onCapture
+    action: onCapture,
   },
   {
     title: 'Beautify text',
     icon: 'Type',
-    action: comingSoon
+    action: comingSoon,
   },
   {
     title: 'Beautify Code',
     icon: 'CodeXml',
-    action: comingSoon
+    action: comingSoon,
   },
   {
     title: 'Create gif animate',
     icon: 'ImagePlay',
-    action: comingSoon
-  }
+    action: comingSoon,
+  },
 ])
 </script>

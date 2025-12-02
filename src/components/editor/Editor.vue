@@ -8,6 +8,7 @@
 <script setup>
 import EView from './View'
 import EZoom from './Zoom'
+
 defineOptions({
   name: 'EEditor',
 })

@@ -51,10 +51,10 @@
 </template>
 
 <script setup>
-import stores from '@stores/index'
-import { cn } from '@utils/utils'
-import backgroundConfig from '@utils/backgroundConfig'
 import Icon from '@components/Icon'
+import stores from '@stores/index'
+import backgroundConfig from '@utils/backgroundConfig'
+import { cn } from '@utils/utils'
 
 const emit = defineEmits(['showMore'])
 const optionStore = stores.useOptionStore()

@@ -1,5 +1,5 @@
-import { nanoid } from '@utils/utils'
 import { MESSAGES } from '@constants/messages'
+import { nanoid } from '@utils/utils'
 
 /**
  * 消息处理 composable
@@ -74,4 +74,3 @@ export function useMessage(messageApi) {
     copyMessages,
   }
 }
-

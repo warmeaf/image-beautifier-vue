@@ -30,4 +30,3 @@ export const UI_CONFIG = {
   INVALID_TIMEOUT: 200,
   DOWNLOAD_LINK_Z_INDEX: -111,
 }
-

@@ -11,12 +11,12 @@ export const createSafeUpdater = (updateFn, dependencies = [], createSnap) => {
   return () => {
     try {
       // 检查所有依赖项是否存在
-      if (dependencies.length > 0 && dependencies.some(dep => !dep)) {
+      if (dependencies.length > 0 && dependencies.some((dep) => !dep)) {
         return
       }
-      
+
       updateFn()
-      
+
       if (createSnap) {
         createSnap()
       }
@@ -50,7 +50,7 @@ export const setupWatchers = (watcherConfigs) => {
 export const createWatcherConfig = (source, handler, options = {}) => ({
   source,
   handler,
-  options
+  options,
 })
 
 /**
@@ -58,7 +58,7 @@ export const createWatcherConfig = (source, handler, options = {}) => ({
  * @param {Array} updateFunctions - 更新函数数组
  */
 export const executeInitialUpdates = (updateFunctions) => {
-  updateFunctions.forEach(updateFn => {
+  updateFunctions.forEach((updateFn) => {
     try {
       updateFn()
     } catch (error) {
@@ -75,7 +75,7 @@ export const executeInitialUpdates = (updateFunctions) => {
  */
 export const delayedExecution = (functions, delay = 0) => {
   return setTimeout(() => {
-    functions.forEach(fn => {
+    functions.forEach((fn) => {
       try {
         fn()
       } catch (error) {

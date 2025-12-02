@@ -1,10 +1,9 @@
+import { UI_CONFIG } from '@constants/ui'
+import { clsx } from 'clsx'
 import { customAlphabet } from 'nanoid/non-secure'
 import { twMerge } from 'tailwind-merge'
-import { clsx } from 'clsx'
-import { UI_CONFIG } from '@constants/ui'
 
-const NANOID_ALPHABET =
-  '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+const NANOID_ALPHABET = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
 const NANOID_LENGTH = 7
 const SVG_DATA_URL_HEADER = 'data:image/svg+xml,'
 const DATA_URL_START = 'data'
@@ -35,13 +34,7 @@ export function cn(...inputs) {
 /**
  * 支持的图片 MIME 类型
  */
-export const supportImg = [
-  'image/jpeg',
-  'image/png',
-  'image/bmp',
-  'image/gif',
-  'image/webp',
-]
+export const supportImg = ['image/jpeg', 'image/png', 'image/bmp', 'image/gif', 'image/webp']
 
 /**
  * 加载图片
@@ -55,8 +48,7 @@ export const getImage = (src) => {
   }
   return new Promise((resolve, reject) => {
     const handleLoad = () => resolve(img)
-    const handleError = () =>
-      reject(new Error('An error occurred attempting to load image'))
+    const handleError = () => reject(new Error('An error occurred attempting to load image'))
     img.onload = handleLoad
     img.onerror = handleError
     img.onabort = handleError
@@ -82,9 +74,7 @@ export const getMargin = (width, height, ratio = UI_CONFIG.MARGIN_RATIO) => {
  * @returns {string} Data URL
  */
 export const svgToDataURL = (svgString) => {
-  const encoded = encodeURIComponent(svgString)
-    .replace(/'/g, '%27')
-    .replace(/"/g, '%22')
+  const encoded = encodeURIComponent(svgString).replace(/'/g, '%27').replace(/"/g, '%22')
   return SVG_DATA_URL_HEADER + encoded
 }
 
@@ -95,18 +85,12 @@ export const svgToDataURL = (svgString) => {
  * @param {number} angleDegrees - 旋转角度（度）
  * @returns {{width: number, height: number}} 旋转后的尺寸
  */
-export const calculateRotatedRectDimensions = (
-  width,
-  height,
-  angleDegrees
-) => {
+export const calculateRotatedRectDimensions = (width, height, angleDegrees) => {
   const angleRadians = angleDegrees * (Math.PI / 180)
   const newWidth =
-    Math.abs(width * Math.cos(angleRadians)) +
-    Math.abs(height * Math.sin(angleRadians))
+    Math.abs(width * Math.cos(angleRadians)) + Math.abs(height * Math.sin(angleRadians))
   const newHeight =
-    Math.abs(width * Math.sin(angleRadians)) +
-    Math.abs(height * Math.cos(angleRadians))
+    Math.abs(width * Math.sin(angleRadians)) + Math.abs(height * Math.cos(angleRadians))
 
   return {
     width: Math.round(newWidth),
@@ -177,17 +161,8 @@ const createSvgElement = (width, height, htmlContent) => {
  */
 export const text2Svg = ({ text, color, angleDegrees }) => {
   const dimensions = measureTextDimensions(text, color, angleDegrees)
-  const htmlContent = createTextSvgHtml(
-    text,
-    color,
-    angleDegrees,
-    dimensions.height
-  )
-  const svgString = createSvgElement(
-    dimensions.width,
-    dimensions.height,
-    htmlContent
-  )
+  const htmlContent = createTextSvgHtml(text, color, angleDegrees, dimensions.height)
+  const svgString = createSvgElement(dimensions.width, dimensions.height, htmlContent)
   return svgToDataURL(svgString)
 }
 
@@ -247,16 +222,16 @@ export const computedSize = (
  * 位置类型映射
  */
 const POSITION_MAP = {
-  'top-left': (containerWidth, containerHeight) => ({ x: 0, y: 0 }),
-  top: (containerWidth, containerHeight) => ({
+  'top-left': (_containerWidth, _containerHeight) => ({ x: 0, y: 0 }),
+  top: (containerWidth, _containerHeight) => ({
     x: containerWidth / 2,
     y: 0,
   }),
-  'top-right': (containerWidth, containerHeight) => ({
+  'top-right': (containerWidth, _containerHeight) => ({
     x: containerWidth,
     y: 0,
   }),
-  left: (containerWidth, containerHeight) => ({
+  left: (_containerWidth, containerHeight) => ({
     x: 0,
     y: containerHeight / 2,
   }),
@@ -264,7 +239,7 @@ const POSITION_MAP = {
     x: containerWidth,
     y: containerHeight / 2,
   }),
-  'bottom-left': (containerWidth, containerHeight) => ({
+  'bottom-left': (_containerWidth, containerHeight) => ({
     x: 0,
     y: containerHeight,
   }),

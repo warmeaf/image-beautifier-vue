@@ -200,17 +200,16 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import stores from '@stores/index'
-import Icon from '@components/Icon'
-import { windowLight } from '@utils/windowsIcon'
-import { UI_CONFIG } from '@constants/ui'
-
-import macbookpro from '@assets/macbookpro.png'
-import macbookair from '@assets/macbook-air-little.png'
 import imacpro from '@assets/imac.png'
 import ipadpro from '@assets/ipad.png'
 import iphonepro from '@assets/iphone.png'
+import macbookair from '@assets/macbook-air-little.png'
+import macbookpro from '@assets/macbookpro.png'
+import Icon from '@components/Icon'
+import { UI_CONFIG } from '@constants/ui'
+import stores from '@stores/index'
+import { windowLight } from '@utils/windowsIcon'
+import { ref } from 'vue'
 
 const optionStore = stores.useOptionStore()
 

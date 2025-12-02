@@ -23,10 +23,9 @@
 </template>
 
 <script setup>
-import { ref, h, nextTick, onMounted, onUnmounted } from 'vue'
-import { Picker } from 'emoji-mart'
-
 import Icon from '@components/Icon'
+import { Picker } from 'emoji-mart'
+import { h, nextTick, onMounted, onUnmounted, ref } from 'vue'
 
 const emojiPicker = ref(null)
 let instance = null
@@ -55,7 +54,7 @@ const handleOpenChange = (newOpen) => {
   open.value = newOpen
   if (open.value) {
     nextTick(() => {
-      let emojiMartProps = {
+      const emojiMartProps = {
         ...props.emojiMartProps,
         parent: emojiPicker.value,
         onEmojiSelect,

@@ -35,9 +35,9 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import backgroundConfig from '@utils/backgroundConfig'
 import { cn } from '@utils/utils'
+import { computed } from 'vue'
 
 const isImg = ['cosmic', 'desktop']
 
@@ -62,7 +62,7 @@ const onChange = (val) => {
 
 const lists = computed(() => {
   const arr = []
-  Object.keys(props.options).map((key) => {
+  Object.keys(props.options).forEach((key) => {
     if (key.includes(props.type)) {
       arr.push({
         key,

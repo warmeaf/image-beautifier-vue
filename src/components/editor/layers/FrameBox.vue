@@ -1,7 +1,8 @@
 <script setup>
-import { onUnmounted, watch } from 'vue'
-import { Frame } from 'leafer-ui'
 import stores from '@stores/index'
+import { Frame } from 'leafer-ui'
+import { onUnmounted, watch } from 'vue'
+
 const editorStore = stores.useEditorStore()
 
 const props = defineProps({

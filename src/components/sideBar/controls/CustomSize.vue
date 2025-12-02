@@ -45,9 +45,8 @@
 </template>
 
 <script setup>
-import { ref, h, watch } from 'vue'
-
 import Icon from '@components/Icon'
+import { h, ref, watch } from 'vue'
 
 const height = ref('')
 const width = ref('')

@@ -1,5 +1,5 @@
-import { onUnmounted } from 'vue'
 import { tinykeys } from 'tinykeys'
+import { onUnmounted } from 'vue'
 
 /**
  * 键盘快捷键 composable

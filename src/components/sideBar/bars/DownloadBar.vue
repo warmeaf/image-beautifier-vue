@@ -109,15 +109,15 @@
 </template>
 
 <script setup>
-import { h, ref, computed } from 'vue'
 import Icon from '@components/Icon'
-import { modKey } from '@utils/utils'
-import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts'
 import { useExport } from '@composables/useExport'
 import { useMessage } from '@composables/useMessage'
-import { UI_CONFIG } from '@constants/ui'
 import { MESSAGES } from '@constants/messages'
+import { UI_CONFIG } from '@constants/ui'
+import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts'
 import stores from '@stores/index'
+import { modKey } from '@utils/utils'
+import { computed, h, ref } from 'vue'
 
 const editorStore = stores.useEditorStore()
 const optionStore = stores.useOptionStore()

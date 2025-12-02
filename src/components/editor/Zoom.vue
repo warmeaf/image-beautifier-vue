@@ -58,10 +58,9 @@
 </template>
 
 <script setup>
-import { h } from 'vue'
-
 import Icon from '@components/Icon'
 import stores from '@stores/index'
+import { h } from 'vue'
 
 defineOptions({
   name: 'EZoom',

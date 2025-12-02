@@ -10,9 +10,9 @@
 
 <script setup>
 import { ref } from 'vue'
-import SideBarContent from './SideBarContent'
-import { DownloadBar } from './bars'
 import { DrawerBar } from './background'
+import { DownloadBar } from './bars'
+import SideBarContent from './SideBarContent'
 
 const showMore = ref(false)
 const setShowMore = (val) => {

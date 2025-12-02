@@ -1,9 +1,9 @@
-import { defineStore } from 'pinia'
-import { maxBy } from 'lodash-es'
 import { EDITOR_CONFIG } from '@constants/editor'
 import { EXPORT_CONFIG } from '@constants/export'
-import { UI_CONFIG } from '@constants/ui'
 import { MESSAGES } from '@constants/messages'
+import { UI_CONFIG } from '@constants/ui'
+import { maxBy } from 'lodash-es'
+import { defineStore } from 'pinia'
 
 export const useEditorStore = defineStore('editor', {
   state: () => ({
@@ -27,17 +27,13 @@ export const useEditorStore = defineStore('editor', {
       if (state.useTool === EDITOR_CONFIG.TOOLS.PENCIL) {
         return EDITOR_CONFIG.CURSORS.PENCIL
       }
-      return state.useTool
-        ? EDITOR_CONFIG.CURSORS.CROSSHAIR
-        : EDITOR_CONFIG.CURSORS.AUTO
+      return state.useTool ? EDITOR_CONFIG.CURSORS.CROSSHAIR : EDITOR_CONFIG.CURSORS.AUTO
     },
     isEditing(state) {
       return !!state.app?.tree
     },
     nextStep() {
-      const steps = this.shapesList.filter(
-        (shape) => shape.type === EDITOR_CONFIG.SHAPE_TYPES.STEP
-      )
+      const steps = this.shapesList.filter((shape) => shape.type === EDITOR_CONFIG.SHAPE_TYPES.STEP)
       const maxItem = maxBy(steps, (item) => Number(item.text))
       if (maxItem?.text) return Number(maxItem.text) + 1
       return 1
@@ -89,16 +85,10 @@ export const useEditorStore = defineStore('editor', {
      * @param {string} snapType - 快照类型
      */
     async createSnap(snapType) {
-      if (
-        snapType === EDITOR_CONFIG.SNAP_TYPES.INIT &&
-        this.snap?.data
-      ) {
+      if (snapType === EDITOR_CONFIG.SNAP_TYPES.INIT && this.snap?.data) {
         return
       }
-      if (
-        snapType !== EDITOR_CONFIG.SNAP_TYPES.INIT &&
-        this.snap === null
-      ) {
+      if (snapType !== EDITOR_CONFIG.SNAP_TYPES.INIT && this.snap === null) {
         return
       }
 
@@ -146,9 +136,7 @@ export const useEditorStore = defineStore('editor', {
       this.shapes.delete(shape.id)
       if (
         this.snap &&
-        this.shapesList.every(
-          (s) => s.type !== EDITOR_CONFIG.SHAPE_TYPES.MAGNIFIER
-        )
+        this.shapesList.every((s) => s.type !== EDITOR_CONFIG.SHAPE_TYPES.MAGNIFIER)
       ) {
         this.snap = null
       }
@@ -161,7 +149,7 @@ export const useEditorStore = defineStore('editor', {
       this.app.tree.add(frame)
     },
     setScale(value) {
-      this.scale = parseInt(value * 100)
+      this.scale = parseInt(value * 100, 10)
     },
     setUseTool(value) {
       this.useTool = value

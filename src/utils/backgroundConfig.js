@@ -224,8 +224,7 @@ export default {
     },
   },
   gradient_2: {
-    class:
-      'bg-gradient-to-br from-[#69eacb] from-0% via-[#eaccf8] via-48% to-[#6654f1] to-100%',
+    class: 'bg-gradient-to-br from-[#69eacb] from-0% via-[#eaccf8] via-48% to-[#6654f1] to-100%',
     fill: {
       type: 'linear',
       from: 'top-left',

@@ -29,11 +29,10 @@
 </template>
 
 <script setup>
-import { ref, h } from 'vue'
-import stores from '@stores/index'
 import Icon from '@components/Icon'
-
+import stores from '@stores/index'
 import { cn } from '@utils/utils'
+import { h, ref } from 'vue'
 
 const editorStore = stores.useEditorStore()
 const optionStore = stores.useOptionStore()

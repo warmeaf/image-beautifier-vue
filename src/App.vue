@@ -1,14 +1,16 @@
 <script setup>
-import { computed } from 'vue'
 import { message } from 'ant-design-vue'
+import { computed } from 'vue'
+
 const [messageApi, contextHolder] = message.useMessage()
 
-import EHeader from '@components/header/Header'
 import EEditor from '@components/editor/Editor'
+import EHeader from '@components/header/Header'
 import EInit from '@components/init/Init'
 import SideBar from '@components/sideBar'
 
 import stores from '@stores/index'
+
 const editorStore = stores.useEditorStore()
 const optionStore = stores.useOptionStore()
 

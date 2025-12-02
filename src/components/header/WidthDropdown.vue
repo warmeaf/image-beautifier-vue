@@ -33,8 +33,7 @@ const items = [
       'div',
       { class: 'w-4 h-3 mt-1.5 items-center cursor-pointer' },
       h('i', {
-        class:
-          'block w-full origin-center rounded-lg bg-slate-600 -rotate-45 h-[1px]',
+        class: 'block w-full origin-center rounded-lg bg-slate-600 -rotate-45 h-[1px]',
       })
     ),
     key: 1,
@@ -44,8 +43,7 @@ const items = [
       'div',
       { class: 'w-4 h-3 mt-1.5 items-center cursor-pointer' },
       h('i', {
-        class:
-          'block w-full origin-center rounded-lg bg-slate-600 -rotate-45 h-[2px]',
+        class: 'block w-full origin-center rounded-lg bg-slate-600 -rotate-45 h-[2px]',
       })
     ),
     key: 2,
@@ -55,8 +53,7 @@ const items = [
       'div',
       { class: 'w-4 h-3 mt-1.5 items-center cursor-pointer' },
       h('i', {
-        class:
-          'block w-full origin-center rounded-lg bg-slate-600 -rotate-45 h-[4px]',
+        class: 'block w-full origin-center rounded-lg bg-slate-600 -rotate-45 h-[4px]',
       })
     ),
     key: 4,
@@ -66,8 +63,7 @@ const items = [
       'div',
       { class: 'w-4 h-3 mt-1.5 items-center cursor-pointer' },
       h('i', {
-        class:
-          'block w-full origin-center rounded-lg bg-slate-600 -rotate-45 h-[6px]',
+        class: 'block w-full origin-center rounded-lg bg-slate-600 -rotate-45 h-[6px]',
       })
     ),
     key: 6,
@@ -77,8 +73,7 @@ const items = [
       'div',
       { class: 'w-4 h-3 mt-1.5 items-center cursor-pointer' },
       h('i', {
-        class:
-          'block w-full origin-center rounded-lg bg-slate-600 -rotate-45 h-[8px]',
+        class: 'block w-full origin-center rounded-lg bg-slate-600 -rotate-45 h-[8px]',
       })
     ),
     key: 8,
