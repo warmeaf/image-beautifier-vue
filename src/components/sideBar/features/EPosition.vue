@@ -4,7 +4,7 @@
     :arrow="false"
     placement="bottomRight"
     :overlayClassName="cn('shoteasy-components')"
-    :open="open"
+    :open="isOpen"
     @openChange="handleOpenChange"
   >
     <template #content>
@@ -21,9 +21,9 @@
       type="text"
       shape="circle"
       class="icon-btn"
-      :class="cn(open && 'shadow-md')"
+      :class="cn(isOpen && 'shadow-md')"
       :icon="h(Icon.LayoutGrid, { size: 18 })"
-      @click="() => (open = !open)"
+      @click="() => (isOpen = !isOpen)"
     />
   </a-popover>
 </template>
@@ -49,11 +49,21 @@ const cols = [
   'bottom',
   'bottom-right',
 ]
-const open = ref(false)
-const handleOpenChange = (val) => {
-  open.value = val
+const isOpen = ref(false)
+
+/**
+ * 处理打开状态变化
+ * @param {boolean} isOpenState - 是否打开
+ */
+const handleOpenChange = (isOpenState) => {
+  isOpen.value = isOpenState
 }
-const handleSelect = (val) => {
-  optionStore.setAlign(val)
+
+/**
+ * 处理位置选择
+ * @param {string} position - 位置值
+ */
+const handleSelect = (position) => {
+  optionStore.setAlign(position)
 }
 </script>

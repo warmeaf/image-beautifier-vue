@@ -114,9 +114,13 @@ const open = ref(false)
 const boxRef = ref(null)
 const height = ref(500)
 
-const handleOpenChange = (val) => {
-  open.value = val
-  if (val && boxRef.value) {
+/**
+ * 处理打开状态变化
+ * @param {boolean} isOpenState - 是否打开
+ */
+const handleOpenChange = (isOpenState) => {
+  open.value = isOpenState
+  if (isOpenState && boxRef.value) {
     const { height: boxRefHeight, y } = boxRef.value.getBoundingClientRect()
     const h = document.body.clientHeight - boxRefHeight - y - 80
     height.value = h

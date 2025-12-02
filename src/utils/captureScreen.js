@@ -22,7 +22,8 @@ export const captureScreen = async () => {
     video.srcObject.getTracks().forEach((track) => track.stop())
 
     return screenshot
-  } catch (err) {
-    console.log('Error capturing screen:', err)
+  } catch (error) {
+    console.error('Error capturing screen:', error)
+    throw error
   }
 }

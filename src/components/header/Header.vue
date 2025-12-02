@@ -134,12 +134,15 @@ const selectTool = (type) => {
   isMove.value = false
   if (type === 'Magnifier') editorStore.createSnap('init')
 }
+/**
+ * 切换移动模式
+ */
 const toggleMove = () => {
   if (!editorStore.isEditing) return
-  const is = !isMove.value
+  const isMoveEnabled = !isMove.value
   editorStore.setUseTool(null)
-  isMove.value = is
-  editorStore.app.config.move.drag = is
+  isMove.value = isMoveEnabled
+  editorStore.app.config.move.drag = isMoveEnabled
 }
 const handleColorChange = (tinyColor) => {
   editorStore.setAnnotateColor(tinyColor.toHexString())

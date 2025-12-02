@@ -18,7 +18,7 @@
             type="primary"
             size="large"
             :loading="loading"
-            :icon="h(Icon.ImageDown, { size: 18 })"
+            :icon="h(Icon.ImageDown, { size: UI_CONFIG.ICON_SIZE.DEFAULT })"
             @click="toDownload"
             class="icon-btn rounded-se-none! flex-1! rounded-ee-none! me-[-1px]! hover:z-[1]! border-r-white/30! hover:bg-[#0d0d0d]!"
           >
@@ -37,7 +37,7 @@
           <a-button
             type="primary"
             size="large"
-            :icon="h(Icon.Copy, { size: 18 })"
+            :icon="h(Icon.Copy, { size: UI_CONFIG.ICON_SIZE.DEFAULT })"
             :loading="loading"
             class="icon-btn rounded-ss-none! rounded-es-none! border-l-white/30! hover:bg-[#0d0d0d]!"
             @click="toCopy"
@@ -50,11 +50,11 @@
         trigger="click"
         placement="topRight"
         :arrow="false"
-        :open="open"
+        :open="isSettingsOpen"
         :overlay-style="{
-          width: '320px',
+          width: UI_CONFIG.POPOVER.SETTINGS_WIDTH,
         }"
-        @open-change="handleOpenChange"
+        @open-change="handleSettingsOpenChange"
       >
         <template #content>
           <div>
@@ -62,13 +62,13 @@
               class="p-2 [&_.ant-segmented]:w-full [&_.ant-segmented-item]:w-[33%]"
             >
               <div class="text-xs text-gray-400 mb-2">Format</div>
-              <a-radio-group :value="format" @change="setFormat">
+              <a-radio-group :value="format" @change="handleFormatChange">
                 <a-radio-button value="png">png</a-radio-button>
                 <a-radio-button value="jpg">jpg</a-radio-button>
                 <a-radio-button value="webp">webp</a-radio-button>
               </a-radio-group>
               <div class="text-xs text-gray-400 mt-2 mb-2">Pixel Ratio</div>
-              <a-radio-group :value="ratio" @change="setRatio">
+              <a-radio-group :value="ratio" @change="handleRatioChange">
                 <a-radio-button :value="1">1x</a-radio-button>
                 <a-radio-button :value="2">2x</a-radio-button>
                 <a-radio-button :value="3">3x</a-radio-button>
@@ -86,22 +86,22 @@
         <a-button
           size="large"
           class="icon-btn"
-          :icon="h(Icon.Settings2, { size: 18 })"
+          :icon="h(Icon.Settings2, { size: UI_CONFIG.ICON_SIZE.DEFAULT })"
         />
       </a-popover>
       <a-popconfirm
         v-if="optionStore.img?.src"
-        title="Delete the screenshot"
-        description="Are you sure to delete this screenshot?"
+        :title="MESSAGES.DELETE.TITLE"
+        :description="MESSAGES.DELETE.DESCRIPTION"
         placement="topRight"
-        ok-text="Yes"
-        cancel-text="No"
-        @confirm="confirm"
+        :ok-text="MESSAGES.DELETE.CONFIRM"
+        :cancel-text="MESSAGES.DELETE.CANCEL"
+        @confirm="handleDeleteConfirm"
       >
         <a-button
           size="large"
           class="icon-btn"
-          :icon="h(Icon.Trash2, { size: 18 })"
+          :icon="h(Icon.Trash2, { size: UI_CONFIG.ICON_SIZE.DEFAULT })"
         />
       </a-popconfirm>
     </div>
@@ -111,122 +111,81 @@
 <script setup>
 import { h, ref, computed } from 'vue'
 import Icon from '@components/Icon'
-import { toDownloadFile, nanoid, modKey } from '@utils/utils'
+import { modKey } from '@utils/utils'
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts'
+import { useExport } from '@composables/useExport'
+import { useMessage } from '@composables/useMessage'
+import { UI_CONFIG } from '@constants/ui'
+import { MESSAGES } from '@constants/messages'
 import stores from '@stores/index'
+
 const editorStore = stores.useEditorStore()
 const optionStore = stores.useOptionStore()
 
-const loading = ref(false)
-const ratio = ref(1)
-const format = ref('png')
+const messageHandlers = useMessage(editorStore.message)
+const {
+  loading,
+  pixelRatio: ratio,
+  format,
+  download: toDownload,
+  copyToClipboard: toCopy,
+  setFormat: updateFormat,
+  setPixelRatio: updateRatio,
+} = useExport(editorStore, messageHandlers)
 
 const downloadText = computed(() => {
   return `Download ${modKey} + S`
 })
+
 const copyText = computed(() => {
   return `Copy ${modKey} + C`
 })
+
 const ratioText = computed(() => {
-  return `${ratio.value}x as ${format.value.toLocaleUpperCase()}`
+  return `${ratio.value}x as ${format.value.toUpperCase()}`
 })
+
 const sizeText = computed(() => {
-  return `${optionStore.frameConf.width * ratio.value} x
-  ${optionStore.frameConf.height * ratio.value}`
+  if (!optionStore.frameConf.width) return ''
+  return `${optionStore.frameConf.width * ratio.value} x ${optionStore.frameConf.height * ratio.value}`
 })
 
-const toDownload = async () => {
-  if (!editorStore.isEditing) return
-  if (loading.value) return
-  const option = {
-    pixelRatio: ratio.value,
-  }
-  if (['jpg', 'webp'].includes(format.value)) {
-    option.quality = 0.9
-    option.fill = '#ffffff'
-  }
-  const key = nanoid()
-  loading.value = true
-  editorStore.message.open({
-    key,
-    type: 'loading',
-    content: 'Downloading...',
-  })
-  await editorStore.app.tree
-    .export(format.value, option)
-    .then((result) => {
-      let name = `ShotEasy`
-      if (ratio.value > 1) name += `@${ratio.value}`
-      toDownloadFile(result.data, `${name}.${format.value}`)
-      editorStore.message.open({
-        key,
-        type: 'success',
-        content: 'Download Success!',
-      })
-    })
-    .catch(() => {
-      editorStore.message.open({
-        key,
-        type: 'error',
-        content: 'Download failed!',
-      })
-    })
-  loading.value = false
-}
-const toCopy = async () => {
-  if (!editorStore.isEditing) return
-  if (loading.value) return
-  const key = nanoid()
-  loading.value = true
-  editorStore.message.open({
-    key,
-    type: 'loading',
-    content: 'Copying...',
-  })
-
-  try {
-    const result = await editorStore.app.tree.export('png', {
-      blob: true,
-      pixelRatio: ratio.value,
-    })
-    const { data } = result
-    await navigator.clipboard.write([
-      new ClipboardItem({
-        [data.type]: data,
-      }),
-    ])
-    editorStore.message.open({
-      key,
-      type: 'success',
-      content: 'Copy Success!',
-    })
-  } catch (_) {
-    console.log(_)
-    editorStore.message.open({
-      key,
-      type: 'error',
-      content: 'Copy failed!',
-    })
-  } finally {
-    loading.value = false
-  }
-}
 useKeyboardShortcuts(toDownload, toCopy)
 
-const confirm = () => {
+/**
+ * 确认删除截图
+ */
+const handleDeleteConfirm = () => {
   editorStore.destroy()
   optionStore.clearImg()
-  editorStore.clearFun && editorStore.clearFun()
+  if (editorStore.clearFun) {
+    editorStore.clearFun()
+  }
 }
 
-const open = ref(false)
-const handleOpenChange = (val) => {
-  open.value = val
+const isSettingsOpen = ref(false)
+
+/**
+ * 处理设置面板打开状态变化
+ * @param {boolean} isOpen - 是否打开
+ */
+const handleSettingsOpenChange = (isOpen) => {
+  isSettingsOpen.value = isOpen
 }
-const setFormat = (e) => {
-  format.value = e.target.value
+
+/**
+ * 处理格式变化
+ * @param {Event} event - 事件对象
+ */
+const handleFormatChange = (event) => {
+  updateFormat(event.target.value)
 }
-const setRatio = (e) => {
-  ratio.value = e.target.value
+
+/**
+ * 处理像素比例变化
+ * @param {Event} event - 事件对象
+ */
+const handleRatioChange = (event) => {
+  updateRatio(event.target.value)
 }
 </script>

@@ -20,6 +20,8 @@ export default defineConfig({
       '@stores': resolve('./src/stores'),
       '@utils': resolve('./src/utils'),
       '@hooks': resolve('./src/hooks'),
+      '@constants': resolve('./src/constants'),
+      '@composables': resolve('./src/composables'),
     },
     extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'], // 省略扩展名
   },

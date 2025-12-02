@@ -43,8 +43,9 @@ const useDropper = () => {
       const tinyColor = new TinyColor(color)
       emit('change', tinyColor)
     })
-    .catch((e) => {
-      console.log(e)
+    .catch((error) => {
+      // 用户取消或取色器错误，静默处理
+      console.error('EyeDropper error:', error)
     })
 }
 

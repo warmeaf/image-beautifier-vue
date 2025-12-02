@@ -11,7 +11,7 @@
             setShowMore(true)
           }
         "
-        ><span>More</span> <chevron-right class="relative top-[1px]" :size="16"
+        ><span>More</span> <chevron-right class="relative top-[1px]" :size="UI_CONFIG.ICON_SIZE.SMALL"
       /></a-button>
     </div>
     <div
@@ -19,7 +19,7 @@
     >
       <a-radio-group
         class="!grid grid-cols-3"
-        @change="handelChange"
+        @change="handleFrameChange"
         :value="optionStore.frame"
       >
         <a-radio
@@ -65,7 +65,7 @@
     placement="right"
     :closable="false"
     :mask="false"
-    :open="showMore"
+    :open="isShowMore"
     :get-container="false"
     @close="setShowMore"
     width="100%"
@@ -83,7 +83,7 @@
             }
           "
           ><span>Back</span>
-          <chevron-right class="relative top-[1px]" :size="16"
+          <chevron-right class="relative top-[1px]" :size="UI_CONFIG.ICON_SIZE.SMALL"
         /></a-button>
       </div>
       <div class="h-0 flex-1 overflow-y-auto px-4 py-2">
@@ -93,7 +93,7 @@
         >
           <a-radio-group
             class="grid! grid-cols-3!"
-            @change="handelChange"
+            @change="handleFrameChange"
             :value="optionStore.frame"
           >
             <a-radio
@@ -121,7 +121,7 @@
           <h4 class="text-sm font-bold">Devices</h4>
           <a-radio-group
             :value="optionStore.frameMode"
-            @change="(e) => optionStore.setFrameMode(e.target.value)"
+            @change="(event) => optionStore.setFrameMode(event.target.value)"
             size="small"
           >
             <a-radio-button value="cover">Cover</a-radio-button>
@@ -134,7 +134,7 @@
         >
           <a-radio-group
             class="grid! grid-cols-3!"
-            @change="handelChange"
+            @change="handleFrameChange"
             :value="optionStore.frame"
           >
             <a-radio
@@ -204,6 +204,7 @@ import { ref } from 'vue'
 import stores from '@stores/index'
 import Icon from '@components/Icon'
 import { windowLight } from '@utils/windowsIcon'
+import { UI_CONFIG } from '@constants/ui'
 
 import macbookpro from '@assets/macbookpro.png'
 import macbookair from '@assets/macbook-air-little.png'
@@ -214,16 +215,26 @@ import iphonepro from '@assets/iphone.png'
 const optionStore = stores.useOptionStore()
 
 const ChevronRight = Icon.ChevronRight
-const handelChange = (e) => {
-  const { value } = e.target
+
+/**
+ * 处理框架变化
+ * @param {Event} event - 事件对象
+ */
+const handleFrameChange = (event) => {
+  const { value } = event.target
   optionStore.setFrame(value)
   if (value === 'macbookpro16') {
     optionStore.setPaddingBg('#000000')
   }
 }
 
-const showMore = ref(false)
-const setShowMore = (val) => {
-  showMore.value = val
+const isShowMore = ref(false)
+
+/**
+ * 设置是否显示更多选项
+ * @param {boolean} isOpen - 是否打开
+ */
+const setShowMore = (isOpen) => {
+  isShowMore.value = isOpen
 }
 </script>
